@@ -6,5 +6,6 @@
   "/imobiliaria/page": "app/imobiliaria/page.js",
   "/opacronograma/page": "app/opacronograma/page.js",
   "/opacronograma2/page": "app/opacronograma2/page.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/studio/[[...tool]]/page": "app/studio/[[...tool]]/page.js"
 }
