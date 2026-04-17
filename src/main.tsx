@@ -1,6 +1,7 @@
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import App from './App.tsx';
 import Imobiliaria from './pages/imobiliaria/Imobiliaria.tsx';
 import ImobiliariaForms from './pages/imobiliaria-forms/ImobiliariaForms.tsx';
@@ -17,5 +18,6 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/imobiliaria-forms-analise" element={<ImobiliariaFormsAnalise />} />
       </Routes>
     </BrowserRouter>
+    <Analytics />
   </StrictMode>,
 );
