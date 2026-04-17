@@ -1,0 +1,10 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/imobiliaria-forms-analise/page": "app/imobiliaria-forms-analise/page.js",
+  "/imobiliaria-forms/page": "app/imobiliaria-forms/page.js",
+  "/imobiliaria/page": "app/imobiliaria/page.js",
+  "/opacronograma/page": "app/opacronograma/page.js",
+  "/opacronograma2/page": "app/opacronograma2/page.js",
+  "/page": "app/page.js"
+}

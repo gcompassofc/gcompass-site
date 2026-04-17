@@ -1,0 +1,13 @@
+var R=require("../../chunks/ssr/[turbopack]_runtime.js")("server/app/imobiliaria-forms-analise/page.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0sa8n4s._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_0lvuy_j.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0xc36_p._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0zgvpt1._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0ey4kwa._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_client_components_0inhx6q._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_forbidden_0ghu-f7.js")
+R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_unauthorized_0cjv-23.js")
+R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_global-error_0lgvd_..js")
+R.c("server/chunks/ssr/_next-internal_server_app_imobiliaria-forms-analise_page_actions_1388hdj.js")
+R.m(87486)
+module.exports=R.m(87486).exports

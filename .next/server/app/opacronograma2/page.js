@@ -1,0 +1,13 @@
+var R=require("../../chunks/ssr/[turbopack]_runtime.js")("server/app/opacronograma2/page.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0xmzu54._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_0wg4zct.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0xc36_p._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0zgvpt1._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0ey4kwa._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_client_components_0inhx6q._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_forbidden_0ghu-f7.js")
+R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_unauthorized_0cjv-23.js")
+R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_global-error_0lgvd_..js")
+R.c("server/chunks/ssr/_next-internal_server_app_opacronograma2_page_actions_073e0v7.js")
+R.m(43754)
+module.exports=R.m(43754).exports
