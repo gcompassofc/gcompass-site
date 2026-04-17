@@ -92,7 +92,7 @@ const questions: Question[] = [
     id: 'intro',
     type: 'info',
     title: 'Diagnóstico G Compass',
-    subtitle: 'Descubra a rota exata para destravar o crescimento da sua imobiliária.',
+    subtitle: 'Essas perguntas vão tornar a nossa conversa muito mais produtiva e objetiva. Leva apenas alguns minutos.',
     next: () => 'agency_name'
   },
   {
@@ -376,8 +376,8 @@ const questions: Question[] = [
   {
     id: 'outro',
     type: 'info',
-    title: 'Rota Traçada!',
-    subtitle: (answers) => `Analisamos suas coordenadas, ${answers.agency_name || 'Viajante'}. Em breve, um especialista entrará em contato pelo número ${answers.contact || ''} com um plano de ação focado no seu cenário.`,
+    title: 'Tudo pronto para a nossa R1!',
+    subtitle: (answers) => `Obrigado por compartilhar essas informações, ${answers.agency_name || 'parceiro'}. Já analisamos o seu cenário e agora estamos preparados para uma reunião muito mais objetiva e focada nos seus resultados. Nos vemos na nossa R1!`,
     next: () => null
   }
 ];
