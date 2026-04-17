@@ -82,11 +82,7 @@ body {
                     linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
 }
 
-@media (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
-}
+
 
 /* Custom scrollbar for a cleaner look */
 ::-webkit-scrollbar {

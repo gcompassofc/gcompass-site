@@ -29,59 +29,7 @@ const FadeIn: React.FC<{ children: React.ReactNode, delay?: number, className?: 
   </motion.div>
 );
 
-function CustomCursor() {
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
-  
-  const springConfig = { damping: 25, stiffness: 400, mass: 0.5 };
-  const cursorXSpring = useSpring(cursorX, springConfig);
-  const cursorYSpring = useSpring(cursorY, springConfig);
-  
-  const [isHovering, setIsHovering] = useState(false);
 
-  useEffect(() => {
-    const moveCursor = (e: MouseEvent) => {
-      cursorX.set(e.clientX - 16);
-      cursorY.set(e.clientY - 16);
-    };
-    
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const isClickable = 
-        window.getComputedStyle(target).cursor === 'pointer' || 
-        target.tagName.toLowerCase() === 'a' || 
-        target.tagName.toLowerCase() === 'button' ||
-        target.closest('a') ||
-        target.closest('button');
-        
-      setIsHovering(!!isClickable);
-    };
-
-    window.addEventListener('mousemove', moveCursor);
-    window.addEventListener('mouseover', handleMouseOver);
-    return () => {
-      window.removeEventListener('mousemove', moveCursor);
-      window.removeEventListener('mouseover', handleMouseOver);
-    };
-  }, [cursorX, cursorY]);
-
-  return (
-    <motion.div
-      className="fixed top-0 left-0 z-[9999] pointer-events-none mix-blend-difference hidden md:flex items-center justify-center"
-      style={{
-        x: cursorXSpring,
-        y: cursorYSpring,
-      }}
-      animate={{
-        scale: isHovering ? 1.5 : 1,
-        rotate: isHovering ? 45 : 0
-      }}
-      transition={{ duration: 0.2 }}
-    >
-      <Compass className="w-8 h-8 text-white" strokeWidth={1.5} />
-    </motion.div>
-  );
-}
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
@@ -99,7 +47,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gradient-dynamic text-slate-900 font-sans selection:bg-black selection:text-white">
-      <CustomCursor />
+
       
       {/* Subtle Light Grid Background */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-grid-light opacity-30" />
