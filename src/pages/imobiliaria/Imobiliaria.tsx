@@ -112,7 +112,7 @@ export default function App() {
             <span className="text-lg font-display font-bold tracking-widest uppercase text-black">G Compass</span>
           </div>
           <a 
-            href="https://forms.gcompass.com.br" 
+            href="https://gcompass.com.br/imobiliaria-forms" 
             target="_blank"
             rel="noopener noreferrer"
             className="hidden md:flex items-center gap-2 px-6 py-2.5 rounded-full bg-black text-white hover:bg-slate-800 transition-all duration-300 text-xs font-bold tracking-widest uppercase"
@@ -148,7 +148,7 @@ export default function App() {
             </p>
 
             <a 
-              href="https://forms.gcompass.com.br"
+              href="https://gcompass.com.br/imobiliaria-forms"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative inline-flex items-center justify-center gap-4 px-8 py-4 rounded-full bg-black text-white font-display font-bold text-sm tracking-widest uppercase overflow-hidden transition-transform hover:scale-105"
@@ -243,7 +243,7 @@ export default function App() {
                 className="overflow-hidden flex justify-center"
               >
                 <a 
-                  href="https://forms.gcompass.com.br"
+                  href="https://gcompass.com.br/imobiliaria-forms"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-4 px-8 py-4 rounded-full bg-black text-white font-display font-bold text-sm tracking-widest uppercase transition-transform hover:scale-105"
@@ -564,7 +564,7 @@ export default function App() {
                 Sem custo. Sem compromisso. Validação dos dois lados: a gente avalia se faz sentido uma parceria, você também avalia. Só seguimos juntos se for bom para os dois.
               </p>
               <a 
-                href="https://forms.gcompass.com.br"
+                href="https://gcompass.com.br/imobiliaria-forms"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-4 px-8 py-4 rounded-full bg-black text-white font-display font-bold text-sm tracking-widest uppercase transition-transform hover:scale-105"
@@ -672,7 +672,7 @@ export default function App() {
                     Para garantirmos que nossa análise será útil para o seu momento atual, precisamos de algumas informações sobre a sua imobiliária.
                   </p>
                   <a 
-                    href="https://forms.gcompass.com.br"
+                    href="https://gcompass.com.br/imobiliaria-forms"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full py-4 rounded-full bg-black text-white font-display font-bold text-xs tracking-[0.2em] uppercase hover:bg-slate-800 transition-colors flex items-center justify-center gap-2"
