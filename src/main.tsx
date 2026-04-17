@@ -7,6 +7,7 @@ import Imobiliaria from './pages/imobiliaria/Imobiliaria.tsx';
 import ImobiliariaForms from './pages/imobiliaria-forms/ImobiliariaForms.tsx';
 import ImobiliariaFormsAnalise from './pages/imobiliaria-forms-analise/ImobiliariaFormsAnalise.tsx';
 import OpaCronograma from './pages/opacronograma/OpaCronograma.tsx';
+import OpaCronograma2 from './pages/opacronograma2/OpaCronograma2.tsx';
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/imobiliaria-forms" element={<ImobiliariaForms />} />
         <Route path="/imobiliaria-forms-analise" element={<ImobiliariaFormsAnalise />} />
         <Route path="/opacronograma" element={<OpaCronograma />} />
+        <Route path="/opacronograma2" element={<OpaCronograma2 />} />
       </Routes>
     </BrowserRouter>
     <Analytics />
