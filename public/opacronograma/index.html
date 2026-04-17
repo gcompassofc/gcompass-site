@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPA Imóveis - Cronograma de Implementação</title>
+    <link rel="icon" type="image/x-icon" href="../Favicon_Compass.ico">
+    
+    <!-- Tailwind CSS para Estilização -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #cbd5e1;
+        }
+
+        /* Animações de Transição */
+        .slide-enter {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        .slide-active {
+            opacity: 1;
+            transform: translateX(0);
+            transition: all 0.5s ease-out;
+        }
+        .slide-exit {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.5s ease-in;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(20px, 20px) rotate(5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        .bg-blob {
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+
+    <!-- Elementos Decorativos de Fundo -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="bg-blob absolute -top-[10%] -left-[10%] w-[80%] md:w-[60%] h-[60%] bg-gradient-to-br from-blue-100/30 to-purple-100/30 blur-[80px] md:blur-[120px] rounded-full"></div>
+        <div class="bg-blob absolute -bottom-[10%] -right-[10%] w-[70%] md:w-[50%] h-[50%] bg-gradient-to-br from-purple-100/30 to-blue-100/30 blur-[70px] md:blur-[100px] rounded-full" style="animation-delay: -5s;"></div>
+    </div>
+
+    <!-- Cabeçalho -->
+    <header class="relative z-50 px-4 md:px-8 py-4 md:py-6 flex items-center justify-between bg-blue-600 backdrop-blur-xl border-b border-blue-700 sticky top-0 text-white">
+        <div class="flex items-center gap-3 md:gap-6">
+            <img 
+                src="/logo_growth.png" 
+                alt="Growth Compass" 
+                class="h-6 md:h-10 w-auto object-contain brightness-0 invert"
+                onerror="this.style.display='none'; this.parentElement.insertAdjacentHTML('beforeend', '<span class=\'text-lg font-bold tracking-tighter text-white\'>G COMPASS</span>')"
+            >
+            <div class="w-px h-6 md:h-8 bg-blue-400 hidden sm:block"></div>
+            <div class="hidden sm:block">
+                <h1 class="text-sm md:text-lg font-bold tracking-tight text-white">OPA Imóveis</h1>
+                <p class="text-[8px] md:text-xs font-medium text-blue-100 uppercase tracking-widest leading-none">Cronograma de Implementação</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3 md:gap-4">
+            <div class="text-right">
+                <p class="text-[8px] md:text-xs font-bold text-blue-200 uppercase tracking-tighter">Progresso</p>
+                <p id="progress-text" class="text-xs md:text-sm font-black text-white">8%</p>
+            </div>
+            <div class="w-16 md:w-32 h-1 md:h-1.5 bg-blue-800 rounded-full overflow-hidden">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-white to-blue-200 transition-all duration-500" style="width: 8%;"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Área Principal do Conteúdo -->
+    <main class="flex-1 relative z-10 flex items-center justify-center p-3 md:p-8 overflow-hidden">
+        <div id="card-container" class="w-full max-w-6xl h-full md:h-auto md:max-h-[800px] flex flex-col md:flex-row bg-white rounded-[1.5rem] md:rounded-[2.5rem] shadow-2xl shadow-blue-900/5 border border-slate-200/50 overflow-hidden relative slide-active">
+            
+            <!-- Lado Esquerdo: Visual -->
+            <div id="card-visual" class="w-full md:w-2/5 bg-gradient-to-br from-blue-500 to-indigo-600 p-6 md:p-12 text-white flex flex-row md:flex-col justify-between items-center md:items-start relative overflow-hidden shrink-0">
+                <div class="absolute inset-0 opacity-10 pointer-events-none">
+                    <div class="absolute top-0 left-0 w-full h-full border-[20px] md:border-[40px] border-white rounded-full translate-x-1/2 -translate-y-1/2"></div>
+                    <div class="absolute bottom-0 right-0 w-full h-full border-[10px] md:border-[20px] border-white rounded-full -translate-x-1/2 translate-y-1/2"></div>
+                </div>
+
+                <div class="relative z-10">
+                    <div id="week-date" class="inline-flex items-center gap-2 px-3 py-1 md:px-4 md:py-2 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-[10px] md:text-sm font-bold mb-2 md:mb-8 w-fit">
+                        <i data-lucide="calendar" class="w-3 h-3 md:w-4 md:h-4"></i>
+                        <span id="display-date">20/03 a 27/03</span>
+                    </div>
+                    <h2 id="display-week" class="text-2xl md:text-7xl font-black leading-none tracking-tighter">
+                        Semana <span class="opacity-50">1</span>
+                    </h2>
+                </div>
+
+                <div id="display-icon-container" class="relative z-10 w-12 h-12 md:w-20 md:h-20 bg-white/20 backdrop-blur-xl rounded-xl md:rounded-3xl flex items-center justify-center border border-white/30 shadow-2xl">
+                    <i id="display-icon" data-lucide="search" class="w-6 h-6 md:w-10 md:h-10"></i>
+                </div>
+            </div>
+
+            <!-- Lado Direito: Conteúdo -->
+            <div class="flex-1 p-6 md:p-16 overflow-y-auto custom-scrollbar flex flex-col bg-white">
+                <h3 id="display-title" class="text-xl md:text-3xl font-bold text-slate-800 mb-4 md:mb-6 leading-tight">
+                    Laboratório de Conteúdo e Curadoria de Imóveis
+                </h3>
+                <p id="display-description" class="text-sm md:text-lg text-slate-500 mb-6 md:mb-10 leading-relaxed">
+                    O primeiro momento é de imersão. Começamos com o Laboratório de Conteúdo com Marco, um trabalho de escuta e construção de narrativa.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+                    <section>
+                        <h4 class="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-4 md:mb-6 flex items-center gap-2">
+                            <i data-lucide="target" class="w-3 h-3 md:w-4 md:h-4 text-blue-500"></i>
+                            Ações Estratégicas
+                        </h4>
+                        <ul id="display-tasks" class="space-y-3 md:space-y-4">
+                            <!-- Tasks inseridas via JS -->
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h4 class="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-4 md:mb-6 flex items-center gap-2">
+                            <i data-lucide="layout" class="w-3 h-3 md:w-4 md:h-4 text-purple-500"></i>
+                            Entregáveis
+                        </h4>
+                        <div id="display-deliverables" class="space-y-2 md:space-y-3">
+                            <!-- Deliverables inseridos via JS -->
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botões de Navegação Desktop -->
+        <div class="hidden md:flex absolute inset-x-0 top-1/2 -translate-y-1/2 justify-between px-12 pointer-events-none">
+            <button onclick="prevSlide()" id="btn-prev" class="w-14 h-14 rounded-full flex items-center justify-center bg-white shadow-xl border border-slate-200 pointer-events-auto transition-all hover:bg-slate-50 active:scale-90 disabled:opacity-0">
+                <i data-lucide="chevron-left" class="w-6 h-6 text-slate-600"></i>
+            </button>
+            <button onclick="nextSlide()" id="btn-next" class="w-14 h-14 rounded-full flex items-center justify-center bg-white shadow-xl border border-slate-200 pointer-events-auto transition-all hover:bg-slate-50 active:scale-90 disabled:opacity-0">
+                <i data-lucide="chevron-right" class="w-6 h-6 text-slate-600"></i>
+            </button>
+        </div>
+    </main>
+
+    <!-- Demandas Contínuas -->
+    <div class="w-full max-w-6xl mx-auto px-3 md:px-8 pb-4 relative z-20">
+        <div class="bg-white/80 backdrop-blur-md border border-slate-200/50 rounded-2xl overflow-hidden shadow-sm transition-all duration-300">
+            <button onclick="toggleDemands()" class="w-full px-5 py-3 md:px-6 md:py-4 flex items-center justify-between text-slate-800 hover:bg-slate-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="refresh-cw" class="w-4 h-4 md:w-5 md:h-5 text-blue-500"></i>
+                    <span class="font-bold text-xs md:text-sm uppercase tracking-wider">Demandas Contínuas</span>
+                </div>
+                <i data-lucide="chevron-down" id="demands-chevron" class="w-4 h-4 md:w-5 md:h-5 text-slate-400 transition-transform duration-300"></i>
+            </button>
+            <div id="demands-content" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                <div class="p-5 pt-0 md:p-6 md:pt-0 border-t border-slate-100/50">
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mt-4">
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 shrink-0 mt-0.5"></i>
+                            <span class="text-xs md:text-sm font-medium text-slate-600">Pesquisa contínua de mercado imobiliário</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 shrink-0 mt-0.5"></i>
+                            <span class="text-xs md:text-sm font-medium text-slate-600">Pesquisa aprofundada sobre Ilhabela</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 shrink-0 mt-0.5"></i>
+                            <span class="text-xs md:text-sm font-medium text-slate-600">Escuta ativa com Marco, June e Natália</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 shrink-0 mt-0.5"></i>
+                            <span class="text-xs md:text-sm font-medium text-slate-600">Otimização contínua dos formatos</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 shrink-0 mt-0.5"></i>
+                            <span class="text-xs md:text-sm font-medium text-slate-600">Melhorias constantes no blog e site</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-green-500 shrink-0 mt-0.5"></i>
+                            <span class="text-xs md:text-sm font-medium text-slate-600">Monitoramento de assuntos de timing</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer class="relative z-50 px-4 md:px-8 py-4 md:py-8 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 bg-white/50 backdrop-blur-md border-t border-slate-200/50">
+        <div id="dot-navigation" class="flex items-center gap-2 md:gap-3 overflow-x-auto max-w-full pb-2 md:pb-0 no-scrollbar">
+            <!-- Dots inseridos via JS -->
+        </div>
+
+        <div class="flex items-center justify-between w-full md:w-auto gap-4 md:gap-6">
+            <div class="flex items-center gap-2 text-slate-400">
+                <i data-lucide="info" class="w-3 h-3 md:w-4 md:h-4"></i>
+                <span class="text-[8px] md:text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">Use as setas ou clique nos pontos</span>
+            </div>
+            
+            <button id="btn-main-action" onclick="handleMainAction()" class="group px-6 py-3 md:px-8 md:py-4 rounded-xl md:rounded-2xl bg-slate-900 text-white font-bold text-xs md:text-sm flex items-center gap-2 md:gap-3 hover:bg-blue-600 transition-colors shadow-xl shadow-slate-900/20">
+                <span id="btn-text">Próxima</span>
+                <i data-lucide="arrow-right" class="w-3 h-3 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform"></i>
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        // Dados do Cronograma
+        const timelineData = [
+            {
+                week: "Semana 1",
+                date: "20/03 a 27/03",
+                title: "Laboratório de Conteúdo e Curadoria de Imóveis",
+                description: "O primeiro momento é de imersão. Começamos com o Laboratório de Conteúdo com Equipe OPA, um trabalho de escuta e construção de narrativa, explorando a visão do imóvel como recipiente de memórias e a diferenciação.",
+                icon: "search",
+                color: "from-blue-500 to-indigo-600",
+                tasks: ["Integração e onboarding com a equipe OPA", "Acesso ao Trello e levantamento de vídeos", "Pesquisa sobre os três públicos estratégicos", "Confirmação dos imóveis para Tour Virtual", "Criação do banco de ideias inicial", "Início da edição de 2 a 3 conteúdos teste"],
+                deliverables: ["Banco de ideias estruturado", "Lista dos imóveis confirmados", "Primeiros conteúdos em edição"]
+            },
+            {
+                week: "Semana 2",
+                date: "28/03 a 03/04",
+                title: "Reposicionamento de Identidade",
+                description: "Semana de transição oficial. Novas ideias para Marco e OPA em produção.",
+                icon: "users",
+                color: "from-indigo-500 to-purple-600",
+                tasks: ["Organização de cronograma de postagens", "Melhoria dos formatos de gravação", "Configuração dos perfis de LinkedIn", "Definição do fluxo de aprovação", "Início do rascunho do site"],
+                deliverables: ["Perfis de LinkedIn configurados", "Cronograma de postagens definido", "Rascunho inicial do site"]
+            },
+            {
+                week: "Semana 3",
+                date: "04/04 a 10/04",
+                title: "Setup Tecnológico",
+                description: "Configuramos toda a arquitetura do site voltada para o blog AEO e iniciamos a captura imersiva dos primeiros Tours Virtuais.",
+                icon: "cpu",
+                color: "from-purple-500 to-pink-600",
+                tasks: ["Configuração de hospedagem e domínio", "Mapeamento de práticas de SEO/AEO", "Produção de Tours Virtuais no Engenho d'Água", "Gravação de making of", "Revisões de SEO nos textos de June"],
+                deliverables: ["Site técnico funcional", "Primeiro Tour Virtual em produção", "Conteúdos de making of gravados"]
+            },
+            {
+                week: "Semana 4",
+                date: "11/04 a 17/04",
+                title: "Homologação",
+                description: "Semana de revisão e validação. O primeiro lote de conteúdo passa por um processo cuidadoso de homologação.",
+                icon: "file-check",
+                color: "from-pink-500 to-rose-600",
+                tasks: ["Melhorias nos textos de June", "Design final do blog para aprovação", "Entrega de 4 artigos para revisão", "Preparação do Selo Visita Virtual"],
+                deliverables: ["4 artigos finalizados", "Design do blog aprovado", "Selo Visita Virtual pronto"]
+            },
+            {
+                week: "Semana 5",
+                date: "18/04 a 24/04",
+                title: "Lançamento do Blog e SEO Local",
+                description: "O blog vai ao ar. Os primeiros artigos pilares são publicados com toda a estrutura de SEO Local ativada.",
+                icon: "rocket",
+                color: "from-rose-500 to-orange-600",
+                tasks: ["Lançamento oficial do blog", "Publicação dos artigos aprovados", "Aplicação do Selo no portfólio", "Preparação das campanhas de Google Ads"],
+                deliverables: ["Blog no ar", "Portfólio com Selo aplicado", "Campanhas Ads estruturadas"]
+            },
+            {
+                week: "Semana 6",
+                date: "25/04 a 01/05",
+                title: "Ativação Google Ads — Fase 1",
+                description: "Primeira ativação de mídia paga com segmentação para público de alto poder aquisitivo.",
+                icon: "trending-up",
+                color: "from-orange-500 to-amber-600",
+                tasks: ["Ativação das campanhas no Google Ads", "Análise dos primeiros dias", "Otimização de palavras-chave", "Preparação de Meta Ads"],
+                deliverables: ["Campanhas Google Ads ativas", "Meta Ads estruturado", "Artigo semanal publicado"]
+            },
+            {
+                week: "Semana 7",
+                date: "02/05 a 08/05",
+                title: "Cerco de Remarketing",
+                description: "O pixel entra em ação. Quem visita os Tours Virtuais começa a receber vídeos de autoridade no Instagram.",
+                icon: "shield-check",
+                color: "from-amber-500 to-yellow-600",
+                tasks: ["Ativação de Remarketing no Meta Ads", "Análise de métricas iniciais", "Análise do blog com foco em AEO", "Publicação semanal"],
+                deliverables: ["Campanhas Remarketing ativas", "Relatório inicial de métricas"]
+            },
+            {
+                week: "Semana 8",
+                date: "09/05 a 15/05",
+                title: "A Trilogia do Legado",
+                description: "Publicação dos artigos de fundo de funil, conteúdos densos e estratégicos sobre raridade e patrimônio.",
+                icon: "book-open",
+                color: "from-yellow-500 to-lime-600",
+                tasks: ["Publicação de artigos fundo de funil", "Análise de performance", "Otimizações gerais"],
+                deliverables: ["Artigos de fundo de funil publicados", "Análise comparativa"]
+            },
+            {
+                week: "Semana 9",
+                date: "16/05 a 22/05",
+                title: "Inteligência e Ajuste de Mira",
+                description: "Semana dedicada à análise fina de retenção e termos de busca reais.",
+                icon: "bar-chart-3",
+                color: "from-lime-500 to-green-600",
+                tasks: ["Análise de retenção e termos", "Refinamento das campanhas (HNW)", "Ajustes em SEO e mídia"],
+                deliverables: ["Relatório de retenção", "Campanhas otimizadas"]
+            },
+            {
+                week: "Semana 10",
+                date: "23/05 a 29/05",
+                title: "Networking Escalado",
+                description: "Marco utiliza os artigos de alto nível como isca de valor para retomar contatos com a rede VIP.",
+                icon: "network",
+                color: "from-green-500 to-teal-600",
+                tasks: ["Seleção de artigos para networking", "Análise das interações geradas"],
+                deliverables: ["Seleção VIP definida", "Registro de feedbacks"]
+            },
+            {
+                week: "Semana 11",
+                date: "30/05 a 05/06",
+                title: "Auditoria da Jornada",
+                description: "Cruzamento de métricas de toda a jornada do lead para entender a qualidade do atendimento.",
+                icon: "clipboard-check",
+                color: "from-teal-500 to-cyan-600",
+                tasks: ["Cruzamento de métricas da jornada", "Análise qualitativa de canais", "Avaliação integrada"],
+                deliverables: ["Relatório de auditoria", "Análise comparativa de canais"]
+            },
+            {
+                week: "Semana 12",
+                date: "06/06 a 12/06",
+                title: "Expansão — Relatório dos 90 Dias",
+                description: "O fechamento de ciclo com apresentação de ROI e definição dos próximos passos.",
+                icon: "pie-chart",
+                color: "from-cyan-500 to-blue-600",
+                tasks: ["Reunião de análise 90 dias", "Discussão de oportunidades", "Definição do próximo ciclo"],
+                deliverables: ["Relatório de ROI", "Plano de expansão"]
+            }
+        ];
+
+        let currentIndex = 0;
+
+        // Inicialização
+        function init() {
+            renderDots();
+            updateSlide();
+            lucide.createIcons();
+        }
+
+        function updateSlide() {
+            const item = timelineData[currentIndex];
+            const container = document.getElementById('card-container');
+            
+            // Efeito de transição simples
+            container.classList.remove('slide-active');
+            container.classList.add('slide-exit');
+
+            setTimeout(() => {
+                // Atualizar Cores e Textos
+                const visual = document.getElementById('card-visual');
+                visual.className = `w-full md:w-2/5 bg-gradient-to-br ${item.color} p-6 md:p-12 text-white flex flex-row md:flex-col justify-between items-center md:items-start relative overflow-hidden shrink-0`;
+                
+                document.getElementById('display-date').innerText = item.date;
+                
+                const weekParts = item.week.split(' ');
+                document.getElementById('display-week').innerHTML = `${weekParts[0]} <span class="opacity-50">${weekParts[1]}</span>`;
+                
+                document.getElementById('display-title').innerText = item.title;
+                document.getElementById('display-description').innerText = item.description;
+                
+                // Atualizar Ícone
+                const iconEl = document.getElementById('display-icon');
+                iconEl.setAttribute('data-lucide', item.icon);
+
+                // Atualizar Tasks
+                const tasksList = document.getElementById('display-tasks');
+                tasksList.innerHTML = item.tasks.map((task, i) => `
+                    <li class="flex items-start gap-3 group">
+                        <div class="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0"></div>
+                        <span class="text-xs md:text-sm font-medium text-slate-600 leading-snug">${task}</span>
+                    </li>
+                `).join('');
+
+                // Atualizar Deliverables
+                const delList = document.getElementById('display-deliverables');
+                delList.innerHTML = item.deliverables.map(del => `
+                    <div class="p-3 md:p-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200/50 flex items-center gap-3">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 md:w-5 md:h-5 text-green-500 shrink-0"></i>
+                        <span class="text-xs md:text-sm font-bold text-slate-700">${del}</span>
+                    </div>
+                `).join('');
+
+                // Progresso
+                const progress = Math.round(((currentIndex + 1) / timelineData.length) * 100);
+                document.getElementById('progress-text').innerText = `${progress}%`;
+                document.getElementById('progress-bar').style.width = `${progress}%`;
+
+                // Botões
+                document.getElementById('btn-prev').disabled = currentIndex === 0;
+                document.getElementById('btn-next').disabled = currentIndex === timelineData.length - 1;
+                
+                const btnText = document.getElementById('btn-text');
+                btnText.innerText = currentIndex === timelineData.length - 1 ? 'Reiniciar' : 'Próxima';
+
+                // Dots
+                updateDots();
+
+                // Recriar ícones Lucide
+                lucide.createIcons();
+
+                // Finalizar animação
+                container.classList.remove('slide-exit');
+                container.classList.add('slide-active');
+            }, 300);
+        }
+
+        function renderDots() {
+            const dotNav = document.getElementById('dot-navigation');
+            dotNav.innerHTML = timelineData.map((_, i) => `
+                <button onclick="goToSlide(${i})" class="dot-btn h-1.5 md:h-2 rounded-full transition-all duration-500 shrink-0 bg-slate-300 w-1.5 md:w-2" id="dot-${i}"></button>
+            `).join('');
+        }
+
+        function updateDots() {
+            document.querySelectorAll('.dot-btn').forEach((dot, i) => {
+                if (i === currentIndex) {
+                    dot.className = 'dot-btn h-1.5 md:h-2 rounded-full transition-all duration-500 shrink-0 w-6 md:w-8 bg-blue-600';
+                } else {
+                    dot.className = 'dot-btn h-1.5 md:h-2 rounded-full transition-all duration-500 shrink-0 w-1.5 md:w-2 bg-slate-300 hover:bg-slate-400';
+                }
+            });
+        }
+
+        function nextSlide() {
+            if (currentIndex < timelineData.length - 1) {
+                currentIndex++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlide();
+            }
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            updateSlide();
+        }
+
+        function handleMainAction() {
+            if (currentIndex === timelineData.length - 1) {
+                currentIndex = 0;
+            } else {
+                currentIndex++;
+            }
+            updateSlide();
+        }
+
+        function toggleDemands() {
+            const content = document.getElementById('demands-content');
+            const chevron = document.getElementById('demands-chevron');
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                chevron.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                chevron.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Atalhos de Teclado
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // Iniciar
+        init();
+    </script>
+</body>
+</html>
