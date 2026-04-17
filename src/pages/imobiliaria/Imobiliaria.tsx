@@ -108,8 +108,7 @@ export default function App() {
       <nav className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-white/40">
         <div className="max-w-[1400px] mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Compass className="w-6 h-6 text-black" />
-            <span className="text-lg font-display font-bold tracking-widest uppercase text-black">G Compass</span>
+            <img src="/gcompass-logo-dark.svg" alt="G Compass" className="h-6 md:h-8 object-contain" />
           </div>
           <a 
             href="https://gcompass.com.br/imobiliaria-forms" 
@@ -691,8 +690,7 @@ export default function App() {
       <footer className="border-t border-white/30 py-12 glass-panel">
         <div className="max-w-[1400px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <Compass className="w-6 h-6 text-black" />
-            <span className="font-display font-black text-lg tracking-widest uppercase text-black">G Compass</span>
+            <img src="/gcompass-logo-dark.svg" alt="G Compass" className="h-6 md:h-8 object-contain" />
           </div>
           <div className="font-display text-xs font-bold tracking-[0.2em] uppercase text-slate-400 text-center">
             Empresa de Estruturação Empresarial para Imobiliárias

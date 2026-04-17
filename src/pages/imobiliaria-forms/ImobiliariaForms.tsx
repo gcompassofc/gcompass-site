@@ -575,8 +575,8 @@ export default function App() {
     <div className="flex h-screen w-full bg-[#050505] text-white overflow-hidden font-sans">
       {/* Sidebar */}
       <nav className="w-[80px] h-full border-r border-white/10 flex-col items-center py-10 justify-between shrink-0 hidden md:flex">
-        <div className={`font-black text-2xl bg-gradient-to-br bg-clip-text text-transparent -rotate-90 whitespace-nowrap tracking-widest mt-12 transition-all duration-1000 ${isFinished ? 'from-emerald-400 to-green-500' : 'from-[#6366f1] to-[#a855f7]'}`}>
-          G COMPASS
+        <div className="mt-16 -rotate-90 w-32 flex justify-center shrink-0">
+          <img src="/gcompass-logo-white.svg" alt="G Compass" className="w-full object-contain" />
         </div>
         <div className="flex flex-col gap-6">
           {Array.from({ length: 5 }).map((_, i) => {

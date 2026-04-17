@@ -19,15 +19,9 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <img 
-            src="/logo_growth.png" 
-            alt="Growth Compass" 
-            width="160"
-            height="40"
+            src="/gcompass-logo-white.svg" 
+            alt="G Compass" 
             className="h-8 md:h-10 object-contain"
-            onError={(e) => {
-              e.currentTarget.style.display = 'none';
-              e.currentTarget.parentElement?.insertAdjacentHTML('beforeend', '<span class="text-xl font-bold tracking-tighter text-white">G COMPASS</span>');
-            }}
           />
         </div>
         <button 
