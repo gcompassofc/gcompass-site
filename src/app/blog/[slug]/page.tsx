@@ -45,7 +45,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   }
 
   return (
-    <article className="min-h-screen bg-[#050505] text-slate-200">
+    <article className="text-slate-200">
       {/* Script AEO Invisível */}
       <script
         type="application/ld+json"

@@ -18,15 +18,13 @@ export default async function BlogIndex() {
   }`)
 
   return (
-    <div className="min-h-screen bg-[#050505] text-slate-200">
+    <div>
       <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-purple-900/20 blur-[120px] pointer-events-none" />
       <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-blue-900/20 blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 py-24 relative z-10">
         <div className="mb-16 text-center md:text-left">
-          <Link href="/" className="text-sm font-bold text-slate-400 hover:text-white uppercase tracking-widest mb-6 inline-flex items-center gap-2">
-            Voltar para o Início
-          </Link>
+
           <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4">
             Insights & Estratégia
           </h1>
