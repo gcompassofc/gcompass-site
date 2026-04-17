@@ -403,7 +403,7 @@ export default function App() {
                     <div className="space-y-10">
                       {[
                         { label: "Equipe", value: "3 ou mais corretores ativos" },
-                        { label: "Foco", value: "Venda, não em locação ou temporada" },
+                        { label: "Foco", value: "Com potencial real de crescimento" },
                         { label: "Mentalidade", value: "Quer previsibilidade, não pico de resultado" }
                       ].map((stat, i) => (
                         <div key={i} className="border-b border-white/30 pb-8 last:border-0 last:pb-0">
