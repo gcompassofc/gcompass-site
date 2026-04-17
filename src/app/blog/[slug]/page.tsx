@@ -8,8 +8,9 @@ import { notFound } from 'next/navigation'
 
 export const revalidate = 60
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const post = await client.fetch(`*[_type == "post" && slug.current == $slug][0]`, { slug: params.slug })
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = await client.fetch(`*[_type == "post" && slug.current == $slug][0]`, { slug })
   if (!post) return { title: 'Artigo não encontrado' }
   
   return {
@@ -21,8 +22,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-export default async function BlogPost({ params }: { params: { slug: string } }) {
-  const post = await client.fetch(`*[_type == "post" && slug.current == $slug][0]`, { slug: params.slug })
+export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = await client.fetch(`*[_type == "post" && slug.current == $slug][0]`, { slug })
   
   if (!post) {
     notFound()
