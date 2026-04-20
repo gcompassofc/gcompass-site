@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({ 
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"]
+});
 
 export const metadata: Metadata = {
   title: "G Compass | Estruturação de Negócios e M&A",
@@ -20,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="scroll-smooth">
-      <body className={`${inter.className} bg-[#050505]`}>
+      <body className={`${poppins.className} bg-[#050505]`}>
         {children}
         <Analytics />
       </body>
