@@ -46,6 +46,7 @@ export default function OpaPesquisaPage() {
   const [data, setData] = useState<SurveyData>(INITIAL_DATA);
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const totalSteps = 12; // 0 to 11 questions + ending
 
@@ -53,8 +54,39 @@ export default function OpaPesquisaPage() {
     setData(prev => ({ ...prev, ...partial }));
   };
 
-  const nextStep = () => {
-    if (step < totalSteps) {
+  const nextStep = async () => {
+    if (step === 11) {
+      // Form submission
+      setIsSubmitting(true);
+      try {
+        await fetch("https://formsubmit.co/ajax/growthcompassofc@gmail.com", {
+          method: "POST",
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            "Nome": data.name,
+            "Avaliação Mês 1": data.q1,
+            "O que agradou": data.q2,
+            "Abaixo da expectativa": data.q3,
+            "Áreas para melhorar": data.q4.length > 0 ? data.q4.join(", ") : "Nenhuma",
+            "Mudar uma coisa": data.q5,
+            "Esperava e não fizemos": data.q6,
+            "NPS": data.q7,
+            "Motivo NPS": data.q8,
+            "Conhece alguém": data.q9_choice,
+            "Nome do indicado": data.q9_text,
+            "Considerações Finais": data.q10
+          })
+        });
+      } catch (error) {
+        console.error("Erro ao enviar formulário:", error);
+      }
+      setIsSubmitting(false);
+      setDirection(1);
+      setStep(s => s + 1);
+    } else if (step < totalSteps) {
       setDirection(1);
       setStep(s => s + 1);
     }
@@ -147,7 +179,7 @@ export default function OpaPesquisaPage() {
         return (
           <div className="w-full">
             <div className="text-[12px] text-[#9333ea] font-bold uppercase mb-3">Parte 1 — Satisfação Geral</div>
-            <h2 className="text-[24px] mb-3 leading-snug font-medium">Como você avalia o nosso primeiro mês de trabalho juntos?</h2>
+            <h2 className="text-[22px] md:text-[24px] mb-3 leading-snug font-medium">Como você avalia o nosso primeiro mês de trabalho juntos?</h2>
             <p className="text-white/50 text-[14px] mb-8">Sendo 1 muito abaixo do esperado e 5 muito acima.</p>
             
             <div className="flex gap-4 flex-wrap">
@@ -172,7 +204,7 @@ export default function OpaPesquisaPage() {
         return (
           <div className="w-full">
             <div className="text-[12px] text-[#9333ea] font-bold uppercase mb-3">Parte 1 — Satisfação Geral</div>
-            <h2 className="text-[24px] mb-3 leading-snug font-medium">O que mais te <span className="text-[#9333ea]">agradou</span> até agora?</h2>
+            <h2 className="text-[22px] md:text-[24px] mb-3 leading-snug font-medium">O que mais te <span className="text-[#9333ea]">agradou</span> até agora?</h2>
             <p className="text-white/50 text-[14px] mb-6">Pode ser uma entrega, uma interação, um resultado — qualquer coisa.</p>
             <textarea
               autoFocus
@@ -189,7 +221,7 @@ export default function OpaPesquisaPage() {
         return (
           <div className="w-full">
             <div className="text-[12px] text-[#9333ea] font-bold uppercase mb-3">Parte 1 — Satisfação Geral</div>
-            <h2 className="text-[24px] mb-3 leading-snug font-medium">Teve algo que ficou <span className="text-[#9333ea]">abaixo</span> da sua expectativa?</h2>
+            <h2 className="text-[22px] md:text-[24px] mb-3 leading-snug font-medium">Teve algo que ficou <span className="text-[#9333ea]">abaixo</span> da sua expectativa?</h2>
             <p className="text-white/50 text-[14px] mb-6">Sem filtro. Isso nos ajuda a melhorar de verdade.</p>
             <textarea
               autoFocus
@@ -206,7 +238,7 @@ export default function OpaPesquisaPage() {
         return (
           <div className="w-full">
             <div className="text-[12px] text-[#9333ea] font-bold uppercase mb-3">Parte 2 — Pontos de Melhoria</div>
-            <h2 className="text-[24px] mb-3 leading-snug font-medium">Em quais áreas você sente que podemos melhorar?</h2>
+            <h2 className="text-[22px] md:text-[24px] mb-3 leading-snug font-medium">Em quais áreas você sente que podemos melhorar?</h2>
             <p className="text-white/50 text-[14px] mb-6">Marque todas que se aplicam.</p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -221,7 +253,7 @@ export default function OpaPesquisaPage() {
                         : [...data.q4, opt.label];
                       updateData({ q4: newQ4 });
                     }}
-                    className={`flex items-center gap-3 p-4 rounded-xl border transition-all duration-300 text-left
+                    className={`flex items-center gap-3 p-3 sm:p-4 rounded-xl border transition-all duration-300 text-left
                       ${isSelected 
                         ? 'bg-[#9333ea] border-[#9333ea] shadow-[0_0_20px_rgba(147,51,234,0.4)]' 
                         : 'bg-white/5 border-white/10 hover:bg-[#9333ea]/20 hover:border-[#9333ea]'
@@ -240,7 +272,7 @@ export default function OpaPesquisaPage() {
         return (
           <div className="w-full">
             <div className="text-[12px] text-[#9333ea] font-bold uppercase mb-3">Parte 2 — Pontos de Melhoria</div>
-            <h2 className="text-[24px] mb-3 leading-snug font-medium">Se pudesse mudar <span className="text-[#9333ea]">uma coisa</span> no nosso jeito de trabalhar, o que seria?</h2>
+            <h2 className="text-[22px] md:text-[24px] mb-3 leading-snug font-medium">Se pudesse mudar <span className="text-[#9333ea]">uma coisa</span> no nosso jeito de trabalhar, o que seria?</h2>
             <p className="text-white/50 text-[14px] mb-6">Pode ser um processo, formato de reunião, frequência de contato — qualquer coisa.</p>
             <textarea
               autoFocus
@@ -257,7 +289,7 @@ export default function OpaPesquisaPage() {
         return (
           <div className="w-full">
             <div className="text-[12px] text-[#9333ea] font-bold uppercase mb-3">Parte 2 — Pontos de Melhoria</div>
-            <h2 className="text-[24px] mb-3 leading-snug font-medium">Tem algo que você <span className="text-[#9333ea]">esperava</span> que a gente fizesse e que ainda não fizemos?</h2>
+            <h2 className="text-[22px] md:text-[24px] mb-3 leading-snug font-medium">Tem algo que você <span className="text-[#9333ea]">esperava</span> que a gente fizesse e que ainda não fizemos?</h2>
             <p className="text-white/50 text-[14px] mb-6">Nos ajuda a calibrar as expectativas para os próximos meses.</p>
             <textarea
               autoFocus
@@ -274,7 +306,7 @@ export default function OpaPesquisaPage() {
         return (
           <div className="w-full">
             <div className="text-[12px] text-[#38bdf8] font-bold uppercase mb-3">Parte 3 — NPS e Indicação</div>
-            <h2 className="text-[24px] mb-3 leading-snug font-medium">Qual a probabilidade de você <span className="text-[#38bdf8]">indicar</span> a Growth Compass a um colega, parceiro ou amigo empresário?</h2>
+            <h2 className="text-[22px] md:text-[24px] mb-3 leading-snug font-medium">Qual a probabilidade de você <span className="text-[#38bdf8]">indicar</span> a Growth Compass a um colega, parceiro ou amigo empresário?</h2>
             
             <div className="flex flex-wrap gap-2 mt-8">
               {[0,1,2,3,4,5,6,7,8,9,10].map(num => (
@@ -302,7 +334,7 @@ export default function OpaPesquisaPage() {
         return (
           <div className="w-full">
             <div className="text-[12px] text-[#38bdf8] font-bold uppercase mb-3">Parte 3 — NPS e Indicação</div>
-            <h2 className="text-[24px] mb-3 leading-snug font-medium">O que motivou essa nota? ({data.q7})</h2>
+            <h2 className="text-[22px] md:text-[24px] mb-3 leading-snug font-medium">O que motivou essa nota? ({data.q7})</h2>
             <p className="text-white/50 text-[14px] mb-6">Pode ser positivo, negativo ou os dois.</p>
             <textarea
               autoFocus
@@ -319,7 +351,7 @@ export default function OpaPesquisaPage() {
         return (
           <div className="w-full">
             <div className="text-[12px] text-[#38bdf8] font-bold uppercase mb-3">Parte 3 — NPS e Indicação</div>
-            <h2 className="text-[24px] mb-6 leading-snug font-medium">Você conhece alguém que poderia se beneficiar do trabalho da G Compass agora?</h2>
+            <h2 className="text-[22px] md:text-[24px] mb-6 leading-snug font-medium">Você conhece alguém que poderia se beneficiar do trabalho da G Compass agora?</h2>
             
             <div className="flex flex-col gap-3">
               {Q9_OPTIONS.map(opt => (
@@ -367,7 +399,7 @@ export default function OpaPesquisaPage() {
         return (
           <div className="w-full">
             <div className="text-[12px] text-[#9333ea] font-bold uppercase mb-3">Considerações Finais</div>
-            <h2 className="text-[24px] mb-6 leading-snug font-medium">Espaço livre — elogio, crítica, sugestão, o que quiser:</h2>
+            <h2 className="text-[22px] md:text-[24px] mb-6 leading-snug font-medium">Espaço livre — elogio, crítica, sugestão, o que quiser:</h2>
             <textarea
               autoFocus
               value={data.q10}
@@ -398,13 +430,13 @@ export default function OpaPesquisaPage() {
   };
 
   return (
-    <main className="min-h-screen w-full flex items-center justify-center p-4 sm:p-8 relative overflow-hidden">
+    <main className="min-h-[100dvh] w-full flex flex-col p-4 sm:p-8 relative overflow-y-auto">
       {/* Background Glows */}
       <div className="absolute top-[-50px] right-[-50px] md:top-[-100px] md:right-[-100px] w-[400px] h-[400px] md:w-[600px] md:h-[600px] bg-[radial-gradient(circle,rgba(147,51,234,0.15)_0%,transparent_70%)] z-0 pointer-events-none" />
       <div className="absolute bottom-[-50px] left-[-50px] md:bottom-[-100px] md:left-[-100px] w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[radial-gradient(circle,rgba(56,189,248,0.1)_0%,transparent_70%)] z-0 pointer-events-none" />
 
       {/* Main Glass Container */}
-      <div className="relative z-10 w-full max-w-[960px] bg-white/[0.03] backdrop-blur-[20px] border border-white/10 rounded-[24px] md:rounded-[32px] flex flex-col md:flex-row overflow-hidden shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] min-h-[600px]">
+      <div className="relative z-10 w-full max-w-[960px] my-auto mx-auto bg-white/[0.03] backdrop-blur-[20px] border border-white/10 rounded-[24px] md:rounded-[32px] flex flex-col md:flex-row overflow-hidden shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] min-h-[500px] md:min-h-[600px]">
         
         {/* Sidebar (Invisible on small screens, expands naturally on md+) */}
         <aside className="hidden md:flex w-[320px] lg:w-[360px] bg-black/20 border-r border-white/5 p-8 lg:p-10 flex-col justify-between shrink-0">
@@ -433,11 +465,11 @@ export default function OpaPesquisaPage() {
         </aside>
 
         {/* Dynamic Content Area */}
-        <div className="flex-1 p-6 sm:p-10 md:p-12 flex flex-col min-h-[600px]">
+        <div className="flex-1 p-6 sm:p-10 md:p-12 flex flex-col min-h-[500px] md:min-h-[600px]">
           
           {/* Progress Bar */}
           {step > 1 && step < 12 && (
-            <div className="w-full h-1.5 bg-white/10 rounded-[10px] mb-10 overflow-hidden shrink-0">
+            <div className="w-full h-1.5 bg-white/10 rounded-[10px] mb-6 md:mb-10 overflow-hidden shrink-0">
               <motion.div
                 className="h-full rounded-[10px] bg-gradient-to-r from-[#9333ea] to-[#38bdf8]"
                 initial={{ width: 0 }}
@@ -448,7 +480,7 @@ export default function OpaPesquisaPage() {
           )}
 
           {/* Active Question/Step */}
-          <div className="flex-1 flex flex-col justify-center relative">
+          <div className="flex-1 flex flex-col justify-center relative min-h-[300px]">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={step}
@@ -458,7 +490,7 @@ export default function OpaPesquisaPage() {
                 animate="center"
                 exit="exit"
                 transition={{ duration: 0.4, type: "tween", ease: "easeInOut" }}
-                className="w-full absolute inset-0 flex flex-col justify-center mt-[-20px] md:mt-0"
+                className="w-full flex flex-col justify-center"
               >
                 {renderStep()}
               </motion.div>
@@ -467,7 +499,7 @@ export default function OpaPesquisaPage() {
 
           {/* Footer Navigation (Next, Prev) */}
           {showFooter && (
-            <div className="flex flex-col sm:flex-row justify-between items-center mt-10 shrink-0 gap-4 pt-4 z-10 bg-[#09090b]/80 md:bg-transparent backdrop-blur-md md:backdrop-blur-none p-4 md:p-0 rounded-2xl md:rounded-none">
+            <div className="flex flex-col sm:flex-row justify-between items-center mt-6 md:mt-10 shrink-0 gap-4 pt-4 z-10 bg-[#09090b]/40 md:bg-transparent backdrop-blur-md md:backdrop-blur-none p-4 md:p-0 rounded-2xl md:rounded-none border-t border-white/5 md:border-0">
               <div className="text-white/40 text-[13px] font-medium hidden sm:block">
                 Pergunta {step - 1} de 10
               </div>
@@ -479,12 +511,12 @@ export default function OpaPesquisaPage() {
                   Anterior
                 </button>
                 <button
-                  disabled={!canProceed()}
+                  disabled={!canProceed() || isSubmitting}
                   onClick={nextStep}
                   className="flex-1 sm:flex-none text-center justify-center bg-[#38bdf8] text-black font-semibold px-5 md:px-7 py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#38bdf8]/90 transition-colors text-[14px] md:text-[15px] flex items-center justify-center gap-2"
                 >
-                  {step === 11 ? 'Finalizar' : 'Próxima'}
-                  {step === 11 ? <Check className="w-4 h-4 ml-1" /> : null}
+                  {isSubmitting ? 'Enviando...' : (step === 11 ? 'Finalizar' : 'Próxima')}
+                  {!isSubmitting && step === 11 ? <Check className="w-4 h-4 ml-1" /> : null}
                 </button>
               </div>
             </div>
