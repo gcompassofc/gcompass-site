@@ -430,7 +430,7 @@ export default function OpaPesquisaPage() {
   };
 
   return (
-    <main className="min-h-[100dvh] w-full flex flex-col p-4 sm:p-8 relative overflow-y-auto">
+    <main className="min-h-[100dvh] w-full flex flex-col p-4 sm:p-8 relative overflow-x-hidden overflow-y-auto">
       {/* Background Glows */}
       <div className="absolute top-[-50px] right-[-50px] md:top-[-100px] md:right-[-100px] w-[400px] h-[400px] md:w-[600px] md:h-[600px] bg-[radial-gradient(circle,rgba(147,51,234,0.15)_0%,transparent_70%)] z-0 pointer-events-none" />
       <div className="absolute bottom-[-50px] left-[-50px] md:bottom-[-100px] md:left-[-100px] w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-[radial-gradient(circle,rgba(56,189,248,0.1)_0%,transparent_70%)] z-0 pointer-events-none" />
