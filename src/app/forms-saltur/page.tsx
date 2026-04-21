@@ -352,7 +352,7 @@ export default function FormsSaltur() {
   const progress = (currentQuestionIndex / (questions.length - 1)) * 100;
 
   return (
-    <div className="flex h-screen w-full bg-[#050505] text-white overflow-hidden font-sans">
+    <div className="flex h-[100dvh] w-full bg-[#050505] text-white overflow-hidden font-sans">
       {/* Sidebar - Desktop Only */}
       <nav className="w-[80px] h-full border-r border-white/10 flex-col items-center py-10 justify-between shrink-0 hidden md:flex">
         <div className="mt-16 -rotate-90 w-32 flex justify-center shrink-0">
@@ -415,12 +415,12 @@ export default function FormsSaltur() {
                 )}
               </div>
 
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight mb-6">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight tracking-tight mb-6">
                 {renderTitle(currentQuestion.title)}
               </h1>
               
               {currentQuestion.subtitle && (
-                <p className="text-zinc-400 text-lg md:text-xl mb-10 leading-relaxed max-w-2xl">
+                <p className="text-zinc-400 text-base md:text-lg mb-10 leading-relaxed max-w-2xl">
                   {renderTitle(currentQuestion.subtitle)}
                 </p>
               )}
@@ -446,7 +446,7 @@ export default function FormsSaltur() {
                       onChange={(e) => setInputValue(e.target.value)}
                       onKeyDown={handleKeyDown}
                       placeholder={currentQuestion.placeholder}
-                      className="w-full bg-transparent border-b-2 border-zinc-800 py-4 text-2xl md:text-3xl text-white placeholder:text-zinc-700 focus:outline-none focus:border-blue-500 transition-colors"
+                      className="w-full bg-transparent border-b-2 border-zinc-800 py-4 text-xl md:text-2xl text-white placeholder:text-zinc-700 focus:outline-none focus:border-blue-500 transition-colors"
                     />
                     <div className="mt-8 flex justify-end">
                       <button
@@ -468,7 +468,7 @@ export default function FormsSaltur() {
                       onChange={(e) => setInputValue(e.target.value)}
                       placeholder={currentQuestion.placeholder}
                       rows={4}
-                      className="w-full bg-zinc-900/50 border-2 border-zinc-800 rounded-2xl p-6 text-xl text-white placeholder:text-zinc-700 focus:outline-none focus:border-blue-500 transition-colors resize-none"
+                      className="w-full bg-zinc-900/50 border-2 border-zinc-800 rounded-2xl p-6 text-lg text-white placeholder:text-zinc-700 focus:outline-none focus:border-blue-500 transition-colors resize-none"
                     />
                     <div className="mt-6 flex justify-between items-center">
                       <span className="text-zinc-500 text-sm">Pressione Shift + Enter para quebrar linha</span>
