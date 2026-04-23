@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-fundo: #F8F9FA;
+  --color-fundo-alt: #FFFFFF;
+  --color-fundo-claro: #F1F3F5;
+  --color-principal: #8C2323; /* Borgonha das imagens */
+  --color-destaque: #A62B2B; /* Vermelho mais vivo para hovers */
+  --color-texto: #1A1A1B;
+  --color-texto-sec: #6C757D;
+  --color-texto-escuro: #0F0F10;
+  --color-borda: #E9ECEF;
+  --color-borda-clara: #DEE2E6;
+
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-bebas: "Plus Jakarta Sans", sans-serif;
+  --font-barlow: "Plus Jakarta Sans", sans-serif;
+  --font-lora: "Plus Jakarta Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-fundo text-texto font-sans selection:bg-principal selection:text-white overflow-x-hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-bold tracking-tight; 
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-fundo;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-principal rounded-full;
+  }
+}
+
+.noise-overlay::before {
+  display: none; /* Removendo o ruído industrial pesado */
+}
+
+.image-placeholder {
+  @apply bg-fundo-claro flex items-center justify-center text-texto-sec font-mono text-xs uppercase tracking-widest text-center p-8 border border-borda rounded-2xl overflow-hidden shadow-sm;
+}
+
+.btn-primary {
+  @apply bg-principal hover:bg-destaque text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 flex items-center justify-center gap-2;
+}
+
+.card-white {
+  @apply bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-borda hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300;
+}
