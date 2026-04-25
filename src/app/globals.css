@@ -9,6 +9,19 @@
   --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
   --color-background: #030305;
+
+  /* Asiim Theme Colors */
+  --color-asiim-primary: #1A3C5E;
+  --color-asiim-deep: #0F2A42;
+  --color-asiim-soft: #2A6496;
+  --color-asiim-mist: #DCE8F0;
+  --color-asiim-yellow: #F5C200;
+  --color-asiim-yellow-light: #FDE97A;
+  
+  --color-background-main: #F7F7F5;
+  --color-background-alt: #EDF1F4;
+  --color-text-main: #1B1F23;
+  --color-text-secondary: #5A6570;
 }
 
 @keyframes flow {
@@ -73,4 +86,13 @@ h1, h2, h3, h4, h5, h6 {
 ::selection {
   background: rgba(147, 51, 234, 0.4);
   color: white;
+}
+
+/* Asiim Custom Utilities */
+.glow-blue {
+  background: radial-gradient(circle at center, rgba(26, 60, 94, 0.15) 0%, transparent 70%);
+}
+
+.shadow-asiim {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
 }
