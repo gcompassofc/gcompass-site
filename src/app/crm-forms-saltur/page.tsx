@@ -24,6 +24,7 @@ import {
 
 type QuestionId = 
   | 'intro'
+  | 'name'
   | 'main_problem'
   | 'leads_volume'
   | 'leads_channels'
@@ -68,6 +69,13 @@ const questions: Question[] = [
     type: 'info',
     title: 'Análise de CRM Saltur',
     subtitle: 'Vamos entender as dificuldades da sua equipe com o CRM e desenhar uma solução personalizada.',
+    next: () => 'name'
+  },
+  {
+    id: 'name',
+    type: 'text',
+    title: 'Qual é o seu nome ou da sua empresa?',
+    placeholder: 'Ex: João Silva ou Empresa XYZ...',
     next: () => 'main_problem'
   },
   {
@@ -253,8 +261,8 @@ const questions: Question[] = [
   {
     id: 'outro',
     type: 'info',
-    title: 'Diagnóstico Concluído!',
-    subtitle: 'Obrigado por responder. Com essas informações, nossa equipe vai preparar o cenário ideal para o seu CRM.',
+    title: 'Diagnóstico Concluído! 🎉',
+    subtitle: 'Obrigado por responder. Suas respostas foram enviadas com sucesso e nossa equipe vai preparar o cenário ideal para o seu CRM.',
     next: () => null
   }
 ];
@@ -277,6 +285,32 @@ export default function App() {
       setMultiSelectValues(answers[currentQuestionId] || []);
     }
   }, [currentQuestionId, currentQuestion.type, answers]);
+
+  useEffect(() => {
+    if (currentQuestionId === 'outro') {
+      const subject = `Novo Formulário: Análise CRM Saltur - ${answers['name'] || 'Lead'}`;
+      
+      const formattedAnswers: Record<string, any> = {};
+      questions.forEach(q => {
+        if (q.type !== 'info' && answers[q.id]) {
+            const title = typeof q.title === 'function' ? q.title(answers) : q.title;
+            formattedAnswers[title] = answers[q.id];
+        }
+      });
+
+      fetch('https://formsubmit.co/ajax/growthcompassofc@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: subject,
+          ...formattedAnswers
+        })
+      }).catch(err => console.error('Erro ao enviar email:', err));
+    }
+  }, [currentQuestionId, answers]);
 
   const toggleMultiSelect = (val: string) => {
     setMultiSelectValues(prev => 
@@ -388,7 +422,7 @@ export default function App() {
 
               {/* Input Area */}
               <div className="w-full">
-                {currentQuestion.type === 'info' && (
+                {currentQuestion.type === 'info' && currentQuestion.id !== 'outro' && (
                   <button
                     onClick={() => handleNext()}
                     className="px-10 py-4 rounded-full font-semibold flex items-center gap-3 bg-gradient-to-br from-purple-500 to-indigo-600 text-white hover:opacity-90 transition-all shadow-[0_0_20px_rgba(139,92,246,0.3)]"
