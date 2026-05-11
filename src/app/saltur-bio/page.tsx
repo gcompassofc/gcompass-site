@@ -21,7 +21,7 @@ const CONFIG = {
   site: "https://www.saltur.com.br",
   facebook: "https://www.facebook.com/saltur.viagenseturismo/",
   instagram: "https://www.instagram.com/salturviagenseturismo/",
-  heroVideo: "https://cdn.pixabay.com/video/2023/10/20/185834-876778912_large.mp4",
+  heroVideo: "/saltur-bio/hero-saltur.mp4",
   brand: "#FEA601",
 };
 
@@ -77,8 +77,7 @@ const primaryLinks: PrimaryLink[] = [
     subtitle: "Tire suas dúvidas agora",
     url: CONFIG.whatsapp,
     icon: <MessageCircle className="w-8 h-8" />,
-    image:
-      "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?auto=format&fit=crop&w=600&q=80",
+    image: "/saltur-bio/whatsapp-saltur.jpg",
     tone: "dark",
   },
   {
@@ -87,8 +86,7 @@ const primaryLinks: PrimaryLink[] = [
     subtitle: "Pacotes completos",
     url: CONFIG.site,
     icon: <Globe className="w-8 h-8" />,
-    image:
-      "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=600&q=80",
+    image: "/saltur-bio/site-saltur.jpg",
     tone: "dark",
   },
   {
@@ -97,8 +95,7 @@ const primaryLinks: PrimaryLink[] = [
     subtitle: "Especialista Online",
     url: CONFIG.phoneTel,
     icon: <PhoneCall className="w-8 h-8" />,
-    image:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
+    image: "/saltur-bio/atendimento-saltur.jpg",
     tone: "orange",
   },
 ];
