@@ -261,7 +261,7 @@ export default function SalturBioPage() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ delay: index * 0.1 }}
               whileHover={{ scale: 1.02, y: -4 }}
-              className="group relative w-full max-w-[846px] aspect-[846/251] rounded-[40px] overflow-hidden bg-white shadow-xl border border-gray-50 flex items-center mx-auto"
+              className="group relative w-full max-w-[846px] aspect-[16/9] md:aspect-[846/251] rounded-[40px] overflow-hidden bg-white shadow-xl border border-gray-50 flex items-center mx-auto"
             >
               <div className="absolute inset-0">
                 <img
