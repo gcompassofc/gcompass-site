@@ -160,14 +160,13 @@ export default function SalturBioPage() {
       </AnimatePresence>
 
       {/* Hero */}
-      <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
+      <section className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-[#0a1a2f]">
         <video
           autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
-          poster="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1600&q=60"
+          preload="auto"
           className="absolute inset-0 w-full h-full object-cover z-0"
         >
           <source src={CONFIG.heroVideo} type="video/mp4" />
