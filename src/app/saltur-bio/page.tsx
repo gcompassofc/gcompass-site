@@ -288,7 +288,7 @@ export default function SalturBioPage() {
                   <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
                     {link.title}
                   </h3>
-                  <p className="text-[#FEA601]/90 text-xs md:text-sm font-semibold uppercase tracking-[0.2em]">
+                  <p className="text-white/90 text-xs md:text-sm font-semibold uppercase tracking-[0.2em]">
                     {link.subtitle}
                   </p>
                 </div>
