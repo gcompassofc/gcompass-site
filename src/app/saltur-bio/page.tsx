@@ -41,6 +41,7 @@ type PrimaryLink = {
   url: string;
   icon: ReactNode;
   image: string;
+  imageMobile: string;
   tone: "dark" | "orange";
 };
 
@@ -78,6 +79,7 @@ const primaryLinks: PrimaryLink[] = [
     url: CONFIG.whatsapp,
     icon: <MessageCircle className="w-8 h-8" />,
     image: "/saltur-bio/whatsapp-saltur.jpg",
+    imageMobile: "/saltur-bio/whatsapp-saltur-mob.jpg",
     tone: "dark",
   },
   {
@@ -87,6 +89,7 @@ const primaryLinks: PrimaryLink[] = [
     url: CONFIG.site,
     icon: <Globe className="w-8 h-8" />,
     image: "/saltur-bio/site-saltur.jpg",
+    imageMobile: "/saltur-bio/site-saltur-mob.jpg",
     tone: "dark",
   },
   {
@@ -96,6 +99,7 @@ const primaryLinks: PrimaryLink[] = [
     url: CONFIG.phoneTel,
     icon: <PhoneCall className="w-8 h-8" />,
     image: "/saltur-bio/atendimento-saltur.jpg",
+    imageMobile: "/saltur-bio/atendimento-saltur-mob.jpg",
     tone: "orange",
   },
 ];
@@ -264,14 +268,17 @@ export default function SalturBioPage() {
               className="group relative w-full max-w-[846px] aspect-[16/9] md:aspect-[846/251] rounded-[40px] overflow-hidden bg-white shadow-xl border border-gray-50 flex items-center mx-auto"
             >
               <div className="absolute inset-0">
-                <img
-                  src={link.image}
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                  referrerPolicy="no-referrer"
-                />
+                <picture className="block w-full h-full">
+                  <source media="(max-width: 767px)" srcSet={link.imageMobile} />
+                  <img
+                    src={link.image}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                    referrerPolicy="no-referrer"
+                  />
+                </picture>
                 <div
                   className={`absolute inset-0 bg-gradient-to-r ${
                     link.tone === "orange" ? "from-orange-600/90" : "from-black/80"
