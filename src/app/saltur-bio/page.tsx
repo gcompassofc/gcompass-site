@@ -262,7 +262,7 @@ export default function SalturBioPage() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ delay: index * 0.1 }}
               whileHover={{ scale: 1.02, y: -4 }}
-              className="group relative h-40 md:h-48 rounded-[40px] overflow-hidden bg-white shadow-xl border border-gray-50 flex items-center"
+              className="group relative w-full max-w-[846px] aspect-[846/251] rounded-[40px] overflow-hidden bg-white shadow-xl border border-gray-50 flex items-center mx-auto"
             >
               <div className="absolute inset-0">
                 <img
@@ -270,7 +270,7 @@ export default function SalturBioPage() {
                   alt=""
                   loading="lazy"
                   decoding="async"
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                   referrerPolicy="no-referrer"
                 />
                 <div
