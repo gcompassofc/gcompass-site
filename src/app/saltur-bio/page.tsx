@@ -280,9 +280,11 @@ export default function SalturBioPage() {
                   />
                 </picture>
                 <div
-                  className={`absolute inset-0 bg-gradient-to-r ${
-                    link.tone === "orange" ? "from-orange-600/90" : "from-black/80"
-                  } via-transparent to-transparent`}
+                  className={
+                    link.tone === "orange"
+                      ? "absolute inset-0 bg-orange-600/80 md:bg-gradient-to-r md:from-orange-600/90 md:via-orange-600/40 md:to-transparent"
+                      : "absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent"
+                  }
                 />
               </div>
 
