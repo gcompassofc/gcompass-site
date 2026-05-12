@@ -237,7 +237,7 @@ export default function GrataoPage() {
                 Essas são pessoas reais. Com 60, 67, 74, 81 anos. Todas trabalharam a vida inteira e responderam à mesma pergunta: <strong>dá pra viver do que você construiu?</strong>
               </p>
             </div>
-            <p className="text-[clamp(22px,2vw,28px)] text-cyan-400 font-semibold text-left border-l-2 border-cyan-500/30 pl-6 py-2">
+            <p className="text-[clamp(22px,2vw,28px)] text-cyan-400 font-semibold text-center md:text-left border-l-0 md:border-l-2 border-cyan-500/30 md:pl-6 py-2 w-full md:w-auto">
               A resposta foi não.
             </p>
           </FadeIn>
@@ -274,7 +274,7 @@ export default function GrataoPage() {
         <div className="container-premium">
           <div className="hero-grid">
             <FadeIn>
-              <div className="image-wrapper shadow-[0_24px_80px_rgba(0,0,0,0.4)] border border-white/[0.04]">
+              <div className="image-wrapper image-wrapper--portrait shadow-[0_24px_80px_rgba(0,0,0,0.4)] border border-white/[0.04]">
                 <img src="/gratao/gratao-sobre.png" alt="Luís Gratão" />
               </div>
             </FadeIn>

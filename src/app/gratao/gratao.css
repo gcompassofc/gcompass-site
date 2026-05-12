@@ -170,6 +170,16 @@
   aspect-ratio: 4 / 3;
 }
 
+.gratao-page .image-wrapper--portrait {
+  aspect-ratio: 3 / 4;
+}
+
+@media (min-width: 768px) {
+  .gratao-page .image-wrapper--portrait {
+    aspect-ratio: 4 / 3;
+  }
+}
+
 .gratao-page .image-wrapper img {
   width: 100%;
   height: 100%;
