@@ -274,7 +274,7 @@ export default function GrataoPage() {
           <div className="hero-grid">
             <FadeIn>
               <div className="image-wrapper shadow-[0_24px_80px_rgba(0,0,0,0.4)] border border-white/[0.04]">
-                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1200&auto=format&fit=crop" alt="Luís Gratão" />
+                <img src="/gratao/gratao-sobre.png" alt="Luís Gratão" />
               </div>
             </FadeIn>
 
