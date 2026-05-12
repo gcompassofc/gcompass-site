@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* Base Headings */
-.gratao h1 {
+.gratao-page h1 {
   font-size: clamp(36px, 10vw, 48px);
   line-height: 1;
   letter-spacing: -0.03em;
@@ -9,68 +8,64 @@
 }
 
 @media (min-width: 768px) {
-  .gratao h1 {
+  .gratao-page h1 {
     font-size: clamp(42px, 5vw, 72px);
     line-height: 0.95;
     letter-spacing: -0.04em;
   }
 }
 
-.gratao h2 {
+.gratao-page h2 {
   font-size: clamp(32px, 4vw, 52px);
   line-height: 1.05;
   letter-spacing: -0.035em;
   font-weight: 700;
 }
 
-.gratao h3 {
+.gratao-page h3 {
   font-size: clamp(22px, 2vw, 28px);
   line-height: 1.15;
   letter-spacing: -0.02em;
   font-weight: 600;
 }
 
-/* Text */
-.gratao .text-body {
+.gratao-page .text-body {
   font-size: 17px;
   line-height: 1.65;
   color: rgba(255, 255, 255, 0.72);
   max-width: 680px;
 }
 
-.gratao .text-hero-sub {
+.gratao-page .text-hero-sub {
   font-size: clamp(18px, 2vw, 22px);
   line-height: 1.55;
   max-width: 720px;
   color: rgba(255, 255, 255, 0.72);
 }
 
-/* Layout */
-.gratao .container-premium {
+.gratao-page .container-premium {
   width: min(100% - 32px, 1180px);
   margin-inline: auto;
 }
 
-.gratao .content-container {
+.gratao-page .content-container {
   width: min(100% - 32px, 860px);
   margin-inline: auto;
 }
 
-/* Sections */
-.gratao section {
+.gratao-page section {
   padding-top: 64px;
   padding-bottom: 64px;
 }
 
 @media (min-width: 768px) {
-  .gratao section {
+  .gratao-page section {
     padding-top: clamp(80px, 10vw, 140px);
     padding-bottom: clamp(80px, 10vw, 140px);
   }
 }
 
-/* Buttons */
-.gratao .btn-primary {
+.gratao-page .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -88,13 +83,13 @@
   border: none;
 }
 
-.gratao .btn-primary:hover {
+.gratao-page .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 18px 42px rgba(6, 182, 212, 0.24);
   background: #22d3ee;
 }
 
-.gratao .btn-secondary {
+.gratao-page .btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -112,14 +107,13 @@
   cursor: pointer;
 }
 
-.gratao .btn-secondary:hover {
+.gratao-page .btn-secondary:hover {
   background: rgba(255,255,255,0.08);
   border-color: rgba(255,255,255,0.25);
   transform: translateY(-2px);
 }
 
-/* Cards */
-.gratao .card {
+.gratao-page .card {
   border-radius: 28px;
   padding: clamp(24px, 3vw, 36px);
   background: rgba(255, 255, 255, 0.03);
@@ -130,36 +124,34 @@
   flex-direction: column;
 }
 
-/* Interactive */
-.gratao .interactive {
+.gratao-page .interactive {
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-.gratao .card.interactive:hover {
+.gratao-page .card.interactive:hover {
   transform: translateY(-4px);
   border-color: rgba(255, 255, 255, 0.18);
 }
 
-/* Grid */
-.gratao .grid-3 {
+.gratao-page .grid-3 {
   display: grid;
   grid-template-columns: 1fr;
   gap: 28px;
 }
 
 @media (min-width: 768px) {
-  .gratao .grid-3 {
+  .gratao-page .grid-3 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1024px) {
-  .gratao .grid-3 {
+  .gratao-page .grid-3 {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-.gratao .hero-grid {
+.gratao-page .hero-grid {
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
@@ -167,42 +159,27 @@
 }
 
 @media (min-width: 1024px) {
-  .gratao .hero-grid {
+  .gratao-page .hero-grid {
     grid-template-columns: 1.05fr 0.95fr;
   }
 }
 
-/* Images */
-.gratao .image-wrapper {
+.gratao-page .image-wrapper {
   overflow: hidden;
   border-radius: 24px;
   aspect-ratio: 4 / 3;
 }
 
-.gratao .image-wrapper img {
+.gratao-page .image-wrapper img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.gratao .hero-image {
+.gratao-page .hero-image {
   border-radius: 32px;
   overflow: hidden;
   box-shadow: 0 30px 90px rgba(0,0,0,0.25);
-}
-
-/* Animations */
-@keyframes gratao-fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.gratao .animate-fade-up {
-  opacity: 0;
-  transform: translateY(16px);
-  animation: gratao-fadeUp 0.7s ease forwards;
 }
 
 @keyframes gratao-flicker {
@@ -216,22 +193,21 @@
   }
 }
 
-.gratao .animate-flicker {
+.gratao-page .animate-flicker {
   animation: gratao-flicker 3s ease-in-out infinite;
 }
 
-/* Mobile */
 @media (max-width: 768px) {
-  .gratao .container-premium {
+  .gratao-page .container-premium {
     width: min(100% - 28px, 1180px);
   }
 
-  .gratao .btn-primary,
-  .gratao .btn-secondary {
+  .gratao-page .btn-primary,
+  .gratao-page .btn-secondary {
     width: 100%;
   }
 
-  .gratao .card {
+  .gratao-page .card {
     border-radius: 22px;
     padding: 24px;
   }

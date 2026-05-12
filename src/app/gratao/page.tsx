@@ -1,6 +1,7 @@
 "use client";
 
-import { Play, ArrowDown, Calendar, Check, X, Quote, MessagesSquare, Laptop, UserCheck, CreditCard, Clock, Receipt } from 'lucide-react';
+import "./gratao.css";
+import { Play, ArrowDown, Check, X, Quote, MessagesSquare, Laptop, UserCheck, CreditCard, Clock, Receipt } from 'lucide-react';
 import { motion } from 'motion/react';
 import React from 'react';
 
@@ -18,7 +19,7 @@ const FadeIn = ({ children, delay = 0, className = "" }: { children: React.React
 
 export default function GrataoPage() {
   return (
-    <div className="min-h-screen font-sans selection:bg-cyan-500 selection:text-[#050B14] overflow-hidden"
+    <div className="gratao-page min-h-screen selection:bg-cyan-500 selection:text-[#050B14] overflow-hidden"
          style={{
            background: `
             radial-gradient(circle at top left, rgba(6, 182, 212, 0.08), transparent 32%),
@@ -26,7 +27,7 @@ export default function GrataoPage() {
             #080A0F`,
            minHeight: '100vh',
            color: '#fafafa',
-           fontFamily: 'var(--font-inter), ui-sans-serif, system-ui, sans-serif',
+           fontFamily: "'Inter', ui-sans-serif, system-ui, sans-serif",
          }}>
 
       {/* SEÇÃO 1 — HERO / HEADLINE */}
