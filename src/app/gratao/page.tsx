@@ -1,7 +1,7 @@
 "use client";
 
 import "./gratao.css";
-import { Play, ArrowDown, Check, X, Quote, MessagesSquare, Laptop, UserCheck, CreditCard, Clock, Receipt } from 'lucide-react';
+import { Play, Check, X, Quote, MessagesSquare, Laptop, UserCheck, CreditCard, Clock, Receipt } from 'lucide-react';
 import { motion } from 'motion/react';
 import React from 'react';
 
@@ -15,6 +15,18 @@ const FadeIn = ({ children, delay = 0, className = "" }: { children: React.React
   >
     {children}
   </motion.div>
+);
+
+const SlideButton = ({ label, sub, onClick, fullWidth = false }: { label: string, sub?: string, onClick?: () => void, fullWidth?: boolean }) => (
+  <button
+    onClick={onClick}
+    className={`slide-btn${fullWidth ? ' slide-btn--full' : ''}`}
+  >
+    <span className="slide-btn__label">{label}</span>
+    {sub && <span className="slide-btn__sub">{sub}</span>}
+    <span className="slide-btn__arrow">→</span>
+    <span className="slide-btn__bg" />
+  </button>
 );
 
 export default function GrataoPage() {
@@ -76,13 +88,10 @@ export default function GrataoPage() {
 
             <FadeIn delay={0.3} className="w-full mt-4">
               <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
-                <button
-                  className="btn-primary text-[17px] px-10 py-4 shadow-[0_0_40px_rgba(34,211,238,0.2)] hover:shadow-[0_0_60px_rgba(34,211,238,0.4)]"
+                <SlideButton
+                  label="Quero entender o plano"
                   onClick={() => document.getElementById('video-section')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  Quero entender o plano
-                  <ArrowDown className="w-5 h-5 ml-2" />
-                </button>
+                />
               </div>
             </FadeIn>
           </div>
@@ -297,7 +306,7 @@ export default function GrataoPage() {
                 </div>
 
                 <div className="mt-8">
-                  <button className="btn-secondary">Conhecer a Virada 40+</button>
+                  <SlideButton label="Conhecer a Virada 40+" />
                 </div>
               </FadeIn>
             </div>
@@ -548,7 +557,7 @@ export default function GrataoPage() {
                   <div className="mb-6">
                     <p className="text-3xl font-semibold text-white">Gratuito</p>
                   </div>
-                  <button className="btn-secondary w-full">Entrar gratuitamente</button>
+                  <SlideButton label="Entrar gratuitamente" fullWidth />
                 </div>
               </div>
             </FadeIn>
@@ -583,7 +592,7 @@ export default function GrataoPage() {
                       <span className="text-lg text-white/40 mb-1">/mês</span>
                     </div>
                   </div>
-                  <button className="btn-primary w-full">Assinar Plano Membro</button>
+                  <SlideButton label="Assinar Plano Membro" sub="de R$ 997 por R$ 483" fullWidth />
                 </div>
               </div>
             </FadeIn>
@@ -616,12 +625,8 @@ export default function GrataoPage() {
                 O seu amanhã depende de uma única decisão que você pode tomar hoje. Vamos virar essa chave juntos.
               </p>
               <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
-                <button className="btn-primary text-lg px-12 py-5 shadow-[0_0_30px_rgba(34,211,238,0.2)] hover:shadow-[0_0_50px_rgba(34,211,238,0.4)] whitespace-nowrap">
-                  Quero garantir minha segurança
-                </button>
-                <button className="btn-secondary px-8 py-5 whitespace-nowrap">
-                  Entrar no acesso gratuito
-                </button>
+                <SlideButton label="Quero garantir minha segurança" sub="de R$ 997 por R$ 483" />
+                <SlideButton label="Entrar no acesso gratuito" />
               </div>
             </div>
           </FadeIn>

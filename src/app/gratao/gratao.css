@@ -216,3 +216,92 @@
     padding: 24px;
   }
 }
+
+/* ============================
+   Slide Button
+============================ */
+.gratao-page .slide-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  overflow: hidden;
+  height: 52px;
+  padding: 0 32px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: #7c3aed;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: box-shadow 0.3s ease;
+  box-shadow: 0 0 0 2px #7c3aed;
+}
+
+.gratao-page .slide-btn--full {
+  width: 100%;
+}
+
+.gratao-page .slide-btn__bg {
+  position: absolute;
+  inset: 0;
+  background: #6d28d9;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 0;
+  border-radius: 999px;
+}
+
+.gratao-page .slide-btn:hover .slide-btn__bg {
+  transform: translateY(0);
+}
+
+.gratao-page .slide-btn__label {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+}
+
+.gratao-page .slide-btn__sub {
+  position: absolute;
+  z-index: 1;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  transform: translateY(120%);
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  left: 32px;
+}
+
+.gratao-page .slide-btn:hover .slide-btn__label {
+  transform: translateY(-120%);
+  opacity: 0;
+}
+
+.gratao-page .slide-btn:hover .slide-btn__sub {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.gratao-page .slide-btn__arrow {
+  position: relative;
+  z-index: 1;
+  font-size: 18px;
+  transition: transform 0.3s ease;
+  margin-left: auto;
+}
+
+.gratao-page .slide-btn:hover .slide-btn__arrow {
+  transform: translateX(4px);
+}
+
+.gratao-page .slide-btn:hover {
+  box-shadow: 0 0 0 2px #7c3aed, 0 8px 30px rgba(124, 58, 237, 0.4);
+}
