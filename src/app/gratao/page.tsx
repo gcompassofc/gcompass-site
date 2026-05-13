@@ -27,6 +27,194 @@ const SlideButton = ({ label, onClick, fullWidth = false }: { label: string, onC
   </button>
 );
 
+const questions = [
+  {
+    q: "Você sabe exatamente quanto entra e sai do seu dinheiro todo mês?",
+    reflection: "Quem não sabe o número real não consegue mudar — porque nem sabe de onde partir.",
+    options: [
+      { text: "Sei com precisão", score: 0 },
+      { text: "Tenho uma ideia, mas não o número exato", score: 1 },
+      { text: "Honestamente, não faço ideia", score: 2 },
+    ],
+  },
+  {
+    q: "Se você parasse de trabalhar amanhã, por quanto tempo sua família sobreviveria sem desespero?",
+    reflection: "A resposta a essa pergunta define se você tem segurança financeira — ou apenas a ilusão dela.",
+    options: [
+      { text: "Mais de 6 meses tranquilamente", score: 0 },
+      { text: "Uns 1 a 3 meses, talvez", score: 1 },
+      { text: "Menos de um mês", score: 2 },
+    ],
+  },
+  {
+    q: "Quando você decide organizar suas finanças, o que costuma acontecer?",
+    reflection: "A intenção não muda nada. O que muda é ter um método e alguém te acompanhando.",
+    options: [
+      { text: "Começo e consigo manter por um tempo", score: 0 },
+      { text: "Começo bem, mas acabo abandonando", score: 1 },
+      { text: "Fico adiando — nunca começo de verdade", score: 2 },
+    ],
+  },
+  {
+    q: "Você tem alguma dívida que te tira o sono ou te envergonha admitir?",
+    reflection: "A dívida que você não enfrenta cresce sozinha. Ela não some — ela espera.",
+    options: [
+      { text: "Não, estou razoavelmente tranquilo", score: 0 },
+      { text: "Tenho, mas acho que está sob controle", score: 1 },
+      { text: "Sim, e não sei por onde começar a resolver", score: 2 },
+    ],
+  },
+  {
+    q: "O que você mais precisa agora para virar esse jogo?",
+    reflection: "Saber o que você precisa já é meio caminho. O outro meio é agir.",
+    options: [
+      { text: "Um método claro e ferramentas práticas", score: 0 },
+      { text: "Alguém me acompanhando de perto", score: 1 },
+      { text: "As duas coisas — método e acompanhamento", score: 2 },
+    ],
+  },
+];
+
+function Diagnostico() {
+  const [step, setStep] = React.useState<'intro' | number | 'result'>('intro');
+  const [answers, setAnswers] = React.useState<number[]>([]);
+  const [selected, setSelected] = React.useState<number | null>(null);
+  const [showReflection, setShowReflection] = React.useState(false);
+
+  const currentQ = typeof step === 'number' ? questions[step] : null;
+  const total = answers.reduce((a, b) => a + b, 0);
+  const isPaid = total >= 6;
+
+  function handleOption(score: number, idx: number) {
+    setSelected(idx);
+    setShowReflection(true);
+  }
+
+  function handleNext() {
+    if (selected === null || !currentQ) return;
+    const score = currentQ.options[selected].score;
+    const newAnswers = [...answers, score];
+    setAnswers(newAnswers);
+    setSelected(null);
+    setShowReflection(false);
+    const nextStep = typeof step === 'number' ? step + 1 : 0;
+    if (nextStep >= questions.length) {
+      setStep('result');
+    } else {
+      setStep(nextStep);
+    }
+  }
+
+  function scrollToPlans() {
+    document.getElementById('planos')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  if (step === 'intro') {
+    return (
+      <div className="diag-card text-center">
+        <div className="diag-badge">Mini Diagnóstico</div>
+        <h3 className="diag-title">A Virada 40+ é para você?</h3>
+        <p className="diag-sub">5 perguntas. 3 minutos. Uma resposta honesta sobre onde você está e o que você precisa agora.</p>
+        <SlideButton label="Iniciar diagnóstico" onClick={() => setStep(0)} />
+      </div>
+    );
+  }
+
+  if (step === 'result') {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="diag-card text-center"
+      >
+        <div className={`diag-badge ${isPaid ? 'diag-badge--paid' : 'diag-badge--free'}`}>
+          {isPaid ? 'Plano Membro' : 'Acesso Gratuito'}
+        </div>
+        <h3 className="diag-title">
+          {isPaid
+            ? 'Sim. E você precisa de mais do que conteúdo.'
+            : 'Sim. Você tem base — agora precisa de método.'}
+        </h3>
+        <p className="diag-result-text">
+          {isPaid
+            ? 'Suas respostas mostram que você está num ponto de virada real. A desorganização, a dívida e o ciclo de tentativas sem resultado pedem mais do que dicas — pedem acompanhamento de verdade. O Plano Membro foi feito para exatamente esse momento.'
+            : 'Você já tem alguma consciência financeira, mas sente que falta o passo seguinte. O acesso gratuito da Virada 40+ te dá o método e os encontros que você precisa para consolidar o controle — sem compromisso inicial.'}
+        </p>
+        <div className="diag-result-box">
+          <p className="diag-result-label">Recomendação para você</p>
+          <p className="diag-result-plan">{isPaid ? '→ Plano Membro' : '→ Acesso Gratuito'}</p>
+        </div>
+        <SlideButton label="Ver meu plano recomendado" onClick={scrollToPlans} />
+      </motion.div>
+    );
+  }
+
+  if (typeof step === 'number' && currentQ) {
+    const progress = ((step) / questions.length) * 100;
+    return (
+      <motion.div
+        key={step}
+        initial={{ opacity: 0, x: 30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4 }}
+        className="diag-card"
+      >
+        <div className="diag-progress-bar">
+          <motion.div
+            className="diag-progress-fill"
+            initial={{ width: `${((step) / questions.length) * 100}%` }}
+            animate={{ width: `${((step + 1) / questions.length) * 100}%` }}
+            transition={{ duration: 0.5 }}
+          />
+        </div>
+        <p className="diag-step-count">Pergunta {step + 1} de {questions.length}</p>
+        <h3 className="diag-question">{currentQ.q}</h3>
+
+        <div className="diag-options">
+          {currentQ.options.map((opt, i) => (
+            <button
+              key={i}
+              onClick={() => handleOption(opt.score, i)}
+              className={`diag-option${selected === i ? ' diag-option--selected' : ''}`}
+            >
+              <span className="diag-option-letter">{String.fromCharCode(65 + i)}</span>
+              {opt.text}
+            </button>
+          ))}
+        </div>
+
+        {showReflection && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="diag-reflection"
+          >
+            <p>"{currentQ.reflection}"</p>
+          </motion.div>
+        )}
+
+        {showReflection && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="diag-next-wrap"
+          >
+            <SlideButton
+              label={step === questions.length - 1 ? 'Ver meu resultado' : 'Próxima pergunta'}
+              onClick={handleNext}
+            />
+          </motion.div>
+        )}
+      </motion.div>
+    );
+  }
+
+  return null;
+}
+
 export default function GrataoPage() {
   return (
     <div className="gratao-page min-h-screen selection:bg-cyan-500 selection:text-[#050B14] overflow-hidden"
@@ -272,6 +460,15 @@ export default function GrataoPage() {
           <FadeIn delay={0.3} className="mt-20 text-center">
             <p className="text-body mx-auto mb-4">Nenhum deles planejou. Todos acharam que dava tempo.</p>
             <p className="text-[clamp(24px,2vw,30px)] text-white font-semibold">Você ainda pode.</p>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* SEÇÃO 3.5 — DIAGNÓSTICO */}
+      <section className="bg-[#080A0F] border-t border-white/[0.02]">
+        <div className="content-container">
+          <FadeIn>
+            <Diagnostico />
           </FadeIn>
         </div>
       </section>
@@ -528,7 +725,7 @@ export default function GrataoPage() {
       </section>
 
       {/* SEÇÃO 7 — OFERTA + PLANOS */}
-      <section className="bg-[#0A0D14] border-t border-white/[0.02]">
+      <section id="planos" className="bg-[#0A0D14] border-t border-white/[0.02]">
         <div className="container-premium">
           <FadeIn className="text-center mb-20 max-w-[700px] mx-auto">
             <h2 className="mb-6">Escolha o caminho certo para o seu momento</h2>
