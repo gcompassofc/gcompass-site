@@ -17,15 +17,13 @@ const FadeIn = ({ children, delay = 0, className = "" }: { children: React.React
   </motion.div>
 );
 
-const SlideButton = ({ label, sub, onClick, fullWidth = false }: { label: string, sub?: string, onClick?: () => void, fullWidth?: boolean }) => (
+const SlideButton = ({ label, onClick, fullWidth = false }: { label: string, onClick?: () => void, fullWidth?: boolean }) => (
   <button
     onClick={onClick}
     className={`slide-btn${fullWidth ? ' slide-btn--full' : ''}`}
   >
     <span className="slide-btn__label">{label}</span>
-    {sub && <span className="slide-btn__sub">{sub}</span>}
     <span className="slide-btn__arrow">→</span>
-    <span className="slide-btn__bg" />
   </button>
 );
 
@@ -592,7 +590,7 @@ export default function GrataoPage() {
                       <span className="text-lg text-white/40 mb-1">/mês</span>
                     </div>
                   </div>
-                  <SlideButton label="Assinar Plano Membro" sub="de R$ 997 por R$ 483" fullWidth />
+                  <SlideButton label="Assinar Plano Membro" fullWidth />
                 </div>
               </div>
             </FadeIn>
@@ -625,7 +623,7 @@ export default function GrataoPage() {
                 O seu amanhã depende de uma única decisão que você pode tomar hoje. Vamos virar essa chave juntos.
               </p>
               <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
-                <SlideButton label="Quero garantir minha segurança" sub="de R$ 997 por R$ 483" />
+                <SlideButton label="Quero garantir minha segurança" />
                 <SlideButton label="Entrar no acesso gratuito" />
               </div>
             </div>
