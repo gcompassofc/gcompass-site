@@ -1,18 +1,21 @@
 'use client';
 
 import Image from 'next/image';
-import { ChevronRight, Star, MapPin } from 'lucide-react';
+import { ChevronRight, Star, MapPin, Phone } from 'lucide-react';
 import './elite.css';
 
 const LINKS = {
-  ifood: "https://www.ifood.com.br/delivery/ilhabela-sp/elite-pizzaria",
-  whatsappPedido: "https://wa.me/5512988062122?text=Ol%C3%A1!%20Quero%20fazer%20um%20pedido%20na%20Elite%20Shopping",
-  whatsappReserva: "https://wa.me/5512988062122?text=Ol%C3%A1!%20Quero%20reservar%20uma%20mesa",
-  maps: "https://maps.app.goo.gl/",
-  cardapio: "https://cardapio.digital/elite",
+  delivery: "https://pedir.delivery/app/pizzariaeliteilhabela-loja2/menu",
+  maps: "https://www.google.com/maps/place/Pizzaria+Elite+no+Shopping+Mares/data=!4m2!3m1!1s0x0:0x54279c528844467c",
   instagram: "https://www.instagram.com/eliteshoppingmares/",
-  googleReview: "https://share.google/khB7baRFsLCClIpbe"
+  googleReview: "https://share.google/khB7baRFsLCClIpbe",
+  telefone: "tel:+5512988062122",
 };
+
+const PRATOS = Array.from(
+  { length: 10 },
+  (_, i) => `/elite/fotos/carrossel-${String(i + 1).padStart(2, "0")}.webp`
+);
 
 export default function ElitePage() {
   return (
@@ -23,12 +26,12 @@ export default function ElitePage() {
       {/* ========================================== */}
       <section className="relative w-full h-[45vh] md:h-[55vh] flex flex-col items-center justify-center text-center">
         <Image
-          src="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2000&auto=format&fit=crop"
+          src="/elite/fotos/banner.webp"
           priority
-          alt="Pizza Napolitana da Elite"
+          alt="Elite Pizzaria — Shopping Ilhabela"
           fill
+          sizes="100vw"
           className="object-cover"
-          referrerPolicy="no-referrer"
         />
         <div className="absolute inset-0 bg-black/60 z-10" />
 
@@ -48,7 +51,7 @@ export default function ElitePage() {
              <MapPin className="w-5 h-5 text-[#ea1d2c] shrink-0 group-hover:scale-110 transition-transform" />
              <input type="text" readOnly value="Av. São João, 492 - Shopping Ilhabela" className="w-full bg-transparent focus:outline-none text-white font-semibold cursor-default py-4 truncate text-sm md:text-lg" />
           </div>
-          <a href={LINKS.maps} className="bg-[#ea1d2c] hover:bg-[#cc1825] transition text-white font-bold px-6 md:px-10 rounded-r-xl flex items-center justify-center text-sm md:text-base whitespace-nowrap shadow-lg">
+          <a href={LINKS.maps} target="_blank" rel="noopener noreferrer" className="bg-[#ea1d2c] hover:bg-[#cc1825] transition text-white font-bold px-6 md:px-10 rounded-r-xl flex items-center justify-center text-sm md:text-base whitespace-nowrap shadow-lg">
              Ver local físico
           </a>
         </div>
@@ -59,14 +62,14 @@ export default function ElitePage() {
       {/* ========================================== */}
       <section className="px-4 md:px-12 mt-12 mb-8 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
 
-        {/* CARD 1: DELIVERY DIRETO */}
-        <a href={LINKS.whatsappPedido} className="relative rounded-[2rem] h-[260px] md:h-[320px] overflow-hidden group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300">
+        {/* CARD 1: DELIVERY */}
+        <a href={LINKS.delivery} target="_blank" rel="noopener noreferrer" className="relative rounded-[2rem] h-[260px] md:h-[320px] overflow-hidden group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300">
           <Image
-            src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=800&auto=format&fit=crop"
-            alt="Delivery Pizza"
+            src="/elite/fotos/delivery.webp"
+            alt="Delivery Elite Pizzaria"
             fill
+            sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-            referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10 group-hover:from-black/95 transition-colors duration-300" />
           <div className="absolute inset-0 bg-[#ea1d2c]/10 z-10 mix-blend-overlay" />
@@ -82,13 +85,13 @@ export default function ElitePage() {
         </a>
 
         {/* CARD 2: COMER NO LOCAL */}
-        <a href={LINKS.maps} className="relative rounded-[2rem] h-[260px] md:h-[320px] overflow-hidden group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300">
+        <a href={LINKS.maps} target="_blank" rel="noopener noreferrer" className="relative rounded-[2rem] h-[260px] md:h-[320px] overflow-hidden group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300">
           <Image
-            src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=800&auto=format&fit=crop"
-            alt="Restaurante"
+            src="/elite/fotos/local.webp"
+            alt="Espaço físico da Elite Pizzaria"
             fill
+            sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-            referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10 group-hover:from-black/95 transition-colors duration-300" />
           <div className="absolute inset-0 bg-[#16a34a]/10 z-10 mix-blend-overlay" />
@@ -109,32 +112,42 @@ export default function ElitePage() {
       {/* ========================================== */}
       {/* CATEGORIAS INFERIORES (MINI CARDS)         */}
       {/* ========================================== */}
-      <section className="px-4 md:px-12 mt-12 max-w-2xl mx-auto grid grid-cols-2 gap-8">
+      <section className="px-4 md:px-12 mt-12 max-w-2xl mx-auto grid grid-cols-3 gap-4 md:gap-8">
 
          {/* Item 1: Instagram */}
-         <a href={LINKS.instagram} className="flex flex-col items-center group cursor-pointer w-full mx-auto">
-             <div className="relative w-20 h-20 md:w-24 md:h-24 mb-4">
+         <a href={LINKS.instagram} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center text-center group cursor-pointer w-full mx-auto">
+             <div className="relative w-16 h-16 md:w-24 md:h-24 mb-3 md:mb-4">
                  <Image src="/elite/instagram-avatar.jpg" alt="Instagram Elite Pizzaria" fill sizes="96px" className="object-cover rounded-full shadow-lg border-[3px] border-neutral-800 group-hover:border-[#ea1d2c] group-hover:-translate-y-1 transition-all duration-300" />
              </div>
-             <span className="font-semibold text-neutral-300 text-sm md:text-base flex items-center gap-1 group-hover:text-white transition-colors whitespace-nowrap">
+             <span className="font-semibold text-neutral-300 text-xs md:text-base flex items-center gap-1 group-hover:text-white transition-colors">
                  Instagram <span className="text-[#ea1d2c] font-black leading-none pb-0.5">›</span>
              </span>
          </a>
 
          {/* Item 2: Avaliações */}
-         <a href={LINKS.googleReview} className="flex flex-col items-center group cursor-pointer w-full mx-auto">
-             <div className="relative w-20 h-20 md:w-24 md:h-24 mb-4 rounded-full shadow-lg border-[3px] border-neutral-800 group-hover:border-yellow-400 group-hover:-translate-y-1 bg-neutral-900 flex items-center justify-center transition-all duration-300">
-                 <Star className="w-8 h-8 md:w-10 md:h-10 text-yellow-400 fill-yellow-400 drop-shadow-sm" />
+         <a href={LINKS.googleReview} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center text-center group cursor-pointer w-full mx-auto">
+             <div className="relative w-16 h-16 md:w-24 md:h-24 mb-3 md:mb-4 rounded-full shadow-lg border-[3px] border-neutral-800 group-hover:border-yellow-400 group-hover:-translate-y-1 bg-neutral-900 flex items-center justify-center transition-all duration-300">
+                 <Star className="w-7 h-7 md:w-10 md:h-10 text-yellow-400 fill-yellow-400 drop-shadow-sm" />
              </div>
-             <span className="font-semibold text-neutral-300 text-sm md:text-base flex items-center gap-1 group-hover:text-white transition-colors whitespace-nowrap">
-                 Avaliações Google <span className="text-yellow-400 font-black leading-none pb-0.5">›</span>
+             <span className="font-semibold text-neutral-300 text-xs md:text-base flex items-center gap-1 group-hover:text-white transition-colors">
+                 Avaliações <span className="text-yellow-400 font-black leading-none pb-0.5">›</span>
+             </span>
+         </a>
+
+         {/* Item 3: Precisa de ajuda? (telefone) */}
+         <a href={LINKS.telefone} className="flex flex-col items-center text-center group cursor-pointer w-full mx-auto">
+             <div className="relative w-16 h-16 md:w-24 md:h-24 mb-3 md:mb-4 rounded-full shadow-lg border-[3px] border-neutral-800 group-hover:border-[#16a34a] group-hover:-translate-y-1 bg-neutral-900 flex items-center justify-center transition-all duration-300">
+                 <Phone className="w-7 h-7 md:w-10 md:h-10 text-[#16a34a] fill-[#16a34a] drop-shadow-sm" />
+             </div>
+             <span className="font-semibold text-neutral-300 text-xs md:text-base flex items-center gap-1 group-hover:text-white transition-colors">
+                 Precisa de ajuda? <span className="text-[#16a34a] font-black leading-none pb-0.5">›</span>
              </span>
          </a>
 
       </section>
 
       {/* ========================================== */}
-      {/* CARROSSEL INFINITO DE PRATOS               */}
+      {/* CARROSSEL INFINITO DE PRATOS (VERTICAL)    */}
       {/* ========================================== */}
       <section className="mt-20 md:mt-32 pb-4 relative">
          {/* Decorative Fade Edges */}
@@ -144,40 +157,20 @@ export default function ElitePage() {
          <div className="flex w-max elite-marquee hover:[animation-play-state:paused]">
             {/* Bloco 1 */}
             <div className="flex px-3 gap-6">
-               <div className="relative w-[280px] h-[200px] md:w-[400px] md:h-[280px] rounded-[2rem] overflow-hidden shadow-sm">
-                  <Image src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=800&auto=format&fit=crop" alt="Prato Elite" fill sizes="(max-width: 768px) 280px, 400px" className="object-cover hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
-               </div>
-               <div className="relative w-[280px] h-[200px] md:w-[400px] md:h-[280px] rounded-[2rem] overflow-hidden shadow-sm">
-                  <Image src="https://images.unsplash.com/photo-1628840042765-356cda07504e?q=80&w=800&auto=format&fit=crop" alt="Prato Elite" fill sizes="(max-width: 768px) 280px, 400px" className="object-cover hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
-               </div>
-               <div className="relative w-[280px] h-[200px] md:w-[400px] md:h-[280px] rounded-[2rem] overflow-hidden shadow-sm">
-                  <Image src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?q=80&w=800&auto=format&fit=crop" alt="Prato Elite" fill sizes="(max-width: 768px) 280px, 400px" className="object-cover hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
-               </div>
-               <div className="relative w-[280px] h-[200px] md:w-[400px] md:h-[280px] rounded-[2rem] overflow-hidden shadow-sm">
-                  <Image src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?q=80&w=800&auto=format&fit=crop" alt="Prato Elite" fill sizes="(max-width: 768px) 280px, 400px" className="object-cover hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
-               </div>
-               <div className="relative w-[280px] h-[200px] md:w-[400px] md:h-[280px] rounded-[2rem] overflow-hidden shadow-sm">
-                  <Image src="https://images.unsplash.com/photo-1613564834361-9436948817d1?q=80&w=800&auto=format&fit=crop" alt="Prato Elite" fill sizes="(max-width: 768px) 280px, 400px" className="object-cover hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
-               </div>
+               {PRATOS.map((src, i) => (
+                  <div key={`a-${i}`} className="relative w-[240px] h-[420px] md:w-[300px] md:h-[520px] rounded-[2rem] overflow-hidden shadow-sm">
+                     <Image src={src} alt={`Prato Elite Pizzaria ${i + 1}`} fill sizes="(max-width: 768px) 240px, 300px" className="object-cover hover:scale-105 transition-transform duration-700" />
+                  </div>
+               ))}
             </div>
 
-            {/* Bloco 2 (Cópia exata para o loop infinito) */}
+            {/* Bloco 2 (cópia exata para o loop infinito) */}
             <div className="flex px-3 pr-9 gap-6" aria-hidden="true">
-               <div className="relative w-[280px] h-[200px] md:w-[400px] md:h-[280px] rounded-[2rem] overflow-hidden shadow-sm">
-                  <Image src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=800&auto=format&fit=crop" alt="" fill sizes="(max-width: 768px) 280px, 400px" className="object-cover hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
-               </div>
-               <div className="relative w-[280px] h-[200px] md:w-[400px] md:h-[280px] rounded-[2rem] overflow-hidden shadow-sm">
-                  <Image src="https://images.unsplash.com/photo-1628840042765-356cda07504e?q=80&w=800&auto=format&fit=crop" alt="" fill sizes="(max-width: 768px) 280px, 400px" className="object-cover hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
-               </div>
-               <div className="relative w-[280px] h-[200px] md:w-[400px] md:h-[280px] rounded-[2rem] overflow-hidden shadow-sm">
-                  <Image src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?q=80&w=800&auto=format&fit=crop" alt="" fill sizes="(max-width: 768px) 280px, 400px" className="object-cover hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
-               </div>
-               <div className="relative w-[280px] h-[200px] md:w-[400px] md:h-[280px] rounded-[2rem] overflow-hidden shadow-sm">
-                  <Image src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?q=80&w=800&auto=format&fit=crop" alt="" fill sizes="(max-width: 768px) 280px, 400px" className="object-cover hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
-               </div>
-               <div className="relative w-[280px] h-[200px] md:w-[400px] md:h-[280px] rounded-[2rem] overflow-hidden shadow-sm">
-                  <Image src="https://images.unsplash.com/photo-1613564834361-9436948817d1?q=80&w=800&auto=format&fit=crop" alt="" fill sizes="(max-width: 768px) 280px, 400px" className="object-cover hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
-               </div>
+               {PRATOS.map((src, i) => (
+                  <div key={`b-${i}`} className="relative w-[240px] h-[420px] md:w-[300px] md:h-[520px] rounded-[2rem] overflow-hidden shadow-sm">
+                     <Image src={src} alt="" fill sizes="(max-width: 768px) 240px, 300px" className="object-cover hover:scale-105 transition-transform duration-700" />
+                  </div>
+               ))}
             </div>
          </div>
       </section>
