@@ -8,7 +8,7 @@ const LINKS = {
   delivery: "https://pedir.delivery/app/pizzariaeliteilhabela-loja2/menu",
   maps: "https://www.google.com/maps/place/Pizzaria+Elite+no+Shopping+Mares/data=!4m2!3m1!1s0x0:0x54279c528844467c",
   instagram: "https://www.instagram.com/eliteshoppingmares/",
-  googleReview: "https://share.google/khB7baRFsLCClIpbe",
+  googleReview: "https://www.google.com/search?kgmid=/g/11nc5tdk3h&q=Pizzaria+Elite+no+Shopping+Mares",
   telefone: "tel:+5512988062122",
 };
 
