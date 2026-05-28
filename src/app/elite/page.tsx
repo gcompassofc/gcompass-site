@@ -150,6 +150,9 @@ export default function ElitePage() {
       {/* CARROSSEL INFINITO DE PRATOS (VERTICAL)    */}
       {/* ========================================== */}
       <section className="mt-20 md:mt-32 pb-4 relative">
+         <h2 className="text-center text-white text-xl md:text-3xl font-bold tracking-tight mb-8 md:mb-12 px-6">
+            Conheça um pouco da Elite
+         </h2>
          {/* Decorative Fade Edges */}
          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-48 bg-gradient-to-r from-neutral-950 to-transparent z-10 pointer-events-none" />
          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-48 bg-gradient-to-l from-neutral-950 to-transparent z-10 pointer-events-none" />
