@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { ChevronRight, Star, Phone, Gift, Sparkles } from 'lucide-react';
+import { ChevronRight, Star, Phone, Gift } from 'lucide-react';
 import './elite.css';
 
 const LINKS = {
@@ -71,9 +71,8 @@ export default function ElitePage() {
                   Sorteios toda semana
                 </span>
               </div>
-              <h2 className="text-white font-extrabold leading-tight text-lg md:text-2xl tracking-tight flex items-center gap-2">
+              <h2 className="text-white font-extrabold leading-tight text-lg md:text-2xl tracking-tight">
                 Clube Elite VIP
-                <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-[#f5d77a]" />
               </h2>
               <p className="text-neutral-300 text-xs md:text-sm mt-0.5 truncate">
                 Entre no grupo e concorra a prêmios toda semana.
