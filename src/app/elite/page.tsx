@@ -1,10 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { ChevronRight, Star, MapPin, Phone } from 'lucide-react';
+import { ChevronRight, Star, Phone, Gift, Sparkles } from 'lucide-react';
 import './elite.css';
 
 const LINKS = {
+  clubeVip: "https://chat.whatsapp.com/L6RAPfH4ctGIHXrEuxidlz",
   delivery: "https://pedir.delivery/app/pizzariaeliteilhabela-loja2/menu",
   maps: "https://www.google.com/maps/place/Pizzaria+Elite+no+Shopping+Mares/data=!4m2!3m1!1s0x0:0x54279c528844467c",
   instagram: "https://www.instagram.com/eliteshoppingmares/",
@@ -43,18 +44,52 @@ export default function ElitePage() {
       </section>
 
       {/* ========================================== */}
-      {/* BOTAO DE LOCALIZACAO                       */}
+      {/* CLUBE ELITE VIP — BOTAO DE DESTAQUE        */}
       {/* ========================================== */}
-      <section className="text-center px-4 -mt-7 md:-mt-8 relative z-30">
-        <div className="max-w-3xl mx-auto flex h-14 md:h-16 shadow-2xl group">
-          <div className="flex-1 border border-neutral-800 border-r-0 rounded-l-xl overflow-hidden flex items-center px-4 gap-3 bg-neutral-900/95 backdrop-blur-md">
-             <MapPin className="w-5 h-5 text-[#ea1d2c] shrink-0 group-hover:scale-110 transition-transform" />
-             <input type="text" readOnly value="Av. São João, 492 - Shopping Ilhabela" className="w-full bg-transparent focus:outline-none text-white font-semibold cursor-default py-4 truncate text-sm md:text-lg" />
+      <section className="px-4 -mt-8 md:-mt-10 relative z-30">
+        <a
+          href={LINKS.clubeVip}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Entrar no Clube Elite VIP e participar dos sorteios semanais"
+          className="elite-vip-card group relative block max-w-3xl mx-auto rounded-2xl overflow-hidden px-5 py-4 md:px-8 md:py-5 shadow-2xl transition-transform duration-300 hover:scale-[1.02] active:scale-[0.99]"
+        >
+          {/* Shimmer deslizante */}
+          <span className="elite-vip-shimmer pointer-events-none absolute top-0 left-0 h-full w-1/3 bg-gradient-to-r from-transparent via-[#f5d77a]/25 to-transparent" />
+
+          <div className="relative z-10 flex items-center gap-4 md:gap-5">
+            {/* Ícone de presente */}
+            <div className="shrink-0 flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-[#f5d77a] to-[#c19a2e] shadow-lg shadow-[#d4af37]/40">
+              <Gift className="elite-vip-gift w-6 h-6 md:w-7 md:h-7 text-[#1a1407]" strokeWidth={2.4} />
+            </div>
+
+            {/* Texto */}
+            <div className="flex-1 min-w-0 text-left">
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="elite-vip-dot inline-block w-2 h-2 rounded-full bg-[#f5d77a]" />
+                <span className="text-[#f5d77a] text-[0.65rem] md:text-xs font-bold tracking-[0.18em] uppercase">
+                  Sorteios toda semana
+                </span>
+              </div>
+              <h2 className="text-white font-extrabold leading-tight text-lg md:text-2xl tracking-tight flex items-center gap-2">
+                Clube Elite VIP
+                <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-[#f5d77a]" />
+              </h2>
+              <p className="text-neutral-300 text-xs md:text-sm mt-0.5 truncate">
+                Entre no grupo e concorra a prêmios toda semana.
+              </p>
+            </div>
+
+            {/* CTA */}
+            <span className="shrink-0 hidden sm:flex items-center gap-1.5 bg-gradient-to-br from-[#f5d77a] to-[#c19a2e] text-[#1a1407] font-bold text-sm md:text-base rounded-full px-5 py-2.5 md:px-6 md:py-3 shadow-md group-hover:shadow-lg transition-shadow whitespace-nowrap">
+              Participar <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </span>
+            {/* CTA compacto (mobile) */}
+            <span className="shrink-0 flex sm:hidden items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-[#f5d77a] to-[#c19a2e] text-[#1a1407] shadow-md">
+              <ChevronRight className="w-5 h-5" />
+            </span>
           </div>
-          <a href={LINKS.maps} target="_blank" rel="noopener noreferrer" className="bg-[#ea1d2c] hover:bg-[#cc1825] transition text-white font-bold px-6 md:px-10 rounded-r-xl flex items-center justify-center text-sm md:text-base whitespace-nowrap shadow-lg">
-             Ver local físico
-          </a>
-        </div>
+        </a>
       </section>
 
       {/* ========================================== */}
