@@ -252,6 +252,28 @@ const NICHES: Record<string, Niche> = {
   },
 };
 
+/* ---------- Bio rolável dentro do celular ----------
+   Mostra a imagem comprida e uma dica "arraste para ver mais" que
+   desaparece assim que o visitante começa a rolar. */
+function ScrollableBio({ src, alt }: { src: string; alt: string }) {
+  const [scrolled, setScrolled] = useState(false);
+  return (
+    <div
+      className="ms-scroll"
+      onScroll={(e) => {
+        if (!scrolled && e.currentTarget.scrollTop > 8) setScrolled(true);
+      }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className="ms-photo-tall" src={src} alt={alt} loading="lazy" decoding="async" />
+      <div className={"ms-scroll-hint" + (scrolled ? " is-hidden" : "")} aria-hidden="true">
+        <span className="ms-scroll-hint-dot" />
+        Arraste para ver mais
+      </div>
+    </div>
+  );
+}
+
 /* ---------- Phone bezel + screen ----------
    Se houver um print configurado em CONFIG.bioImages[niche], a tela
    mostra a SUA imagem real. Caso contrário, desenha o modelo do nicho. */
@@ -272,10 +294,7 @@ function Phone({
       <div className="phone-screen">
         {image?.src ? (
           image.mode === "scroll" ? (
-            <div className="ms-scroll">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className="ms-photo-tall" src={image.src} alt={`Bio — ${n.name}`} loading="lazy" decoding="async" />
-            </div>
+            <ScrollableBio src={image.src} alt={`Bio — ${n.name}`} />
           ) : (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img className="ms-photo" src={image.src} alt={`Bio — ${n.name}`} loading="lazy" decoding="async" />

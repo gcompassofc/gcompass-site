@@ -387,6 +387,58 @@
   height: auto; /* mantém a proporção; o excedente vira rolagem */
   display: block;
 }
+
+/* Dica "arraste para ver mais" — fixa na base da tela do celular,
+   some assim que o visitante começa a rolar. */
+.bio-root .ms-scroll-hint {
+  position: sticky;
+  bottom: 14px;
+  left: 0;
+  margin: -38px auto 0; /* puxa para cima da própria linha, flutua sobre a imagem */
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(10, 10, 12, 0.72);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+  pointer-events: none; /* não bloqueia a rolagem */
+  z-index: 6;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.bio-root .ms-scroll-hint.is-hidden {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.bio-root .ms-scroll-hint-dot {
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  animation: bio-hint-bounce 1.4s ease-in-out infinite;
+}
+@keyframes bio-hint-bounce {
+  0%,
+  100% {
+    transform: rotate(45deg) translate(-1px, -1px);
+  }
+  50% {
+    transform: rotate(45deg) translate(2px, 2px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bio-root .ms-scroll-hint-dot {
+    animation: none;
+  }
+}
 .bio-root .phone-notch {
   position: absolute;
   top: 14px;
