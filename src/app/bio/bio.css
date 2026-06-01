@@ -359,6 +359,34 @@
   position: relative;
   background: #fff;
 }
+/* Print real da bio preenchendo a tela do celular (modo cover) */
+.bio-root .ms-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+/* Modo scroll: imagem comprida que rola dentro do celular, como um site */
+.bio-root .ms-scroll {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; /* rolagem suave no iOS */
+  overscroll-behavior: contain; /* não arrasta a página inteira junto */
+  scrollbar-width: none; /* Firefox: esconde a barra */
+}
+.bio-root .ms-scroll::-webkit-scrollbar {
+  width: 0;
+  height: 0; /* Chrome/Safari: esconde a barra */
+}
+.bio-root .ms-photo-tall {
+  width: 100%;
+  height: auto; /* mantém a proporção; o excedente vira rolagem */
+  display: block;
+}
 .bio-root .phone-notch {
   position: absolute;
   top: 14px;

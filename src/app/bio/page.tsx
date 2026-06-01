@@ -17,6 +17,24 @@ const CONFIG = {
   whatsapp: "#",
   // Accent inicial: "azul" ou "lilas"
   accent: "azul" as "azul" | "lilas",
+
+  /* ----------------------------------------------------------------
+     📱 PRINTS REAIS DAS BIOS QUE VOCÊ FEZ
+     Coloque os prints (PNG/JPG) na pasta:  public/bio/  e aponte aqui.
+     Para cada nicho:
+       src  → caminho da imagem ("" = usa o modelo desenhado)
+       mode → "cover"  : preenche a tela (corta o que sobrar)
+              "scroll" : imagem comprida que ROLA dentro do celular,
+                         como um site de verdade ali dentro.
+     Ex.: restaurante: { src: "/bio/restaurante-bio.png", mode: "scroll" }
+     ---------------------------------------------------------------- */
+  bioImages: {
+    imobiliaria: { src: "", mode: "cover" },
+    clinica: { src: "", mode: "cover" },
+    restaurante: { src: "/bio/restaurante-bio.png", mode: "scroll" },
+    loja: { src: "", mode: "cover" },
+    prestador: { src: "", mode: "cover" },
+  } as Record<string, { src: string; mode: "cover" | "scroll" }>,
 } as const;
 
 const externalProps = { target: "_blank", rel: "noopener noreferrer" } as const;
@@ -234,7 +252,9 @@ const NICHES: Record<string, Niche> = {
   },
 };
 
-/* ---------- Phone bezel + screen ---------- */
+/* ---------- Phone bezel + screen ----------
+   Se houver um print configurado em CONFIG.bioImages[niche], a tela
+   mostra a SUA imagem real. Caso contrário, desenha o modelo do nicho. */
 function Phone({
   niche = "imobiliaria",
   className = "",
@@ -245,35 +265,50 @@ function Phone({
   style?: CSSProperties;
 }) {
   const n = NICHES[niche] || NICHES.imobiliaria;
+  const image = CONFIG.bioImages[niche];
   return (
     <div className={"phone " + className} style={style}>
       <div className="phone-notch" />
       <div className="phone-screen">
-        <div className="phone-status">
-          <span>9:41</span>
-          <span className="right">
-            <Icon.Sig size={12} />
-            <Icon.Wifi size={12} />
-            <Icon.Battery />
-          </span>
-        </div>
-        <div className="ms">
-          <div className="ms-cover" style={{ background: n.cover }} />
-          <div className="ms-avatar" style={{ background: n.avatarBg, color: n.avatarColor }}>
-            {n.initial}
-          </div>
-          <p className="ms-name">{n.name}</p>
-          <p className="ms-tag">{n.tag}</p>
-          <div className="ms-links">
-            {n.links.map((l, i) => (
-              <div key={i} className={"ms-link" + (l.primary ? " primary" : "")}>
-                <span className="ms-link-icon">{l.icon}</span>
-                <span>{l.label}</span>
-                {l.meta && <span className="ms-link-meta">{l.meta}</span>}
+        {image?.src ? (
+          image.mode === "scroll" ? (
+            <div className="ms-scroll">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className="ms-photo-tall" src={image.src} alt={`Bio — ${n.name}`} loading="lazy" decoding="async" />
+            </div>
+          ) : (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img className="ms-photo" src={image.src} alt={`Bio — ${n.name}`} loading="lazy" decoding="async" />
+          )
+        ) : (
+          <>
+            <div className="phone-status">
+              <span>9:41</span>
+              <span className="right">
+                <Icon.Sig size={12} />
+                <Icon.Wifi size={12} />
+                <Icon.Battery />
+              </span>
+            </div>
+            <div className="ms">
+              <div className="ms-cover" style={{ background: n.cover }} />
+              <div className="ms-avatar" style={{ background: n.avatarBg, color: n.avatarColor }}>
+                {n.initial}
               </div>
-            ))}
-          </div>
-        </div>
+              <p className="ms-name">{n.name}</p>
+              <p className="ms-tag">{n.tag}</p>
+              <div className="ms-links">
+                {n.links.map((l, i) => (
+                  <div key={i} className={"ms-link" + (l.primary ? " primary" : "")}>
+                    <span className="ms-link-icon">{l.icon}</span>
+                    <span>{l.label}</span>
+                    {l.meta && <span className="ms-link-meta">{l.meta}</span>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
