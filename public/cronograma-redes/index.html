@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cronograma Semanal — OPA Imóveis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --blue-50:  #EEF5FD;
+      --blue-100: #D6E7FA;
+      --blue-200: #A8CBF4;
+      --blue-400: #5A9FE8;
+      --blue-600: #2272C3;
+      --blue-800: #0D4A87;
+      --blue-900: #072D54;
+
+      --gray-50:  #F7F8FA;
+      --gray-100: #EEF0F4;
+      --gray-200: #DDE0E8;
+      --gray-400: #9CA3B0;
+      --gray-600: #5C6473;
+      --gray-800: #2B303B;
+
+      --text-primary:   #1A1F2B;
+      --text-secondary: #5C6473;
+      --text-muted:     #9CA3B0;
+      --border:         #E4E8EF;
+      --border-blue:    #B8D3F0;
+      --bg:             #F4F7FB;
+      --surface:        #FFFFFF;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 56px 40px 80px;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 48px;
+    }
+
+    .header-left {}
+
+    .eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue-600);
+      margin-bottom: 8px;
+    }
+
+    .page-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .header-meta {
+      text-align: right;
+    }
+
+    .week-range {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    .week-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ── Grid ── */
+    .week-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .week-section {
+      margin-bottom: 44px;
+    }
+
+    .section-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--blue-600);
+      margin-bottom: 14px;
+    }
+
+    /* ── Day column ── */
+    .day {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .day-head {
+      padding-bottom: 10px;
+      border-bottom: 1.5px solid var(--border);
+      margin-bottom: 4px;
+    }
+
+    .day-head.active {
+      border-bottom-color: var(--blue-600);
+    }
+
+    .day-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .day-head.active .day-name {
+      color: var(--blue-600);
+    }
+
+    .day-date {
+      font-size: 20px;
+      font-weight: 300;
+      color: var(--gray-200);
+      font-family: 'Inter', sans-serif;
+      line-height: 1;
+      margin-top: 4px;
+    }
+
+    .day-head.active .day-date {
+      color: var(--blue-200);
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: border-color 0.15s ease;
+    }
+
+    .card:hover {
+      border-color: var(--border-blue);
+    }
+
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'Inter', sans-serif;
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--blue-600);
+      background: var(--blue-50);
+      border-radius: 4px;
+      padding: 2px 7px;
+      width: fit-content;
+      margin-bottom: 2px;
+    }
+
+    .card-badge.motion {
+      color: #6B46C1;
+      background: #F3EFFE;
+    }
+
+    .card-badge.estatico {
+      color: #0F766E;
+      background: #F0FDF9;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.35;
+    }
+
+    .card-note {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-top: 3px;
+      font-style: italic;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--blue-600);
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 5px;
+      width: fit-content;
+      padding: 3px 0;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.12s;
+    }
+
+    .card-link:hover {
+      border-bottom-color: var(--blue-400);
+    }
+
+    .card-link svg {
+      flex-shrink: 0;
+    }
+
+    /* Card quiet (sexta) */
+    .card.quiet {
+      background: var(--gray-50);
+      border-color: var(--gray-100);
+    }
+
+    .card.quiet .card-title {
+      color: var(--text-muted);
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    /* ── Legend / footer ── */
+    .legend {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .legend-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-right: 4px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .legend-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    /* ── Lembretes ── */
+    .lembretes {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 40px;
+    }
+
+    .lembrete-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .lembrete-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--blue-400);
+      border-radius: var(--radius-sm);
+      padding: 11px 14px;
+    }
+
+    .lembrete-icon {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      margin-top: 1px;
+      color: var(--blue-400);
+    }
+
+    .lembrete-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    @media (max-width: 900px) {
+      .week-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page { padding: 32px 20px 60px; }
+      .week-grid { grid-template-columns: repeat(2, 1fr); }
+      .header { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .header-meta { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="header">
+    <div class="header-left">
+      <p class="eyebrow">OPA Imóveis Ilhabela</p>
+      <h1 class="page-title">Cronograma da semana</h1>
+    </div>
+    <div class="header-meta">
+      <p class="week-range">29 jun – 12 jul, 2026</p>
+      <p class="week-num">Semanas 01 e 02</p>
+    </div>
+  </header>
+
+  <section class="week-section">
+    <p class="section-title">Semana 01 · 29 jun – 05 jul</p>
+
+    <div class="week-grid">
+
+      <!-- SEG -->
+      <div class="day">
+        <div class="day-head active">
+          <p class="day-name">Seg</p>
+          <p class="day-date">29</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge estatico">Estático</span>
+          <p class="card-title">Bom dia OPA</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Ads · Reels</span>
+          <p class="card-title">Siriúba C1</p>
+          <p class="card-note">Postar antes do jogo, pela manhã</p>
+          <a class="card-link" href="https://opailhabela-my.sharepoint.com/:f:/g/personal/atendimento_opailhabela_com_br/IgCwHjJBNdzFR5qb2586IwNAAQ3O3LR1hP6engN8jd2-Jlo?e=AGYVLb" target="_blank">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Ver materiais
+          </a>
+        </div>
+      </div>
+
+      <!-- TER -->
+      <div class="day">
+        <div class="day-head">
+          <p class="day-name">Ter</p>
+          <p class="day-date">30</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Takes</span>
+          <p class="card-title">Takes - COCAIA - CA006833</p>
+          <p class="card-note">18h</p>
+          <a class="card-link" href="https://opailhabela-my.sharepoint.com/:f:/g/personal/atendimento_opailhabela_com_br/IgBlJ7U3XeavRpJK-v703yy4AWn6oEZ3lUIMrngszXYeGKU?e=AKYmpv" target="_blank">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Ver materiais
+          </a>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Reels</span>
+          <p class="card-title">Ilhabela tem uma semana mágica que 90% perde</p>
+          <p class="card-note">15h</p>
+        </div>
+      </div>
+
+      <!-- QUA -->
+      <div class="day">
+        <div class="day-head">
+          <p class="day-name">Qua</p>
+          <p class="day-date">01</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Reels</span>
+          <p class="card-title">Itaguaçu (4823 - Editado)</p>
+          <p class="card-note">12h</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Carrossel</span>
+          <p class="card-title">Quanto Custa Manter uma Casa</p>
+          <p class="card-note">15h · Artigo da June</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge motion">Reels Motion</span>
+          <p class="card-title">Eventos de Julho</p>
+          <p class="card-note">18h</p>
+        </div>
+      </div>
+
+      <!-- QUI -->
+      <div class="day">
+        <div class="day-head">
+          <p class="day-name">Qui</p>
+          <p class="day-date">02</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Carrossel</span>
+          <p class="card-title">Engenho - CA006940</p>
+          <p class="card-note">15h</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Reels</span>
+          <p class="card-title">Artigo Marco</p>
+          <p class="card-note">18h</p>
+        </div>
+      </div>
+
+      <!-- SEX -->
+      <div class="day">
+        <div class="day-head">
+          <p class="day-name">Sex</p>
+          <p class="day-date">03</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Reels</span>
+          <p class="card-title">Quando eu era criança</p>
+          <p class="card-note">12h</p>
+        </div>
+      </div>
+
+      <!-- SAB -->
+      <div class="day">
+        <div class="day-head">
+          <p class="day-name">Sáb</p>
+          <p class="day-date">04</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Reels</span>
+          <p class="card-title">Refação do vídeo 1,5M</p>
+          <p class="card-note">12h</p>
+        </div>
+      </div>
+
+      <!-- DOM -->
+      <div class="day">
+        <div class="day-head">
+          <p class="day-name">Dom</p>
+          <p class="day-date">05</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Reels</span>
+          <p class="card-title">Engenho (CA006944) - Nativo Marco + Takes</p>
+          <p class="card-note">18h</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Possibilidade</span>
+          <p class="card-title">PERMUTA (Engenho CA006944)</p>
+          <p class="card-note">Talvez coloquemos</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Reels</span>
+          <p class="card-title">Estamos chegando na semana da vela</p>
+          <p class="card-note">18h</p>
+          <a class="card-link" href="https://drive.google.com/file/d/14xAmCEkLf2wheJIEVPHjwlOu_x74NagW/view?usp=drive_link" target="_blank">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Ver vídeo
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="week-section">
+    <p class="section-title">Semana 02 · 06 jul – 12 jul</p>
+
+    <div class="week-grid">
+
+      <!-- SEG -->
+      <div class="day">
+        <div class="day-head">
+          <p class="day-name">Seg</p>
+          <p class="day-date">06</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Post</span>
+          <p class="card-title">MERCADO DE ILHABELA</p>
+          <p class="card-note">15h</p>
+        </div>
+      </div>
+
+      <!-- TER -->
+      <div class="day">
+        <div class="day-head">
+          <p class="day-name">Ter</p>
+          <p class="day-date">07</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Reels</span>
+          <p class="card-title">Cocaia (chácara)</p>
+          <p class="card-note">18h</p>
+        </div>
+      </div>
+
+      <!-- QUA -->
+      <div class="day">
+        <div class="day-head">
+          <p class="day-name">Qua</p>
+          <p class="day-date">08</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Reels</span>
+          <p class="card-title">Vista pro Mar</p>
+          <p class="card-note">12h</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Carrossel</span>
+          <p class="card-title">Artigo PF ou PJ: Patrimônio e Sucessão</p>
+          <p class="card-note">15h</p>
+        </div>
+      </div>
+
+      <!-- QUI -->
+      <div class="day">
+        <div class="day-head">
+          <p class="day-name">Qui</p>
+          <p class="day-date">09</p>
+        </div>
+      </div>
+
+      <!-- SEX -->
+      <div class="day">
+        <div class="day-head">
+          <p class="day-name">Sex</p>
+          <p class="day-date">10</p>
+        </div>
+      </div>
+
+      <!-- SAB -->
+      <div class="day">
+        <div class="day-head">
+          <p class="day-name">Sáb</p>
+          <p class="day-date">11</p>
+        </div>
+      </div>
+
+      <!-- DOM -->
+      <div class="day">
+        <div class="day-head">
+          <p class="day-name">Dom</p>
+          <p class="day-date">12</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge">Post</span>
+          <p class="card-title">QUEM VEM PARA ILHABELA</p>
+          <p class="card-note">15h</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="legend">
+    <span class="legend-label">Tipos</span>
+
+    <div class="legend-item">
+      <span class="legend-dot" style="background:#2272C3;"></span>
+      Reels · Carrossel · Post
+    </div>
+    <div class="legend-item">
+      <span class="legend-dot" style="background:#6B46C1;"></span>
+      Motion
+    </div>
+    <div class="legend-item">
+      <span class="legend-dot" style="background:#0F766E;"></span>
+      Estático
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
