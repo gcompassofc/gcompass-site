@@ -1717,48 +1717,22 @@
   gap: 16px;
 }
 
-.bio-root .portfolio-phone {
+.bio-root .portfolio-card-img-wrap {
   width: 220px;
-  height: 450px;
-  background: #0a0a0c;
-  border-radius: 34px;
-  padding: 8px;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4) inset, 0 4px 12px rgba(0,0,0,0.1), var(--shadow-phone);
-  position: relative;
-  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.4s ease;
-}
-
-.bio-root .portfolio-phone:hover {
-  transform: translateY(-10px) scale(1.03);
-  box-shadow: 0 30px 60px -15px rgba(20, 30, 80, 0.35), 0 15px 30px -15px rgba(20, 30, 80, 0.15);
-}
-
-.bio-root .portfolio-notch {
-  position: absolute;
-  top: 11px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 18px;
-  background: #0a0a0c;
-  border-radius: 10px;
-  z-index: 10;
-}
-
-.bio-root .portfolio-screen {
-  width: 100%;
-  height: 100%;
-  border-radius: 26px;
+  height: 400px;
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
   overflow: hidden;
   position: relative;
-  background: #111;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06), var(--shadow);
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.4s ease, border-color 0.4s ease;
 }
 
-.bio-root .portfolio-img-wrap {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
+.bio-root .portfolio-card-img-wrap:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px -10px rgba(20, 30, 80, 0.18), 0 10px 20px -10px rgba(20, 30, 80, 0.08);
+  border-color: var(--accent);
 }
 
 .bio-root .portfolio-img {
@@ -1772,8 +1746,8 @@
 }
 
 /* Scroll effect on hover */
-.bio-root .portfolio-phone:hover .portfolio-img {
-  transform: translateY(calc(-100% + 434px)); /* 450px - 16px vertical padding */
+.bio-root .portfolio-card-img-wrap:hover .portfolio-img {
+  transform: translateY(calc(-100% + 400px)); /* 400px is the wrapper height */
   transition: transform 8s linear; /* Slow scroll on hover */
 }
 
@@ -1782,7 +1756,7 @@
   transition: transform 0.3s ease;
 }
 
-.bio-root .portfolio-phone:hover ~ .portfolio-meta {
+.bio-root .portfolio-card-img-wrap:hover ~ .portfolio-meta {
   transform: translateY(-4px);
 }
 

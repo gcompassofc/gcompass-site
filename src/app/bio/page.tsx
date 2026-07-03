@@ -1196,7 +1196,7 @@ function PortfolioCarousel() {
             Mais de 15 links de <em>bios reais entregues.</em>
           </h2>
           <p className="lead">
-            Veja exemplos reais de páginas que criamos para nossos clientes. Passe o mouse ou toque sobre os celulares para rolar a imagem e ver a página completa!
+            Veja exemplos reais de páginas que criamos para nossos clientes. Passe o mouse ou toque sobre as imagens para rolar e ver a página completa!
           </p>
         </div>
 
@@ -1210,20 +1210,15 @@ function PortfolioCarousel() {
           <div className="portfolio-carousel-track" ref={scrollRef}>
             {PORTFOLIO_ITEMS.map((item, index) => (
               <div className="portfolio-item-card" key={index}>
-                <div className="portfolio-phone">
-                  <div className="portfolio-notch" />
-                  <div className="portfolio-screen">
-                    <div className="portfolio-img-wrap">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        className="portfolio-img"
-                        src={`/bio/bios-feitos/${item.file}`}
-                        alt={`Link bio - ${item.title}`}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </div>
-                  </div>
+                <div className="portfolio-card-img-wrap">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    className="portfolio-img"
+                    src={`/bio/bios-feitos/${item.file}`}
+                    alt={`Link bio - ${item.title}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
                 <div className="portfolio-meta">
                   <h4>{item.title}</h4>
