@@ -1678,3 +1678,180 @@
     width: var(--w, 60%);
   }
 }
+
+/* ---------- PORTFOLIO SECTION & CAROUSEL ---------- */
+.bio-root .portfolio-section {
+  padding: 100px 0;
+  background: var(--bg-soft);
+  position: relative;
+  overflow: hidden;
+}
+
+.bio-root .portfolio-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.bio-root .portfolio-carousel-track {
+  display: flex;
+  gap: 28px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 20px 10px 40px 10px;
+  scrollbar-width: none; /* Hide scrollbar Firefox */
+  -webkit-overflow-scrolling: touch;
+}
+
+.bio-root .portfolio-carousel-track::-webkit-scrollbar {
+  display: none; /* Hide scrollbar Chrome/Safari */
+}
+
+.bio-root .portfolio-item-card {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.bio-root .portfolio-phone {
+  width: 220px;
+  height: 450px;
+  background: #0a0a0c;
+  border-radius: 34px;
+  padding: 8px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4) inset, 0 4px 12px rgba(0,0,0,0.1), var(--shadow-phone);
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.4s ease;
+}
+
+.bio-root .portfolio-phone:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 30px 60px -15px rgba(20, 30, 80, 0.35), 0 15px 30px -15px rgba(20, 30, 80, 0.15);
+}
+
+.bio-root .portfolio-notch {
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 18px;
+  background: #0a0a0c;
+  border-radius: 10px;
+  z-index: 10;
+}
+
+.bio-root .portfolio-screen {
+  width: 100%;
+  height: 100%;
+  border-radius: 26px;
+  overflow: hidden;
+  position: relative;
+  background: #111;
+}
+
+.bio-root .portfolio-img-wrap {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.bio-root .portfolio-img {
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 1.5s ease-out; /* Speed back up on unhover */
+}
+
+/* Scroll effect on hover */
+.bio-root .portfolio-phone:hover .portfolio-img {
+  transform: translateY(calc(-100% + 434px)); /* 450px - 16px vertical padding */
+  transition: transform 8s linear; /* Slow scroll on hover */
+}
+
+.bio-root .portfolio-meta {
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.bio-root .portfolio-phone:hover ~ .portfolio-meta {
+  transform: translateY(-4px);
+}
+
+.bio-root .portfolio-meta h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink-2);
+  margin: 0 0 4px 0;
+}
+
+.bio-root .portfolio-meta span {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* Carousel Buttons */
+.bio-root .carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 20;
+  box-shadow: var(--shadow);
+  transition: all 0.2s ease;
+}
+
+.bio-root .carousel-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 8px 20px -6px var(--accent);
+}
+
+.bio-root .carousel-btn.prev {
+  left: -24px;
+}
+
+.bio-root .carousel-btn.next {
+  right: -24px;
+}
+
+@media (max-width: 1280px) {
+  .bio-root .carousel-btn.prev {
+    left: 4px;
+  }
+  .bio-root .carousel-btn.next {
+    right: 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  .bio-root .carousel-btn {
+    width: 40px;
+    height: 40px;
+  }
+  .bio-root .carousel-btn.prev {
+    left: 2px;
+  }
+  .bio-root .carousel-btn.next {
+    right: 2px;
+  }
+}
+

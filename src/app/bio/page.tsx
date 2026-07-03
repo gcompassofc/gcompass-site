@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode, type CSSProperties } from "react";
+import { useState, useRef, type ReactNode, type CSSProperties } from "react";
 import "./bio.css";
 
 /* ============================================================
@@ -343,7 +343,8 @@ function Nav() {
           <span>{CONFIG.brand}</span>
         </a>
         <nav className="nav-links">
-          <a href="#demo">Demonstração</a>
+          <a href="#demo">Modelos</a>
+          <a href="#portfolio">Portfólio</a>
           <a href="#benefits">Benefícios</a>
           <a href="#offer">Oferta</a>
           <a href="#how">Como funciona</a>
@@ -1149,6 +1150,100 @@ function Footer() {
   );
 }
 
+/* ---------- Portfólio de Bios ---------- */
+const PORTFOLIO_ITEMS = [
+  { title: "Atelie For House", file: "Atelie For House.webp", tag: "Decoração & Design" },
+  { title: "Bio Aline", file: "Bio-aline.webp", tag: "Profissional Liberal" },
+  { title: "Bio Junior", file: "Bio-junior.webp", tag: "Personal Trainer" },
+  { title: "Bio Thais", file: "Bio-thais.webp", tag: "Estética & Beleza" },
+  { title: "Carina Bio", file: "Carina_Bio.webp", tag: "Saúde & Bem-estar" },
+  { title: "Dk Bio", file: "Dk_bio.webp", tag: "Moda & Acessórios" },
+  { title: "Dra Jussara", file: "Dra Jussara.webp", tag: "Medicina & Clínicas" },
+  { title: "Flor de Canela", file: "Flor de Canela.webp", tag: "Gastronomia & Doceria" },
+  { title: "Hinode Center", file: "Hinode center.webp", tag: "Cosméticos & Vendas" },
+  { title: "Luigi", file: "Luigi.webp", tag: "Restaurantes & Bares" },
+  { title: "Maria Flor", file: "Maria Flor.webp", tag: "Moda Feminina" },
+  { title: "Move Fácil", file: "Move-facil_Final.webp", tag: "Serviços & Mudanças" },
+  { title: "Pharmalab", file: "Pharmalab.webp", tag: "Farmácia & Laboratórios" },
+  { title: "Regilaine", file: "Regilaine_bio.webp", tag: "Advocacia & Consultoria" },
+  { title: "Vibe Sma", file: "Vibe_smabio.webp", tag: "Eventos & Entretenimento" },
+  { title: "Bills Bio", file: "bills-bio.webp", tag: "Finanças & Negócios" },
+  { title: "Nutri Jose Augusto", file: "nutrijoseaugusto_bio.webp", tag: "Nutrição & Esportes" },
+];
+
+function PortfolioCarousel() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const { scrollLeft, clientWidth } = scrollRef.current;
+      const offset = direction === "left" ? -clientWidth * 0.75 : clientWidth * 0.75;
+      scrollRef.current.scrollTo({
+        left: scrollLeft + offset,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  return (
+    <section className="portfolio-section" id="portfolio">
+      <div className="container">
+        <div className="section-head">
+          <span className="section-pill">
+            <Icon.Star size={12} /> Galeria de Projetos
+          </span>
+          <h2 className="title">
+            Mais de 15 links de <em>bios reais entregues.</em>
+          </h2>
+          <p className="lead">
+            Veja exemplos reais de páginas que criamos para nossos clientes. Passe o mouse ou toque sobre os celulares para rolar a imagem e ver a página completa!
+          </p>
+        </div>
+
+        <div className="portfolio-carousel-wrapper">
+          <button className="carousel-btn prev" onClick={() => scroll("left")} aria-label="Anterior">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          
+          <div className="portfolio-carousel-track" ref={scrollRef}>
+            {PORTFOLIO_ITEMS.map((item, index) => (
+              <div className="portfolio-item-card" key={index}>
+                <div className="portfolio-phone">
+                  <div className="portfolio-notch" />
+                  <div className="portfolio-screen">
+                    <div className="portfolio-img-wrap">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        className="portfolio-img"
+                        src={`/bio/bios-feitos/${item.file}`}
+                        alt={`Link bio - ${item.title}`}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="portfolio-meta">
+                  <h4>{item.title}</h4>
+                  <span>{item.tag}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button className="carousel-btn next" onClick={() => scroll("right")} aria-label="Próximo">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ---------- Página ---------- */
 export default function BioPage() {
   return (
@@ -1156,6 +1251,7 @@ export default function BioPage() {
       <Nav />
       <Hero />
       <Demo />
+      <PortfolioCarousel />
       <Problem />
       <Benefits />
       <Authority />
