@@ -359,6 +359,137 @@
       .week-grid { grid-template-columns: repeat(2, 1fr); }
       .header { flex-direction: column; align-items: flex-start; gap: 16px; }
       .header-meta { text-align: left; }
+    /* ── Modal Legenda ── */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: var(--surface);
+      width: 90%;
+      max-width: 480px;
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transform: translateY(10px);
+      transition: transform 0.2s ease;
+      position: relative;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .modal-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .modal-close:hover {
+      background: var(--gray-100);
+      color: var(--text-primary);
+    }
+
+    .modal-body {
+      background: var(--gray-50);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      max-height: 300px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      margin-bottom: 16px;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-copy {
+      background: var(--blue-600);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+
+    .btn-copy:hover {
+      background: var(--blue-800);
+    }
+
+    .btn-copy.success {
+      background: #0F766E;
+    }
+
+    /* Botão Legenda no Card */
+    .btn-legenda {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--gray-600);
+      background: var(--gray-100);
+      border: none;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-weight: 500;
+      cursor: pointer;
+      width: fit-content;
+      margin-top: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-legenda:hover {
+      background: var(--gray-200);
+      color: var(--text-primary);
     }
   </style>
 </head>
@@ -405,6 +536,12 @@
             </svg>
             Ver materiais
           </a>
+          <button class="btn-legenda" data-legenda="Exemplo de legenda para este post. Aqui você pode colocar o texto que quiser. O limite é a sua imaginação e os 2200 caracteres do Instagram!">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6H20M4 12H14M4 18H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Legenda
+          </button>
         </div>
       </div>
 
@@ -689,15 +826,9 @@
         </div>
 
         <div class="card">
-          <span class="card-badge">Carrossel</span>
-          <p class="card-title">Artigo Tinta Branca</p>
-          <p class="card-note">12h</p>
-        </div>
-
-        <div class="card">
           <span class="card-badge">Reels</span>
           <p class="card-title">Ilhabela é um lugar escasso</p>
-          <p class="card-note">15h</p>
+          <p class="card-note">12h</p>
           <a class="card-link" href="https://opailhabela-my.sharepoint.com/:f:/g/personal/atendimento_opailhabela_com_br/IgB6jLBDN62tTLBPi258vU9HAeisjBsWLZRjzuI2ftL97HU?e=Oi4mJz" target="_blank">
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -707,9 +838,21 @@
         </div>
 
         <div class="card">
+          <span class="card-badge">Carrossel</span>
+          <p class="card-title">Artigo Tinta Branca</p>
+          <p class="card-note">15h</p>
+        </div>
+
+        <div class="card">
           <span class="card-badge lancamento">Lançamento</span>
           <p class="card-title">Pra quem acha que é fácil (engenho branco)</p>
           <p class="card-note">18h</p>
+          <button class="btn-legenda" data-legenda="CASA À VENDA – ENGENHO D’ÁGUA | ILHABELA&#10;&#10;Voltamos para filmar essa casa de dia porque a luz muda completamente a leitura do imóvel.&#10;&#10;* Casa nova, construída do zero&#10;* Arquitetura contemporânea&#10;* Área social integrada&#10;* Cozinha, jantar e estar no mesmo ambiente&#10;* 1 suíte no pavimento principal&#10;* 3 suítes no pavimento inferior&#10;* Vista para o mar&#10;* Imóvel mobiliado e porteira fechada&#10;* Matrícula regularizada&#10;&#10;Valor: R$ 8.500.000&#10;Engenho D’Água | Ilhabela/SP&#10;&#10;Uma casa que entrega vista, luz natural e uma planta pensada para viver Ilhabela com mais praticidade.&#10;&#10;No próximo vídeo, mostramos melhor como essa distribuição funciona no dia a dia.">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6H20M4 12H14M4 18H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Legenda
+          </button>
         </div>
       </div>
 
@@ -1008,6 +1151,75 @@
   </footer>
 
 </div>
+
+<!-- Modal Legenda -->
+<div class="modal-overlay" id="legendaModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Legenda do Post</h3>
+      <button class="modal-close" id="closeModalBtn" aria-label="Fechar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body" id="legendaText"></div>
+    <div class="modal-footer">
+      <button class="btn-copy" id="copyLegendaBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 16H6C4.89543 16 4 15.1046 4 14V6C4 4.89543 4.89543 4 6 4H14C15.1046 4 16 4.89543 16 6V8M16 8H18C19.1046 8 20 8.89543 20 10V18C20 19.1046 19.1046 20 18 20H10C8.89543 20 8 19.1046 8 18V16M16 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Copiar Legenda</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('legendaModal');
+  const closeBtn = document.getElementById('closeModalBtn');
+  const copyBtn = document.getElementById('copyLegendaBtn');
+  const legendaText = document.getElementById('legendaText');
+  const copyBtnText = copyBtn.querySelector('span');
+
+  // Open modal
+  document.querySelectorAll('.btn-legenda').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const legendaContent = btn.getAttribute('data-legenda');
+      if (legendaContent) {
+        legendaText.textContent = legendaContent;
+        modal.classList.add('active');
+      }
+    });
+  });
+
+  // Close modal
+  function closeModal() {
+    modal.classList.remove('active');
+    setTimeout(() => {
+      copyBtn.classList.remove('success');
+      copyBtnText.textContent = 'Copiar Legenda';
+    }, 200);
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // Copy text
+  copyBtn.addEventListener('click', () => {
+    const textToCopy = legendaText.textContent;
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      copyBtn.classList.add('success');
+      copyBtnText.textContent = 'Copiado!';
+      setTimeout(() => {
+        copyBtn.classList.remove('success');
+        copyBtnText.textContent = 'Copiar Legenda';
+      }, 2000);
+    });
+  });
+</script>
 
 </body>
 </html>
