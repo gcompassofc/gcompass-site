@@ -475,21 +475,22 @@
       align-items: center;
       gap: 4px;
       font-size: 11px;
-      color: var(--gray-600);
-      background: var(--gray-100);
+      color: var(--text-secondary);
+      background: none;
       border: none;
-      border-radius: 4px;
-      padding: 4px 8px;
+      padding: 3px 0;
       font-weight: 500;
       cursor: pointer;
       width: fit-content;
-      margin-top: 6px;
-      transition: background 0.2s, color 0.2s;
+      margin-top: 5px;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.12s, color 0.12s;
+      font-family: inherit;
     }
 
     .btn-legenda:hover {
-      background: var(--gray-200);
       color: var(--text-primary);
+      border-bottom-color: var(--gray-400);
     }
   </style>
 </head>
@@ -1189,14 +1190,15 @@
   const copyBtnText = copyBtn.querySelector('span');
 
   // Open modal
-  document.querySelectorAll('.btn-legenda').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+  document.body.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-legenda');
+    if (btn) {
       const legendaContent = btn.getAttribute('data-legenda');
       if (legendaContent) {
         legendaText.textContent = legendaContent;
         modal.classList.add('active');
       }
-    });
+    }
   });
 
   // Close modal
