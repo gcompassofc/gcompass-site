@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, type ReactNode, type CSSProperties } from "react";
+import { useState, useRef, useEffect, type ReactNode, type CSSProperties } from "react";
 import "./bio.css";
 
 /* ============================================================
@@ -29,11 +29,9 @@ const CONFIG = {
      Ex.: restaurante: { src: "/bio/restaurante-bio.png", mode: "scroll" }
      ---------------------------------------------------------------- */
   bioImages: {
-    imobiliaria: { src: "", mode: "cover" },
-    clinica: { src: "", mode: "cover" },
+    imobiliaria: { src: "/bio/imobiliaria-bio.png", mode: "scroll" },
+    clinica: { src: "/bio/clinica-bio.webp", mode: "scroll" },
     restaurante: { src: "/bio/restaurante-bio.png", mode: "scroll" },
-    loja: { src: "", mode: "cover" },
-    prestador: { src: "", mode: "cover" },
   } as Record<string, { src: string; mode: "cover" | "scroll" }>,
 } as const;
 
@@ -43,105 +41,105 @@ const externalProps = { target: "_blank", rel: "noopener noreferrer" } as const;
 type IconProps = { size?: number };
 const Icon = {
   Whats: ({ size = 14 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="currentColor">
       <path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.4.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.7-1-2.3-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2 3.1 4.8 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.6.2-1.2.2-1.3-.1-.2-.3-.2-.6-.4zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.5c1.5.8 3.3 1.3 5.2 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2z" />
     </svg>
   ),
   Insta: ({ size = 14 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="none" stroke="currentColor" strokeWidth="2">
       <rect x="3" y="3" width="18" height="18" rx="5" />
       <circle cx="12" cy="12" r="4" />
       <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
     </svg>
   ),
   Map: ({ size = 14 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z" />
       <circle cx="12" cy="10" r="3" />
     </svg>
   ),
   Phone: ({ size = 14 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.86 19.86 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z" />
     </svg>
   ),
   Mail: ({ size = 14 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="none" stroke="currentColor" strokeWidth="2">
       <rect x="3" y="5" width="18" height="14" rx="2" />
       <path d="m3 7 9 7 9-7" />
     </svg>
   ),
   Cal: ({ size = 14 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="none" stroke="currentColor" strokeWidth="2">
       <rect x="3" y="4" width="18" height="18" rx="2" />
       <path d="M16 2v4M8 2v4M3 10h18" />
     </svg>
   ),
   Cart: ({ size = 14 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="none" stroke="currentColor" strokeWidth="2">
       <circle cx="9" cy="21" r="1" />
       <circle cx="20" cy="21" r="1" />
       <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6" />
     </svg>
   ),
   Doc: ({ size = 14 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
       <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
     </svg>
   ),
   House: ({ size = 14 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="none" stroke="currentColor" strokeWidth="2">
       <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
       <path d="M9 22V12h6v10" />
     </svg>
   ),
   Plus: ({ size = 14 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.5">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="none" stroke="currentColor" strokeWidth="2.5">
       <path d="M12 5v14M5 12h14" />
     </svg>
   ),
   Check: ({ size = 14 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="3">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="none" stroke="currentColor" strokeWidth="3">
       <path d="m5 12 5 5L20 7" />
     </svg>
   ),
   X: ({ size = 14 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.5">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="none" stroke="currentColor" strokeWidth="2.5">
       <path d="M18 6 6 18M6 6l12 12" />
     </svg>
   ),
   Arrow: ({ size = 16 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M5 12h14M13 5l7 7-7 7" />
     </svg>
   ),
   ArrowUp: ({ size = 14 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="none" stroke="currentColor" strokeWidth="2">
       <path d="m7 17 10-10M7 7h10v10" />
     </svg>
   ),
   Star: ({ size = 14 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="currentColor">
       <path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z" />
     </svg>
   ),
   Wifi: ({ size = 12 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="currentColor">
       <path d="M1 9a16 16 0 0 1 22 0l-2 2a13 13 0 0 0-18 0z" />
       <path d="M5 13a10 10 0 0 1 14 0l-2 2a7 7 0 0 0-10 0z" />
       <circle cx="12" cy="20" r="2" />
     </svg>
   ),
   Battery: ({ size = 14 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={8} fill="none" stroke="currentColor" strokeWidth="1.5">
+    <svg viewBox="0 0 24 24" width={size} height={8} aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="1.5">
       <rect x="2" y="6" width="18" height="12" rx="2" />
       <path d="M22 11v2" strokeLinecap="round" strokeWidth="2" />
       <rect x="4" y="8" width="13" height="8" rx="1" fill="currentColor" stroke="none" />
     </svg>
   ),
   Sig: ({ size = 12 }: IconProps) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false"fill="currentColor">
       <rect x="1" y="9" width="3" height="6" />
       <rect x="6" y="6" width="3" height="9" />
       <rect x="11" y="3" width="3" height="12" />
@@ -185,8 +183,8 @@ const NICHES: Record<string, Niche> = {
   clinica: {
     label: "Clínica",
     tabIcon: <Icon.Plus size={14} />,
-    name: "Clínica Aurora",
-    tag: "Cuidado integral · Saúde",
+    name: "Clínica Aura",
+    tag: "Estética avançada · Cuidado personalizado",
     initial: "A",
     cover: "linear-gradient(135deg, #0d9488 0%, #5eead4 60%, #ccfbf1 100%)",
     avatarBg: "#fff",
@@ -214,40 +212,6 @@ const NICHES: Record<string, Niche> = {
       { label: "Delivery iFood", icon: <Icon.Cart size={12} /> },
       { label: "WhatsApp", icon: <Icon.Whats size={12} /> },
       { label: "Como chegar", icon: <Icon.Map size={12} /> },
-    ],
-  },
-  loja: {
-    label: "Loja",
-    tabIcon: <Icon.Cart size={14} />,
-    name: "Atelier Norte",
-    tag: "Moda autoral · Curitiba",
-    initial: "N",
-    cover: "linear-gradient(135deg, #831843 0%, #ec4899 60%, #fbcfe8 100%)",
-    avatarBg: "#0a0a0c",
-    avatarColor: "#fff",
-    links: [
-      { label: "Ver catálogo", icon: <Icon.Cart size={12} />, primary: true, meta: "novo" },
-      { label: "WhatsApp da loja", icon: <Icon.Whats size={12} /> },
-      { label: "Coleção atual", icon: <Icon.Star size={12} /> },
-      { label: "Instagram", icon: <Icon.Insta size={12} /> },
-      { label: "Visite a loja", icon: <Icon.Map size={12} /> },
-    ],
-  },
-  prestador: {
-    label: "Prestador",
-    tabIcon: <Icon.Doc size={14} />,
-    name: "Tiago Marques",
-    tag: "Arquitetura & Interiores",
-    initial: "T",
-    cover: "linear-gradient(135deg, #1f2937 0%, #4b5563 50%, #d1d5db 100%)",
-    avatarBg: "#fff",
-    avatarColor: "#1f2937",
-    links: [
-      { label: "Solicitar orçamento", icon: <Icon.Mail size={12} />, primary: true },
-      { label: "WhatsApp direto", icon: <Icon.Whats size={12} /> },
-      { label: "Portfólio de projetos", icon: <Icon.Doc size={12} /> },
-      { label: "Agendar reunião", icon: <Icon.Cal size={12} /> },
-      { label: "Instagram", icon: <Icon.Insta size={12} /> },
     ],
   },
 };
@@ -447,39 +411,27 @@ const BLURBS: Record<string, Blurb> = {
     text: "Reservas, iFood, cardápio digital e WhatsApp num só link bonito para divulgar.",
     points: ["Reservas com 1 toque", "Cardápio sempre atualizado", "Delivery linkado direto"],
   },
-  loja: {
-    heading: (
-      <>
-        Sua vitrine digital, <em>com a cara da marca.</em>
-      </>
-    ),
-    text: "Catálogo, coleção atual, WhatsApp e endereço prontos para Instagram e anúncios.",
-    points: ["Botão de catálogo em destaque", "Coleção atual sempre visível", "WhatsApp para venda direta"],
-  },
-  prestador: {
-    heading: (
-      <>
-        Seu portfólio pronto para <em>fechar contratos.</em>
-      </>
-    ),
-    text: "Orçamento, portfólio, reunião e WhatsApp organizados de forma profissional.",
-    points: ["Solicitação de orçamento facilitada", "Portfólio direto na página", "Agenda visível para reuniões"],
-  },
 };
 
 function Demo() {
   const niches = Object.keys(NICHES);
   const [active, setActive] = useState("imobiliaria");
   const [fade, setFade] = useState(false);
+  const fadeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const switchTo = (key: string) => {
     if (key === active) return;
+    if (fadeTimer.current) clearTimeout(fadeTimer.current);
     setFade(true);
-    setTimeout(() => {
+    fadeTimer.current = setTimeout(() => {
       setActive(key);
       setFade(false);
     }, 220);
   };
+
+  useEffect(() => () => {
+    if (fadeTimer.current) clearTimeout(fadeTimer.current);
+  }, []);
 
   const blurb = BLURBS[active];
 
@@ -501,10 +453,15 @@ function Demo() {
 
         <div className="demo">
           <div className="demo-info">
-            <div className="demo-tabs">
+            <div className="demo-tabs" role="tablist" aria-label="Escolha um segmento">
               {niches.map((k) => (
                 <button
                   key={k}
+                  id={`demo-tab-${k}`}
+                  role="tab"
+                  aria-selected={k === active}
+                  aria-controls={`demo-panel-${k}`}
+                  tabIndex={k === active ? 0 : -1}
                   className={"demo-tab" + (k === active ? " active" : "")}
                   onClick={() => switchTo(k)}
                   type="button"
@@ -515,7 +472,13 @@ function Demo() {
               ))}
             </div>
 
-            <div className={"demo-content " + (fade ? "fade-out" : "")} style={{ transition: "opacity .22s" }}>
+            <div
+              id={`demo-panel-${active}`}
+              role="tabpanel"
+              aria-labelledby={`demo-tab-${active}`}
+              className={"demo-content " + (fade ? "fade-out" : "")}
+              style={{ transition: "opacity .22s" }}
+            >
               <h3>{blurb.heading}</h3>
               <p>{blurb.text}</p>
               <div className="demo-points">
@@ -541,96 +504,6 @@ function Demo() {
           <div className="demo-stage">
             <div className={"demo-phone-anim " + (fade ? "fade-out" : "")}>
               <Phone niche={active} />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------- Seção 3: Problema (antes/depois) ---------- */
-function Problem() {
-  return (
-    <section className="section-soft" id="problem">
-      <div className="container">
-        <div className="section-head">
-          <span className="section-pill">
-            <Icon.X size={12} /> O problema
-          </span>
-          <h2 className="title">
-            O cliente clica. Mas sua empresa <em>parece preparada?</em>
-          </h2>
-          <p className="lead">
-            Muitos negócios perdem oportunidades porque deixam informações importantes espalhadas
-            entre Instagram, WhatsApp, localização, catálogo e serviços. Quando o caminho está
-            confuso, o cliente entende menos, clica menos e chama menos.
-          </p>
-        </div>
-
-        <div className="compare">
-          <div className="compare-card before">
-            <span className="compare-tag tag-before">
-              <Icon.X size={10} /> Antes
-            </span>
-            <h4>Bio improvisada, links soltos</h4>
-            <ul className="compare-list">
-              <li>
-                <Icon.X size={14} />
-                <span>Informações espalhadas em vários lugares</span>
-              </li>
-              <li>
-                <Icon.X size={14} />
-                <span>Sem padrão visual com sua marca</span>
-              </li>
-              <li>
-                <Icon.X size={14} />
-                <span>Cliente se perde antes de chegar no WhatsApp</span>
-              </li>
-              <li>
-                <Icon.X size={14} />
-                <span>Nenhum dado sobre quem clicou onde</span>
-              </li>
-            </ul>
-            <div className="compare-preview">
-              <div className="bio-mess">
-                <span className="bio-line">whatsapp.com/...</span>
-                <span className="bio-line">instagram.com/...</span>
-                <span className="bio-line">linktr.ee/...</span>
-                <span className="bio-line">maps.google.com/...</span>
-                <span className="bio-line">cardapio.pdf</span>
-                <span className="bio-line">catalogo-2024.pdf</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="compare-card after">
-            <span className="compare-tag tag-after">
-              <Icon.Check size={10} /> Depois
-            </span>
-            <h4>Mini Site Comercial organizado</h4>
-            <ul className="compare-list">
-              <li>
-                <Icon.Check size={14} />
-                <span>Todos os caminhos em um só lugar bonito</span>
-              </li>
-              <li>
-                <Icon.Check size={14} />
-                <span>Identidade visual da sua empresa aplicada</span>
-              </li>
-              <li>
-                <Icon.Check size={14} />
-                <span>O cliente entende, decide e clica em segundos</span>
-              </li>
-              <li>
-                <Icon.Check size={14} />
-                <span>Estrutura preparada para medir comportamento</span>
-              </li>
-            </ul>
-            <div className="compare-preview">
-              <div style={{ transform: "scale(.55)", transformOrigin: "center" }}>
-                <Phone niche="loja" />
-              </div>
             </div>
           </div>
         </div>
@@ -669,7 +542,7 @@ function Benefits() {
           {items.map((it, i) => (
             <div key={i} className={"benefit-card" + (it.feature ? " feature" : "")}>
               <div className="benefit-icon">{it.icon}</div>
-              <h4>{it.h}</h4>
+              <h3>{it.h}</h3>
               <p>{it.p}</p>
             </div>
           ))}
@@ -906,7 +779,7 @@ function Intelligence() {
               </div>
             </div>
             <div className="dash-chart">
-              <svg viewBox="0 0 300 130" preserveAspectRatio="none" width="100%" height="100%">
+              <svg viewBox="0 0 300 130" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" focusable="false">
                 <defs>
                   <linearGradient id="bio-g1" x1="0" x2="0" y1="0" y2="1">
                     <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.4" />
@@ -967,11 +840,16 @@ function GoogleAI() {
 
         <div className="search-mock">
           <div className="search-bar">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5b6072" strokeWidth="2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5b6072" strokeWidth="2" aria-hidden="true" focusable="false">
               <circle cx="11" cy="11" r="7" />
               <path d="m21 21-4.3-4.3" />
             </svg>
-            <input readOnly defaultValue="vértice imóveis zona sul" />
+            <input
+              readOnly
+              tabIndex={-1}
+              aria-label="Exemplo de busca no Google"
+              defaultValue="vértice imóveis zona sul"
+            />
           </div>
           <div className="search-results">
             <div className="search-result your">
@@ -1048,7 +926,7 @@ function HowItWorks() {
               <Icon.Mail size={20} />
             </div>
             <span className="timeline-day">Dia 1 · Briefing</span>
-            <h4>Envio das informações</h4>
+            <h3>Envio das informações</h3>
             <p>
               Nome, logo, cores, WhatsApp, Instagram, localização, links e serviços principais. Tudo
               via formulário simples.
@@ -1059,7 +937,7 @@ function HowItWorks() {
               <Icon.Doc size={20} />
             </div>
             <span className="timeline-day">Dia 2 · Produção</span>
-            <h4>Criação da página</h4>
+            <h3>Criação da página</h3>
             <p>
               Nossa equipe organiza tudo, aplica sua identidade visual e monta seu Mini Site
               Comercial.
@@ -1070,7 +948,7 @@ function HowItWorks() {
               <Icon.Check size={20} />
             </div>
             <span className="timeline-day">Dia 3 · Entrega</span>
-            <h4>Pronto para usar</h4>
+            <h3>Pronto para usar</h3>
             <p>
               Você recebe o link para colocar na bio, divulgar no WhatsApp, usar em anúncios ou
               transformar em QR Code.
@@ -1174,15 +1052,20 @@ const PORTFOLIO_ITEMS = [
 function PortfolioCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  /* Avança exatamente uma "página" — os cards visíveis no momento (3 / 2 / 1),
+     medindo o card real para acertar o encaixe em qualquer breakpoint. */
   const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const { scrollLeft, clientWidth } = scrollRef.current;
-      const offset = direction === "left" ? -clientWidth * 0.75 : clientWidth * 0.75;
-      scrollRef.current.scrollTo({
-        left: scrollLeft + offset,
-        behavior: "smooth",
-      });
-    }
+    const track = scrollRef.current;
+    if (!track) return;
+    const card = track.querySelector<HTMLElement>(".portfolio-item-card");
+    if (!card) return;
+
+    const gap = parseFloat(getComputedStyle(track).columnGap || "0") || 0;
+    const step = card.getBoundingClientRect().width + gap;
+    const perPage = Math.max(1, Math.round(track.clientWidth / step));
+    const offset = step * perPage * (direction === "left" ? -1 : 1);
+
+    track.scrollBy({ left: offset, behavior: "smooth" });
   };
 
   return (
@@ -1196,20 +1079,26 @@ function PortfolioCarousel() {
             Mais de 15 links de <em>bios reais entregues.</em>
           </h2>
           <p className="lead">
-            Veja exemplos reais de páginas que criamos para nossos clientes. Passe o mouse ou toque sobre as imagens para rolar e ver a página completa!
+            Veja exemplos reais de páginas que criamos para nossos clientes. Passe o mouse sobre as imagens — no celular, elas rolam sozinhas para revelar a página completa.
           </p>
         </div>
 
         <div className="portfolio-carousel-wrapper">
           <button className="carousel-btn prev" onClick={() => scroll("left")} aria-label="Anterior">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true" focusable="false">
               <path d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           
-          <div className="portfolio-carousel-track" ref={scrollRef}>
-            {PORTFOLIO_ITEMS.map((item, index) => (
-              <div className="portfolio-item-card" key={index}>
+          <div
+            className="portfolio-carousel-track"
+            ref={scrollRef}
+            tabIndex={0}
+            role="region"
+            aria-label="Galeria de bios entregues — role para ver mais"
+          >
+            {PORTFOLIO_ITEMS.map((item) => (
+              <div className="portfolio-item-card" key={item.file}>
                 <div className="portfolio-card-img-wrap">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -1221,7 +1110,7 @@ function PortfolioCarousel() {
                   />
                 </div>
                 <div className="portfolio-meta">
-                  <h4>{item.title}</h4>
+                  <h3>{item.title}</h3>
                   <span>{item.tag}</span>
                 </div>
               </div>
@@ -1229,7 +1118,7 @@ function PortfolioCarousel() {
           </div>
 
           <button className="carousel-btn next" onClick={() => scroll("right")} aria-label="Próximo">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true" focusable="false">
               <path d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -1239,15 +1128,38 @@ function PortfolioCarousel() {
   );
 }
 
+/* ---------- Dados estruturados (Schema.org) ----------
+   Ajuda Google e IAs a entenderem que a página vende um serviço com preço.
+   Sem aggregateRating/review (não há avaliações reais) — as barras "92%" e o
+   dashboard da página são ilustrativos e NÃO são modelados aqui. */
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "Mini Site Comercial GCompass",
+  description:
+    "Página profissional que reúne WhatsApp, Instagram, localização e todos os links da sua marca em um só lugar. Personalizada e entregue em até 3 dias.",
+  brand: { "@type": "Brand", name: CONFIG.brand },
+  offers: {
+    "@type": "Offer",
+    price: CONFIG.price,
+    priceCurrency: "BRL",
+    availability: "https://schema.org/InStock",
+    url: "https://gcompass.com.br/bio",
+  },
+};
+
 /* ---------- Página ---------- */
 export default function BioPage() {
   return (
     <div className="bio-root" data-accent={CONFIG.accent}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+      />
       <Nav />
       <Hero />
       <Demo />
       <PortfolioCarousel />
-      <Problem />
       <Benefits />
       <Authority />
       <Offer />
