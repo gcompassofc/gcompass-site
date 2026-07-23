@@ -1,0 +1,908 @@
+/* ============================================================
+   /bio2 — versão curta, escura, focada em venda.
+   Todo o CSS é escopado em .b2 para não vazar no resto do site.
+   ============================================================ */
+
+.b2 {
+  --tinta: #0b0c0e;
+  --painel: #141619;
+  --linha: #24282e;
+  --texto: #edeef0;
+  --mudo: #8f959e;
+  --acao: #22c55e;
+  --acao-forte: #16a34a;
+  --acao-fraca: rgba(34, 197, 94, 0.12);
+
+  --display: var(--font-b2-display), "Bricolage Grotesque", system-ui, sans-serif;
+  --corpo: var(--font-b2-sans), "Manrope", system-ui, sans-serif;
+
+  --largura: 1120px;
+  --raio: 14px;
+
+  background: var(--tinta);
+  color: var(--texto);
+  font-family: var(--corpo);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: clip;
+}
+
+.b2 *,
+.b2 *::before,
+.b2 *::after {
+  box-sizing: border-box;
+}
+
+.b2 h1,
+.b2 h2,
+.b2 h3 {
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.b2 p {
+  margin: 0;
+}
+
+.b2 a {
+  color: inherit;
+}
+
+.b2 :focus-visible {
+  outline: 2px solid var(--acao);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- Botões ---------- */
+.b2 .botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 13px 22px;
+  border-radius: 999px;
+  font-family: var(--corpo);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.16s ease, background-color 0.16s ease, border-color 0.16s ease;
+}
+
+.b2 .botao-g {
+  padding: 17px 30px;
+  font-size: 16.5px;
+}
+
+.b2 .botao-cheio {
+  width: 100%;
+}
+
+.b2 .botao-acao {
+  background: var(--acao);
+  color: #04140a;
+  box-shadow: 0 10px 30px -12px rgba(34, 197, 94, 0.7);
+}
+
+.b2 .botao-fantasma {
+  border-color: var(--linha);
+  color: var(--texto);
+  background: transparent;
+}
+
+@media (hover: hover) {
+  .b2 .botao-acao:hover {
+    background: #2ade68;
+    transform: translateY(-2px);
+  }
+  .b2 .botao-fantasma:hover {
+    border-color: #3d434b;
+    background: rgba(255, 255, 255, 0.03);
+  }
+}
+
+/* ---------- Seções ---------- */
+.b2 .secao {
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: 96px 24px;
+}
+
+.b2 .secao > h2 {
+  font-size: clamp(30px, 4.4vw, 46px);
+  margin-bottom: 36px;
+}
+
+.b2 .sub-linha {
+  color: var(--mudo);
+  font-weight: 500;
+}
+
+/* ============================================================
+   TOPO — barra fina com a logo
+   ============================================================ */
+.b2 .topo {
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: 18px 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.b2 .topo-logo {
+  display: block;
+  line-height: 0;
+}
+
+.b2 .topo-logo img {
+  height: 30px;
+  width: auto;
+  display: block;
+}
+
+.b2 .topo-cta {
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--acao);
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  transition: background-color 0.16s ease, border-color 0.16s ease;
+}
+
+@media (hover: hover) {
+  .b2 .topo-cta:hover {
+    background: var(--acao-fraca);
+    border-color: var(--acao);
+  }
+}
+
+/* ============================================================
+   HERO — o celular é o assunto, o texto encosta nele.
+   ============================================================ */
+.b2 .hero {
+  max-width: var(--largura);
+  margin: 0 auto;
+  padding: 20px 24px 60px;
+  position: relative;
+}
+
+/* Brilho difuso atrás do celular, para o aparelho não flutuar no vazio. */
+.b2 .hero::before {
+  content: "";
+  position: absolute;
+  top: -8%;
+  right: -6%;
+  width: 620px;
+  height: 620px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.13), transparent 66%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Texto em cima, a bio entregue logo abaixo em largura total:
+   o print é uma página larga e merece ser vista inteira. */
+.b2 .hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 48px;
+  justify-items: center;
+  text-align: center;
+  padding-top: 26px;
+}
+
+.b2 .hero-texto {
+  max-width: 780px;
+}
+
+.b2 .hero-palco {
+  width: 100%;
+  max-width: 880px;
+}
+
+.b2 .marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mudo);
+  margin-bottom: 22px;
+}
+
+.b2 .marca-ponto {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--acao);
+  box-shadow: 0 0 0 4px var(--acao-fraca);
+}
+
+.b2 .hero h1 {
+  font-size: clamp(36px, 4.6vw, 58px);
+}
+
+.b2 .destaque {
+  color: var(--mudo);
+  font-weight: 500;
+}
+
+.b2 .hero-sub {
+  margin: 24px auto 0;
+  max-width: 52ch;
+  font-size: clamp(16px, 1.5vw, 18.5px);
+  color: #c2c7ce;
+}
+
+.b2 .hero-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.b2 .hero-nota {
+  margin-top: 18px;
+  font-size: 13.5px;
+  color: var(--mudo);
+}
+
+/* ---------- O aparelho ---------- */
+.b2 .hero-palco {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.b2 .janela {
+  width: 100%;
+  margin: 0;
+}
+
+.b2 .janela-barra {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+  height: 38px;
+  border-radius: 14px 14px 0 0;
+  border: 1px solid var(--linha);
+  border-bottom: 0;
+  background: #191c21;
+}
+
+.b2 .janela-bolas {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.b2 .janela-bolas i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #33383f;
+}
+
+.b2 .janela-url {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: #767c85;
+  text-align: center;
+  padding-right: 39px;
+}
+
+/* A bio inteira aparece dentro da janela; a sobra é o que a
+   animação percorre, como quem rola a página até o fim. */
+.b2 .janela-tela {
+  container-type: size;
+  height: clamp(360px, 46vw, 520px);
+  border-radius: 0 0 14px 14px;
+  border: 1px solid var(--linha);
+  border-top: 0;
+  background: #0d0f12;
+  overflow: hidden;
+  box-shadow: 0 44px 80px -40px rgba(0, 0, 0, 0.95);
+}
+
+.b2 .janela-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  animation: b2-fade 0.5s ease;
+}
+
+.b2 .janela-img.is-rolando {
+  animation: b2-fade 0.5s ease, b2-passeio 19s ease-in-out 1.4s infinite;
+}
+
+@keyframes b2-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Para exatamente no rodapé da bio, qualquer que seja a altura do print. */
+@keyframes b2-passeio {
+  0%,
+  8% {
+    transform: translateY(0);
+  }
+  50%,
+  64% {
+    transform: translateY(calc(-100% + 100cqh));
+  }
+  97%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.b2 .janela-legenda {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 13.5px;
+}
+
+.b2 .janela-legenda strong {
+  font-weight: 700;
+}
+
+.b2 .janela-legenda span {
+  color: var(--mudo);
+}
+
+.b2 .palco-trocar {
+  display: flex;
+  gap: 8px;
+}
+
+.b2 .trocar-ponto {
+  width: 26px;
+  height: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #2c3138;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.b2 .trocar-ponto.is-ativo {
+  background: var(--acao);
+}
+
+/* Alvo de toque de 44px sem engordar o traço visível. */
+.b2 .trocar-ponto::after {
+  content: "";
+  position: absolute;
+  width: 34px;
+  height: 44px;
+  transform: translate(-4px, -20px);
+}
+
+.b2 .palco-trocar {
+  position: relative;
+}
+
+.b2 .trocar-ponto {
+  position: relative;
+}
+
+/* ============================================================
+   PROBLEMA — uma frase grande, sem moldura.
+   ============================================================ */
+.b2 .problema {
+  padding-top: 40px;
+  padding-bottom: 100px;
+}
+
+.b2 .problema-texto {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(23px, 3vw, 36px);
+  line-height: 1.28;
+  letter-spacing: -0.025em;
+  max-width: 30ch;
+  margin-inline: auto;
+  text-align: center;
+  color: var(--mudo);
+  text-wrap: balance;
+}
+
+.b2 .risco {
+  color: #e7e9ec;
+  text-decoration: line-through;
+  text-decoration-color: var(--acao);
+  text-decoration-thickness: 3px;
+}
+
+.b2 .grifo {
+  color: var(--texto);
+  font-weight: 700;
+}
+
+/* ============================================================
+   PAREDE DE BIOS
+   ============================================================ */
+.b2 .secao-topo {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+.b2 .secao-topo h2 {
+  font-size: clamp(28px, 4vw, 44px);
+}
+
+.b2 .parede-setas {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.b2 .parede-setas button {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--linha);
+  background: transparent;
+  color: var(--texto);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: border-color 0.16s ease, background-color 0.16s ease;
+}
+
+.b2 .parede-setas button:first-child svg {
+  transform: rotate(180deg);
+}
+
+@media (hover: hover) {
+  .b2 .parede-setas button:hover {
+    border-color: var(--acao);
+    color: var(--acao);
+  }
+}
+
+.b2 .parede {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+  /* Sangra até a borda da tela, para sugerir que há mais ao lado. */
+  margin-inline: -24px;
+  padding-inline: 24px;
+}
+
+.b2 .parede::-webkit-scrollbar {
+  display: none;
+}
+
+.b2 .parede-item {
+  flex: 0 0 300px;
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+/* Janela de altura fixa para a fileira ficar alinhada. A bio entra
+   pela largura inteira (sem corte lateral) e, no hover, desliza até
+   o rodapé — o visitante vê a página até o fim sem sair da página. */
+.b2 .parede-tela {
+  container-type: size;
+  height: 330px;
+  border-radius: 16px;
+  border: 1px solid var(--linha);
+  background: var(--painel);
+  overflow: hidden;
+}
+
+.b2 .parede-tela img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 4s ease-in-out;
+}
+
+@media (hover: hover) {
+  .b2 .parede-item:hover .parede-tela img,
+  .b2 .parede-item:focus-within .parede-tela img {
+    transform: translateY(calc(-100% + 100cqh));
+  }
+}
+
+.b2 .parede-item figcaption {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 13.5px;
+}
+
+.b2 .parede-item figcaption span {
+  color: var(--mudo);
+}
+
+/* ============================================================
+   OFERTA — o único bloco emoldurado da página.
+   ============================================================ */
+.b2 .oferta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--linha);
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--painel);
+}
+
+.b2 .oferta-preco {
+  padding: 44px 40px;
+  border-right: 1px solid var(--linha);
+  background: linear-gradient(180deg, rgba(34, 197, 94, 0.07), transparent 60%);
+}
+
+.b2 .oferta-rotulo {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--acao);
+}
+
+.b2 .preco {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin: 10px 0 0;
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.b2 .preco .moeda {
+  font-size: 26px;
+  margin-top: 9px;
+  color: var(--mudo);
+}
+
+.b2 .preco .valor {
+  font-size: clamp(66px, 9vw, 96px);
+}
+
+.b2 .oferta-nota {
+  margin: 14px 0 26px;
+  max-width: 32ch;
+  color: var(--mudo);
+  font-size: 15px;
+}
+
+.b2 .oferta-duvida {
+  display: block;
+  margin-top: 16px;
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--mudo);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.b2 .oferta-lista {
+  list-style: none;
+  margin: 0;
+  padding: 44px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.b2 .oferta-lista li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 15.5px;
+  color: #d3d8de;
+}
+
+.b2 .lista-check {
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--acao-fraca);
+  color: var(--acao);
+}
+
+/* ============================================================
+   ETAPAS
+   ============================================================ */
+.b2 .etapas-lista {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--linha);
+  border-block: 1px solid var(--linha);
+}
+
+.b2 .etapa {
+  background: var(--tinta);
+  padding: 30px 26px 34px;
+}
+
+.b2 .etapa h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.b2 .etapa p {
+  color: var(--mudo);
+  font-size: 15px;
+}
+
+/* ============================================================
+   DÚVIDAS
+   ============================================================ */
+.b2 .duvidas {
+  border-top: 1px solid var(--linha);
+}
+
+.b2 .duvida {
+  border-bottom: 1px solid var(--linha);
+}
+
+.b2 .duvida summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 4px;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(17px, 2vw, 20px);
+  letter-spacing: -0.02em;
+}
+
+.b2 .duvida summary::-webkit-details-marker {
+  display: none;
+}
+
+.b2 .duvida-sinal {
+  position: relative;
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+}
+
+.b2 .duvida-sinal::before,
+.b2 .duvida-sinal::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 50% 0;
+  border-top: 2px solid var(--acao);
+  transition: transform 0.2s ease;
+}
+
+.b2 .duvida-sinal::after {
+  transform: rotate(90deg);
+}
+
+.b2 .duvida[open] .duvida-sinal::after {
+  transform: rotate(0deg);
+}
+
+.b2 .duvida p {
+  padding: 0 4px 24px;
+  max-width: 62ch;
+  color: var(--mudo);
+  font-size: 15.5px;
+}
+
+/* ============================================================
+   FECHO
+   ============================================================ */
+.b2 .fecho {
+  text-align: center;
+  padding-block: 110px 130px;
+}
+
+.b2 .fecho h2 {
+  font-size: clamp(30px, 5vw, 54px);
+  margin-bottom: 34px;
+}
+
+.b2 .fecho-logo {
+  display: inline-block;
+  margin-top: 56px;
+  line-height: 0;
+  opacity: 0.9;
+}
+
+.b2 .fecho-logo img {
+  height: 26px;
+  width: auto;
+  display: block;
+}
+
+.b2 .fecho-nota {
+  margin-top: 16px;
+  font-size: 13px;
+  color: #5f656d;
+}
+
+/* ============================================================
+   BARRA FIXA (celular)
+   ============================================================ */
+.b2 .barra {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .b2 .barra {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 10px 10px 10px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--linha);
+    background: rgba(15, 17, 20, 0.92);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 18px 40px -14px rgba(0, 0, 0, 0.85);
+    transform: translateY(140%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .b2 .barra.is-visivel {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .b2 .barra-preco {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  .b2 .barra-preco span {
+    font-size: 11.5px;
+    color: var(--mudo);
+  }
+
+  .b2 .barra-preco strong {
+    font-family: var(--display);
+    font-size: 19px;
+    letter-spacing: -0.02em;
+  }
+
+  .b2 .fecho {
+    padding-bottom: 150px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVO
+   ============================================================ */
+@media (max-width: 980px) {
+  .b2 .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 44px;
+    min-height: 0;
+    text-align: center;
+  }
+
+  .b2 .hero-sub {
+    margin-inline: auto;
+  }
+
+  .b2 .hero-acoes {
+    justify-content: center;
+  }
+
+  .b2 .oferta {
+    grid-template-columns: 1fr;
+  }
+
+  .b2 .oferta-preco {
+    border-right: 0;
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .b2 .etapas-lista {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .b2 .secao {
+    padding: 68px 20px;
+  }
+
+  .b2 .hero {
+    padding: 26px 20px 40px;
+  }
+
+  .b2 .hero-acoes .botao {
+    width: 100%;
+  }
+
+  .b2 .parede {
+    margin-inline: -20px;
+    padding-inline: 20px;
+  }
+
+  .b2 .parede-item {
+    flex: 0 0 232px;
+  }
+
+  .b2 .parede-tela {
+    height: 250px;
+  }
+
+  .b2 .parede-setas {
+    display: none;
+  }
+
+  .b2 .oferta-preco,
+  .b2 .oferta-lista {
+    padding: 32px 24px;
+  }
+
+  .b2 .problema-texto {
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .b2 *,
+  .b2 *::before,
+  .b2 *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .b2 .fone-img.is-rolando {
+    animation: none;
+  }
+}

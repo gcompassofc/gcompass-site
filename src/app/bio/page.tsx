@@ -32,6 +32,7 @@ const CONFIG = {
     imobiliaria: { src: "/bio/imobiliaria-bio.png", mode: "scroll" },
     clinica: { src: "/bio/clinica-bio.webp", mode: "scroll" },
     restaurante: { src: "/bio/restaurante-bio.png", mode: "scroll" },
+    viagens: { src: "/bio/bios-feitos/saltur - agencia de viagem - mobile.png", mode: "scroll" },
   } as Record<string, { src: string; mode: "cover" | "scroll" }>,
 } as const;
 
@@ -146,6 +147,11 @@ const Icon = {
       <rect x="16" y="0" width="3" height="15" />
     </svg>
   ),
+  Plane: ({ size = 14 }: IconProps) => (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.8 19.2 16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8 4.8 6.2a1 1 0 0 0-.9 1.7l4.9 3.3-2.3 3.4-2.8-.3a.9.9 0 0 0-.8 1.5l2.3 2.3 2.3 2.3a.9.9 0 0 0 1.5-.8l-.3-2.8 3.4-2.3 3.3 4.9a1 1 0 0 0 1.7-.9z" />
+    </svg>
+  ),
 };
 
 /* ---------- Presets de nicho (conteúdo do phone mockup) ---------- */
@@ -212,6 +218,23 @@ const NICHES: Record<string, Niche> = {
       { label: "Delivery iFood", icon: <Icon.Cart size={12} /> },
       { label: "WhatsApp", icon: <Icon.Whats size={12} /> },
       { label: "Como chegar", icon: <Icon.Map size={12} /> },
+    ],
+  },
+  viagens: {
+    label: "Agência de Viagens",
+    tabIcon: <Icon.Plane size={14} />,
+    name: "Saltur Viagens",
+    tag: "Pacotes nacionais e internacionais",
+    initial: "S",
+    cover: "linear-gradient(135deg, #075985 0%, #0ea5e9 55%, #fbbf24 100%)",
+    avatarBg: "#fff",
+    avatarColor: "#075985",
+    links: [
+      { label: "Tirar dúvidas no WhatsApp", icon: <Icon.Whats size={12} />, primary: true },
+      { label: "Pacotes em destaque", icon: <Icon.Plane size={12} /> },
+      { label: "Nosso site completo", icon: <Icon.Doc size={12} /> },
+      { label: "Instagram", icon: <Icon.Insta size={12} />, meta: "@saltur" },
+      { label: "Fale agora", icon: <Icon.Phone size={12} /> },
     ],
   },
 };
@@ -302,9 +325,9 @@ function Nav() {
   return (
     <header className="nav">
       <div className="container nav-inner">
-        <a href="#" className="brand">
-          <span className="brand-mark">G</span>
-          <span>{CONFIG.brand}</span>
+        <a href="#" className="brand" aria-label={CONFIG.brand}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="brand-logo" src="/bio/Logo - GCompass - escuro.png" alt={CONFIG.brand} />
         </a>
         <nav className="nav-links">
           <a href="#demo">Modelos</a>
@@ -410,6 +433,15 @@ const BLURBS: Record<string, Blurb> = {
     ),
     text: "Reservas, iFood, cardápio digital e WhatsApp num só link bonito para divulgar.",
     points: ["Reservas com 1 toque", "Cardápio sempre atualizado", "Delivery linkado direto"],
+  },
+  viagens: {
+    heading: (
+      <>
+        Pacotes, contato e <em>site — tudo em um link.</em>
+      </>
+    ),
+    text: "WhatsApp, pacotes em destaque, site e redes reunidos numa página pronta para anúncios e stories.",
+    points: ["WhatsApp direto para orçamento", "Pacotes em destaque com fotos", "Site e Instagram a um toque"],
   },
 };
 
@@ -1011,9 +1043,9 @@ function Footer() {
   return (
     <footer className="bio-footer">
       <div className="container footer-inner">
-        <a href="#" className="brand">
-          <span className="brand-mark">G</span>
-          <span>{CONFIG.brand}</span>
+        <a href="#" className="brand" aria-label={CONFIG.brand}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="brand-logo" src="/bio/Logo - GCompass - escuro.png" alt={CONFIG.brand} />
         </a>
         <div className="footer-links">
           <a href="#">Termos</a>
@@ -1047,6 +1079,7 @@ const PORTFOLIO_ITEMS = [
   { title: "Vibe Sma", file: "Vibe_smabio.webp", tag: "Eventos & Entretenimento" },
   { title: "Bills Bio", file: "bills-bio.webp", tag: "Finanças & Negócios" },
   { title: "Nutri Jose Augusto", file: "nutrijoseaugusto_bio.webp", tag: "Nutrição & Esportes" },
+  { title: "Saltur Viagens", file: "saltur - agencia de viagem.png", tag: "Agência de Viagens" },
 ];
 
 function PortfolioCarousel() {
