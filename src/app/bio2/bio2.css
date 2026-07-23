@@ -745,21 +745,8 @@
   margin-bottom: 34px;
 }
 
-.b2 .fecho-logo {
-  display: inline-block;
-  margin-top: 56px;
-  line-height: 0;
-  opacity: 0.9;
-}
-
-.b2 .fecho-logo img {
-  height: 26px;
-  width: auto;
-  display: block;
-}
-
 .b2 .fecho-nota {
-  margin-top: 16px;
+  margin-top: 46px;
   font-size: 13px;
   color: #5f656d;
 }

@@ -363,10 +363,6 @@ function Fecho() {
         Chamar no WhatsApp
         <Seta />
       </a>
-      <a href="#" className="fecho-logo" aria-label={CONFIG.brand}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/bio/Logo - GCompass - claro.png" alt={CONFIG.brand} />
-      </a>
       <p className="fecho-nota">
         © {new Date().getFullYear()} {CONFIG.brand}
       </p>
