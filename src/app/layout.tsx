@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import { CookieConsent } from "../components/CookieConsent";
 import "./globals.css";
 
 const poppins = Poppins({ 
@@ -25,6 +26,7 @@ export default function RootLayout({
     <html lang="pt-BR" className="scroll-smooth">
       <body className={`${poppins.className} bg-[#050505]`}>
         {children}
+        <CookieConsent />
         <Analytics />
       </body>
     </html>

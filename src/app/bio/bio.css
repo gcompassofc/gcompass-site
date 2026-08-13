@@ -138,6 +138,11 @@
   font-size: 14px;
   box-shadow: 0 4px 10px -4px var(--accent);
 }
+.bio-root .brand-logo {
+  height: 30px;
+  width: auto;
+  display: block;
+}
 .bio-root .nav-links {
   display: flex;
   align-items: center;
