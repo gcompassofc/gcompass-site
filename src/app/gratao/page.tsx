@@ -851,8 +851,7 @@ export default function GrataoPage() {
             <p className="text-cyan-400/70 mt-2 italic">Depois dos 40, cada mês conta.</p>
           </div>
           <div className="flex justify-center gap-6 text-white/40">
-            <a href="#" className="hover:text-white/80 transition-colors">Termos de Uso</a>
-            <a href="#" className="hover:text-white/80 transition-colors">Privacidade</a>
+            <a href="/politica-de-privacidade" className="hover:text-white/80 transition-colors">Privacidade</a>
           </div>
         </div>
       </footer>

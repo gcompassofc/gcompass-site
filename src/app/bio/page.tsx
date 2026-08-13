@@ -1048,9 +1048,7 @@ function Footer() {
           <img className="brand-logo" src="/bio/Logo - GCompass - escuro.png" alt={CONFIG.brand} />
         </a>
         <div className="footer-links">
-          <a href="#">Termos</a>
-          <a href="#">Privacidade</a>
-          <a href="#">Contato</a>
+          <a href="/politica-de-privacidade">Privacidade</a>
         </div>
         <div className="footer-meta">
           © {new Date().getFullYear()} {CONFIG.brand} · Mini Site Comercial

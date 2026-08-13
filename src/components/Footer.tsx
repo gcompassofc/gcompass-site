@@ -1,5 +1,8 @@
+"use client";
+
 import React from 'react';
-import { Compass } from 'lucide-react';
+import Link from 'next/link';
+import { openCookiePreferences } from './CookieConsent';
 
 export function Footer() {
   return (
@@ -25,9 +28,15 @@ export function Footer() {
 
       <div className="max-w-7xl mx-auto border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-600">
         <p>&copy; {new Date().getFullYear()} G Compass. Todos os direitos reservados.</p>
-        <div className="flex gap-4">
-          <a href="#" className="hover:text-slate-300 transition-colors">Termos de Uso</a>
-          <a href="#" className="hover:text-slate-300 transition-colors">Política de Privacidade</a>
+        <div className="flex flex-wrap justify-center gap-4">
+          <Link href="/politica-de-privacidade" className="hover:text-slate-300 transition-colors">Política de Privacidade</Link>
+          <button
+            type="button"
+            onClick={openCookiePreferences}
+            className="hover:text-slate-300 transition-colors"
+          >
+            Preferências de cookies
+          </button>
         </div>
       </div>
     </footer>
