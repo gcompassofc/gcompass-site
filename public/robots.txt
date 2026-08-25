@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /opacronograma/
+Disallow: /revisao/
 
 Sitemap: https://gcompass.com.br/sitemap.xml
