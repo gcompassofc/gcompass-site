@@ -34,10 +34,17 @@ function listarRevisoes(): Item[] {
 
   return fs
     .readdirSync(REVISAO_DIR, { withFileTypes: true })
-    .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith(".html"))
-    .map((entry) => {
-      const arquivo = path.join(REVISAO_DIR, entry.name);
-      const slug = entry.name.replace(/\.html$/i, "");
+    .map((entry): Item | null => {
+      // Dois formatos: o arquivo unico `nome.html` e o site em pasta
+      // `nome/index.html` (quando tem CSS, JS e imagens proprios).
+      const ehArquivo = entry.isFile() && entry.name.toLowerCase().endsWith(".html");
+      const arquivo = ehArquivo
+        ? path.join(REVISAO_DIR, entry.name)
+        : path.join(REVISAO_DIR, entry.name, "index.html");
+
+      if (!ehArquivo && !(entry.isDirectory() && fs.existsSync(arquivo))) return null;
+
+      const slug = ehArquivo ? entry.name.replace(/\.html$/i, "") : entry.name;
       const html = fs.readFileSync(arquivo, "utf8");
 
       return {
@@ -46,6 +53,7 @@ function listarRevisoes(): Item[] {
         atualizadoEm: fs.statSync(arquivo).mtime.toISOString(),
       };
     })
+    .filter((item): item is Item => item !== null)
     .sort((a, b) => b.atualizadoEm.localeCompare(a.atualizadoEm));
 }
 
