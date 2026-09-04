@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Briefing dev · pesquisas NPS G-Compass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --violeta:#975BF8; --indigo:#6272F6; --plum:#453A55;
+  --papel:#FDFCFF; --texto:#3D3D3D; --suave:#6B6478;
+  --borda:#E7E2F0; --tint:#F5F1FE; --branco:#FFFFFF;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--papel);color:var(--texto);font-size:15.5px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:860px;margin:0 auto;padding:36px 22px 80px}
+.marca{display:flex;align-items:center;gap:10px;margin-bottom:26px}
+.simbolo{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--violeta),var(--indigo))}
+.marca span{font-weight:600;font-size:15px}
+h1{font-size:32px;line-height:1.2;font-weight:600;margin:0 0 12px;letter-spacing:-.5px}
+.lead{font-size:17px;color:var(--suave);margin:0 0 8px;max-width:62ch}
+.meta{font-size:13.5px;color:var(--suave);margin:0 0 34px}
+h2{
+  font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1.1px;color:var(--violeta);
+  margin:46px 0 14px;padding-bottom:9px;border-bottom:1px solid var(--borda)
+}
+h3{font-size:17px;font-weight:600;margin:26px 0 8px}
+p{margin:0 0 13px;max-width:70ch}
+ul,ol{margin:0 0 13px;padding-left:20px;max-width:70ch}
+li{margin-bottom:6px}
+a{color:var(--violeta)}
+strong{font-weight:600}
+code{
+  font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:13px;background:var(--tint);padding:2px 6px;border-radius:5px;color:var(--plum)
+}
+pre{
+  font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px;line-height:1.65;
+  background:var(--plum);color:#EDE8F7;padding:18px 20px;border-radius:12px;overflow-x:auto;margin:0 0 18px
+}
+pre .k{color:#C4A9FF}
+pre .s{color:#9FE8C8}
+pre .c{color:#9C93AE}
+.tabela{overflow-x:auto;margin:0 0 20px;border:1px solid var(--borda);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:520px}
+th{
+  text-align:left;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.6px;
+  color:var(--suave);padding:12px 14px;background:#FAF8FE;border-bottom:1px solid var(--borda)
+}
+td{padding:12px 14px;border-bottom:1px solid var(--borda);vertical-align:top}
+tr:last-child td{border-bottom:0}
+.arquivos{display:grid;gap:10px;margin:0 0 20px}
+.arq{
+  display:flex;align-items:center;gap:14px;padding:15px 17px;background:var(--branco);
+  border:1px solid var(--borda);border-radius:12px;text-decoration:none;color:inherit;transition:.12s
+}
+.arq:hover{border-color:var(--violeta);background:#FBFAFE}
+.arq .nome{font-family:'JetBrains Mono',monospace;font-size:13.5px;font-weight:500;color:var(--violeta)}
+.arq .desc{font-size:14px;color:var(--suave)}
+.arq .col{display:flex;flex-direction:column;gap:2px}
+.aviso{
+  border-left:3px solid var(--violeta);background:var(--tint);padding:15px 18px;
+  border-radius:0 10px 10px 0;margin:0 0 20px
+}
+.aviso p:last-child{margin-bottom:0}
+.aviso strong{color:var(--plum)}
+.nao{border-left-color:#C0392B;background:#FDF2F1}
+@media (prefers-color-scheme:dark){
+  :root{--papel:#332B3F;--branco:#3E3550;--texto:#F0EDF5;--suave:#B4ACC4;--borda:#544869;--tint:#4A3E63}
+  th{background:#453A55}
+  code{color:#E4DBFB}
+  .arq:hover{background:#453A55}
+  .nao{background:#4A3540;border-left-color:#E88A7D}
+  .aviso strong{color:#E4DBFB}
+}
+@media (max-width:600px){h1{font-size:25px}.wrap{padding:26px 18px 60px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="marca"><div class="simbolo"></div><span>G-Compass</span></div>
+
+  <h1>Pesquisas NPS da carteira</h1>
+  <p class="lead">Quatro formulários de pesquisa, um por cliente. Cada um tem perguntas diferentes e telas de agradecimento diferentes conforme a nota. O HTML já está pronto e funcional, falta hospedar, ligar no banco e gerar os links.</p>
+  <p class="meta">Ciclo 01 · envio em 09/09/2026 · prazo de publicação: 08/09 até as 18h</p>
+
+  <h2>1. Os arquivos</h2>
+  <div class="arquivos">
+    <a class="arq" href="form-opa.html">
+      <div class="col"><span class="nome">form-opa.html</span><span class="desc">OPA Ilhabela · 10 perguntas · 2 respondentes (Marco e June)</span></div>
+    </a>
+    <a class="arq" href="form-mata-nativa.html">
+      <div class="col"><span class="nome">form-mata-nativa.html</span><span class="desc">Mata Nativa · 9 perguntas · 1 respondente</span></div>
+    </a>
+    <a class="arq" href="form-auxi-estreito.html">
+      <div class="col"><span class="nome">form-auxi-estreito.html</span><span class="desc">Auxi Estreito · 10 perguntas · 2 respondentes (Marcelo e Suyanne)</span></div>
+    </a>
+    <a class="arq" href="form-saltur.html">
+      <div class="col"><span class="nome">form-saltur.html</span><span class="desc">Saltur · 7 a 10 perguntas · 1 respondente · tem lógica condicional, ver item 5b</span></div>
+    </a>
+  </div>
+  <p>Cada arquivo é autocontido: HTML, CSS e JS num só lugar, sem dependência além da fonte Poppins do Google Fonts. Dá para abrir no navegador agora e testar. Se preferir montar em React, Next ou no CMS de vocês, a marcação e as regras abaixo são a especificação; o visual precisa sair igual.</p>
+
+  <h2>2. Requisitos que não podem mudar</h2>
+  <ul>
+    <li><strong>Sem login, sem cadastro, sem captcha.</strong> São quatro pessoas conhecidas respondendo por link direto de WhatsApp. Qualquer fricção derruba a taxa de resposta, que é a única métrica que importa neste ciclo.</li>
+    <li><strong>Sem pedir nome, e-mail ou telefone.</strong> A identificação vem do campo oculto <code>cliente</code> e, onde existe, da pergunta de quem está respondendo.</li>
+    <li><strong>Mobile primeiro.</strong> Todo mundo vai abrir pelo WhatsApp, no celular. A escala de 0 a 10 quebra em duas linhas de 6 abaixo de 520px, isso já está no CSS.</li>
+    <li><strong>Só duas perguntas obrigatórias</strong> (três no formulário da OPA e no da Auxi, que têm a seleção de respondente). O botão de enviar fica desabilitado até elas estarem respondidas. O resto é opcional de verdade, sem validação escondida.</li>
+    <li><strong>Uma resposta por link, sem edição depois de enviar.</strong> Não precisa de controle de sessão nem de unicidade: se chegar resposta duplicada, a gente resolve na planilha.</li>
+    <li><strong>Página não indexável.</strong> A meta tag <code>noindex</code> já está no head, mas confirme que o robots.txt do domínio não expõe o caminho.</li>
+    <li><strong>Tema claro e escuro.</strong> Já resolvido por <code>prefers-color-scheme</code> no CSS. Não remover.</li>
+  </ul>
+
+  <h2>3. Onde publicar e como gerar os links</h2>
+  <p>Subdomínio ou subpasta do site da G-Compass, uma URL curta e legível por cliente, porque o link vai colado numa mensagem de WhatsApp:</p>
+  <pre><span class="c">// padrão sugerido</span>
+gcompass.com.br/pesquisa/opa
+gcompass.com.br/pesquisa/mata-nativa
+gcompass.com.br/pesquisa/auxi
+gcompass.com.br/pesquisa/saltur</pre>
+  <p>Nada de encurtador. Link encurtado em WhatsApp perde o preview e parece disparo em massa, que é exatamente o oposto do que a mensagem precisa transmitir.</p>
+
+  <h2>4. O que fazer com a resposta</h2>
+  <p><strong>Não há mais endpoint a construir.</strong> O <code>submit</code> envia direto para o <a href="https://formsubmit.co" style="color:#975BF8">formsubmit.co</a>, no e-mail <code>growthcompassofc@gmail.com</code>, que é o mesmo serviço e o mesmo destino já usados pelos outros formulários da G-Compass. Sem back-end, sem banco, sem rota nova.</p>
+  <p>O corpo vai com <code>_template: "table"</code> e rótulos legíveis em português, já traduzidos dos valores em snake_case. O assunto do e-mail sai pronto para triagem:</p>
+  <pre>[NPS PROMOTOR 9] Saltur - jaqueline
+[NPS DETRATOR 4] Mata Nativa</pre>
+  <p>A faixa (<code>PROMOTOR</code> 9 e 10, <code>NEUTRO</code> 7 e 8, <code>DETRATOR</code> 0 a 6) é calculada no próprio formulário e vai no assunto e no corpo, para dar para filtrar na caixa de entrada sem abrir a mensagem.</p>
+  <div class="aviso">
+    <p><strong>Atenção, o formsubmit exige ativação por origem.</strong> No primeiro envio a partir de um domínio novo ele não entrega nada: responde HTTP 200 com <code>{"success":"false"}</code> e manda um e-mail de "Activate Form" para o destinatário. Enquanto ninguém clicar nesse link, <strong>toda resposta é descartada</strong>. Isso precisa ser feito uma vez, a partir do domínio de produção, antes de mandar qualquer link para cliente.</p>
+  </div>
+  <h3>Destino</h3>
+  <ol>
+    <li>Cada resposta chega como um e-mail em <code>growthcompassofc@gmail.com</code>, em formato de tabela, com o cliente, a nota, a faixa e todas as respostas abertas.</li>
+    <li>A consolidação na planilha <code>nps-carteira.xlsx</code> é <strong>manual</strong> neste ciclo. São quatro respostas, então o custo é baixo; se a carteira crescer, aí sim vale um endpoint próprio gravando direto.</li>
+    <li><strong>Nota de 0 a 6 exige ligação em até 24 horas</strong>, e a contagem começa no envio, não em quando alguém abre o e-mail. Como não há alerta automático, vale criar um filtro no Gmail para o assunto <code>[NPS DETRATOR</code>.</li>
+    <li>No Saltur, o campo <code>&gt;&gt;&gt; INDICACAO &lt;&lt;&lt;</code> vem destacado de propósito. É a única resposta do ciclo com prazo de uma hora, porque nome indicado esfria.</li>
+  </ol>
+  <h2>5. Tela de agradecimento</h2>
+  <p>Não é uma tela só. O texto muda pela nota, e isso já está implementado no JS de cada arquivo. É o que faz o cliente saber o que vem a seguir e é parte do método, não enfeite:</p>
+  <div class="tabela">
+    <table>
+      <thead><tr><th>Nota</th><th>Título</th><th>Texto</th></tr></thead>
+      <tbody>
+        <tr><td>9 e 10</td><td>Obrigado</td><td>Vou te chamar hoje no WhatsApp com dois pedidos rápidos, leva menos de cinco minutos.</td></tr>
+        <tr><td>7 e 8</td><td>Obrigado</td><td>Vou te mandar uma pergunta só: o que faltou para ser 10. A resposta vira item com prazo no nosso plano.</td></tr>
+        <tr><td>0 a 6</td><td>Obrigado por ser direto</td><td>Isso não se resolve por mensagem. Vou te ligar hoje.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Se o envio falhar, a tela de agradecimento aparece mesmo assim e o erro vai para o console como <code>FALHA NO ENVIO DO NPS</code>. É proposital: o cliente não pode ver erro de rede numa pesquisa de satisfação. Como o formsubmit responde HTTP 200 mesmo quando recusa, o código checa o campo <code>success</code> do corpo em vez de confiar no status, senão a falha passaria despercebida. <strong>Vale um envio de teste real por formulário depois de publicar</strong>, conferindo que o e-mail chegou.</p>
+
+  <h2>5b. Lógica condicional, só no formulário da Saltur</h2>
+  <p>Esse formulário existe para captar indicação, e o pedido só aparece para quem deu nota alta. As quatro primeiras perguntas são fixas. O que vem depois depende da nota escolhida, e a troca acontece na hora, sem recarregar:</p>
+  <div class="tabela">
+    <table>
+      <thead><tr><th>Nota</th><th>O que aparece</th></tr></thead>
+      <tbody>
+        <tr><td>9 e 10</td><td>Bloco de indicação: o que a pessoa topa fazer, o campo do nome de quem ela indica, e como prefere que a gente aborde essa pessoa</td></tr>
+        <tr><td>7 e 8</td><td>Uma pergunta só: o que faltou para ser 10</td></tr>
+        <tr><td>0 a 6</td><td>Nada além das quatro primeiras. Ninguém pede indicação a quem acabou de dar nota baixa</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Se a pessoa trocar a nota depois de já ter respondido um bloco, o bloco que sai do ar é limpo antes de esconder, para não enviar resposta de pergunta que ela não estava mais vendo. Isso já está implementado no arquivo.</p>
+  <p>Na notificação para o sócio, marcar de forma destacada quando o campo <code>indicacao</code> vier preenchido. É a única resposta do ciclo inteiro que tem prazo de uma hora, porque nome indicado esfria.</p>
+
+  <h2>6. Campos por formulário</h2>
+  <div class="tabela">
+    <table>
+      <thead><tr><th>Formulário</th><th>Campos gravados</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>OPA</strong></td>
+          <td><code>respondente</code> (marco, june) · <code>nota</code> · <code>motivo</code> · <code>frente</code> (array, até 2) · <code>pedido</code> · <code>troca</code> · <code>visao_resultado</code> · <code>elogio_momento</code> · <code>elogio_forte</code> · <code>melhoria</code></td>
+        </tr>
+        <tr>
+          <td><strong>Mata Nativa</strong></td>
+          <td><code>nota</code> · <code>motivo</code> · <code>caixa</code> · <code>cortaria</code> · <code>google</code> · <code>retomada</code> · <code>elogio_momento</code> · <code>elogio_forte</code> · <code>melhoria</code></td>
+        </tr>
+        <tr>
+          <td><strong>Auxi Estreito</strong></td>
+          <td><code>respondente</code> (marcelo, suyanne) · <code>nota</code> · <code>motivo</code> · <code>qualidade</code> · <code>arte</code> · <code>escopo</code> (array, até 2) · <code>reuniao</code> · <code>elogio_momento</code> · <code>elogio_forte</code> · <code>melhoria</code></td>
+        </tr>
+        <tr>
+          <td><strong>Saltur</strong></td>
+          <td><code>nota</code> · <code>motivo</code> · <code>autonomia</code> · <code>mudou</code> (array, até 2) · <code>topa</code> (array) · <code>indicacao</code> · <code>abordagem</code> · <code>faltou</code> · <code>elogio_momento</code> · <code>elogio_forte</code> · <code>melhoria</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Os três últimos campos são iguais nos quatro formulários</strong>, sob o rótulo "Para fechar": <code>elogio_momento</code> e <code>elogio_forte</code> (pontos fortes, texto livre) e <code>melhoria</code> (o que incomoda, texto livre). Todos opcionais. Na planilha, vale uma coluna própria para cada um, porque é o material que vira depoimento e o que vira item de plano. O <code>melhoria</code> é sensível: o formulário promete ao cliente que fica só com o sócio, então não repassar em grupo com o nome junto.</p>
+  <p>No Saltur, a numeração visível do bloco de fechamento é ajustada por JS conforme a nota, para não pular número quando o bloco condicional não aparece. É só apresentação, não muda o payload.</p>
+  <p>Todos gravam também <code>cliente</code>, <code>ciclo</code> e <code>enviado_em</code>, que são ocultos. Os valores de cada alternativa estão nos atributos <code>value</code> do HTML, em snake_case, prontos para virar coluna.</p>
+
+  <h2>7. Marca</h2>
+  <div class="tabela">
+    <table>
+      <thead><tr><th>Item</th><th>Valor</th></tr></thead>
+      <tbody>
+        <tr><td>Violeta</td><td><code>#975BF8</code></td></tr>
+        <tr><td>Índigo</td><td><code>#6272F6</code></td></tr>
+        <tr><td>Plum (fundo escuro)</td><td><code>#453A55</code></td></tr>
+        <tr><td>Papel (fundo claro)</td><td><code>#FDFCFF</code></td></tr>
+        <tr><td>Texto</td><td><code>#3D3D3D</code></td></tr>
+        <tr><td>Tipografia</td><td>Poppins, pesos 400, 500 e 600</td></tr>
+        <tr><td>Gradiente</td><td><code>linear-gradient(135deg, #975BF8, #6272F6)</code>, usado no símbolo, na nota selecionada e no botão</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="aviso">
+    <p><strong>O quadrado com gradiente no topo é um marcador de posição.</strong> Substituir pelo logo real da GCompass: <code>gc-logo-claro.png</code> para o tema claro e <code>gc-logo-escuro.png</code> para o escuro, ambos em <code>03 - Skills/editor-criativo/assets/</code>. Altura de 26px, com <code>alt</code> preenchido.</p>
+  </div>
+
+  <h2>8. O que não fazer</h2>
+  <div class="aviso nao">
+    <ul style="margin-bottom:0">
+      <li><strong>Não colocar barra de progresso nem paginação.</strong> Uma tela só, rolagem contínua. Dividir em passos aumenta o abandono num formulário deste tamanho.</li>
+      <li><strong>Não marcar nenhuma alternativa por padrão</strong>, nem a do meio da escala. Isso enviesa a resposta.</li>
+      <li><strong>Não trocar o texto das perguntas nem a ordem das alternativas.</strong> A redação está calibrada por cliente e a ordem foi escolhida de propósito. Erro de digitação, avise em vez de corrigir sozinho.</li>
+      <li><strong>Não adicionar pixel de rastreamento, Meta Pixel, Analytics ou mapa de calor.</strong> É pesquisa de satisfação com cliente identificado, e rastrear comportamento aqui é quebra de confiança sem retorno nenhum.</li>
+      <li><strong>Não pedir confirmação de saída da página.</strong></li>
+      <li><strong>Não mostrar o bloco de indicação da Saltur para nota abaixo de 9.</strong> Pedir indicação a quem acabou de dar nota baixa é o pior movimento possível. A regra está no item 5b.</li>
+    </ul>
+  </div>
+
+  <h2>9. Entrega</h2>
+  <div class="tabela">
+    <table>
+      <thead><tr><th>Quando</th><th>O quê</th></tr></thead>
+      <tbody>
+        <tr><td>08/09 até 18h</td><td>Os quatro formulários no ar (OPA, Mata Nativa, Auxi, Saltur), com os links enviados para a G-Compass testar em celular</td></tr>
+        <tr><td>08/09</td><td>Endpoint gravando e notificação chegando no WhatsApp do sócio, testados com uma resposta falsa que depois é apagada da base</td></tr>
+        <tr><td>09/09</td><td>Envio das mensagens aos clientes, feito pela G-Compass. O dev fica de sobreaviso no dia</td></tr>
+
+      </tbody>
+    </table>
+  </div>
+  <p>Dúvida de conteúdo ou de redação vai para a G-Compass antes de alterar qualquer coisa. Dúvida técnica, decide e avisa.</p>
+
+</div>
+</body>
+</html>

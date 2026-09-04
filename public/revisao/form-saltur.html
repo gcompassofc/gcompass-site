@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#09090b">
+<title>Saltur e G-Compass · depois do site novo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --roxo:#9333ea; --ciano:#38bdf8;
+  --fundo:#09090b; --tinta:#fafafa;
+  --vidro:rgba(255,255,255,.03); --linha:rgba(255,255,255,.10);
+  --suave:rgba(255,255,255,.60); --fraco:rgba(255,255,255,.40);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--fundo); color:var(--tinta);
+  font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+/* brilhos de fundo, iguais aos das outras pesquisas */
+body:before,body:after{
+  content:"";position:fixed;z-index:0;pointer-events:none;border-radius:50%;
+}
+body:before{
+  top:-100px;right:-100px;width:600px;height:600px;
+  background:radial-gradient(circle,rgba(147,51,234,.15) 0%,transparent 70%);
+}
+body:after{
+  bottom:-100px;left:-100px;width:500px;height:500px;
+  background:radial-gradient(circle,rgba(56,189,248,.10) 0%,transparent 70%);
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:24px 16px 72px}
+/* painel de vidro que abraca a pesquisa inteira */
+.painel{
+  background:var(--vidro);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--linha);border-radius:24px;overflow:hidden;
+  box-shadow:0 25px 50px -12px rgba(0,0,0,.5);
+  display:flex;flex-direction:column;
+}
+/* cabecalho no lugar da sidebar: em telas largas vira duas colunas */
+.capa{background:rgba(0,0,0,.20);border-bottom:1px solid rgba(255,255,255,.05);padding:32px 28px}
+.marca{display:flex;align-items:center;gap:10px;margin-bottom:26px}
+.marca img{height:26px;width:auto;opacity:.9;display:block}
+h1{
+  font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;
+  font-size:28px;line-height:1.2;font-weight:500;margin:0 0 14px;letter-spacing:-.2px
+}
+h1 em{font-style:normal;color:var(--ciano)}
+.recado{font-size:14px;line-height:1.6;color:var(--suave);font-weight:300;margin:0;max-width:52ch}
+.assina{border-top:1px solid var(--linha);margin-top:24px;padding-top:18px}
+.assina .rot{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.30);margin-bottom:5px}
+.assina .nome{font-weight:600;font-size:14px}
+.miolo{padding:28px 28px 32px}
+/* rotulo de secao, no lugar dos numeros */
+.parte{
+  font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+  color:var(--roxo);margin:34px 0 14px;display:flex;align-items:center;gap:10px
+}
+.parte:first-child{margin-top:0}
+.parte:after{content:"";flex:1;height:1px;background:var(--linha)}
+.parte.ci{color:var(--ciano)}
+.campo{margin:0 0 26px}
+.pgt{
+  font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;
+  font-size:21px;line-height:1.35;font-weight:500;margin:0 0 6px
+}
+.pgt b{font-weight:500;color:var(--roxo)}
+.pgt.ci b{color:var(--ciano)}
+.dica{color:rgba(255,255,255,.50);font-size:14px;margin:0 0 16px;line-height:1.5}
+.tag{
+  display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  padding:3px 9px;border-radius:20px;margin-left:9px;vertical-align:3px;white-space:nowrap
+}
+.tag.ob{background:rgba(147,51,234,.20);color:#c99bf5;border:1px solid rgba(147,51,234,.45)}
+.tag.op{background:rgba(255,255,255,.05);color:var(--fraco);border:1px solid var(--linha)}
+/* escala 0 a 10 */
+.escala{display:grid;grid-template-columns:repeat(11,1fr);gap:8px;margin-top:6px}
+.escala button{
+  font-family:inherit;width:100%;height:48px;font-size:15px;font-weight:600;cursor:pointer;
+  background:var(--vidro);border:1px solid var(--linha);border-radius:12px;color:var(--tinta);
+  transition:all .25s ease;padding:0
+}
+.escala button:hover{background:rgba(56,189,248,.20);border-color:var(--ciano);transform:translateY(-2px)}
+.escala button[aria-checked="true"]{
+  background:var(--ciano);border-color:var(--ciano);color:#000;
+  box-shadow:0 0 20px rgba(56,189,248,.40)
+}
+.legenda{display:flex;justify-content:space-between;color:var(--fraco);font-size:12px;font-weight:500;margin-top:12px;padding:0 2px}
+/* alternativas */
+.opcoes{display:flex;flex-direction:column;gap:10px}
+.opcoes.duas{display:grid;grid-template-columns:repeat(2,1fr)}
+.opcoes label{
+  display:flex;align-items:center;gap:12px;padding:15px 16px;cursor:pointer;
+  background:var(--vidro);border:1px solid var(--linha);border-radius:12px;
+  font-size:15px;line-height:1.4;transition:all .25s ease
+}
+.opcoes label:hover{background:rgba(147,51,234,.12);border-color:var(--roxo)}
+.opcoes input{accent-color:var(--roxo);width:16px;height:16px;flex:0 0 auto;margin:0}
+.opcoes label:has(input:checked){
+  background:rgba(147,51,234,.20);border-color:var(--roxo);
+  box-shadow:0 0 15px rgba(147,51,234,.20);font-weight:500
+}
+.opcoes label:has(input:disabled){opacity:.40;cursor:not-allowed}
+/* texto livre */
+textarea{
+  width:100%;font-family:inherit;font-size:16px;color:var(--tinta);padding:16px;
+  background:var(--vidro);border:1px solid var(--linha);border-radius:12px;
+  resize:vertical;min-height:130px;transition:border-color .25s ease
+}
+textarea::placeholder{color:rgba(255,255,255,.28)}
+textarea:focus{outline:none;border-color:var(--roxo)}
+.escala button:focus-visible,.opcoes label:focus-within{outline:2px solid var(--ciano);outline-offset:2px}
+.limite{color:var(--fraco);font-size:12.5px;margin-top:10px}
+.ajuda{color:rgba(255,255,255,.45);font-size:13.5px;margin:10px 0 0;line-height:1.5}
+/* bloco condicional */
+.bloco{display:none}
+.bloco.on{display:block;animation:sobe .35s ease}
+@keyframes sobe{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+/* envio */
+button.enviar{
+  font-family:inherit;width:100%;padding:17px;font-size:16px;font-weight:600;color:#000;cursor:pointer;
+  background:var(--ciano);border:0;border-radius:12px;margin-top:10px;transition:all .25s ease
+}
+button.enviar:hover:not([disabled]){background:#5ac8f9;box-shadow:0 0 24px rgba(56,189,248,.35)}
+button.enviar[disabled]{opacity:.45;cursor:not-allowed}
+.erro{color:#f87171;font-size:14px;margin-top:12px;display:none}
+.erro.on{display:block}
+.rodape{color:var(--fraco);font-size:13px;text-align:center;margin-top:20px;line-height:1.6}
+/* tela final */
+.fim{display:none;text-align:center;padding:64px 24px}
+.fim.on{display:block;animation:sobe .4s ease}
+.fim .ico{
+  width:80px;height:80px;border-radius:50%;margin:0 auto 26px;
+  background:rgba(147,51,234,.20);border:1px solid var(--roxo);color:var(--roxo);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 30px rgba(147,51,234,.40)
+}
+.fim .ico svg{width:38px;height:38px}
+.fim h2{font-family:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;font-size:30px;font-weight:500;margin:0 0 14px}
+.fim p{color:var(--suave);font-size:16px;margin:0;max-width:420px;margin-inline:auto;line-height:1.6}
+@media (min-width:860px){
+  .painel{flex-direction:row;min-height:600px}
+  .painel:has(.fim){min-height:0;flex-direction:column}
+  .capa{width:340px;flex:0 0 340px;border-bottom:0;border-right:1px solid rgba(255,255,255,.05);padding:40px 32px;display:flex;flex-direction:column;justify-content:space-between}
+  .miolo{flex:1;padding:40px 40px 44px;min-width:0}
+  .wrap{padding:40px 24px 80px}
+}
+@media (max-width:560px){
+  h1{font-size:24px}
+  .pgt{font-size:19px}
+  .capa,.miolo{padding:24px 20px}
+  .opcoes.duas{grid-template-columns:1fr}
+  .escala{grid-template-columns:repeat(6,1fr)}
+  .escala button{height:52px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="painel" id="painel">
+    <aside class="capa">
+      <div>
+        <div class="marca"><img src="/gcompass-logo-white.svg" alt="G-Compass"></div>
+        <h1>Saltur e G-Compass,<br><em>depois do site novo</em></h1>
+        <p class="recado">Sete perguntas, cinco delas opcionais. Cerca de dois minutos, sem login e sem cadastro. Jaque, o que você escrever aqui chega direto em quem conduziu o projeto.</p>
+      </div>
+      <div class="assina">
+        <div class="rot">Quem lê esta resposta</div>
+        <div class="nome">Quem conduziu o projeto</div>
+      </div>
+    </aside>
+    <div class="miolo">
+      <form id="pesquisa" novalidate>
+      <input type="hidden" name="cliente" value="saltur">
+      <input type="hidden" name="respondente" value="jaqueline">
+      <input type="hidden" name="ciclo" value="01">
+      <input type="hidden" name="enviado_em" id="enviado_em" value="">
+      <div class="parte ci">A nota</div>
+      <div class="campo">
+        <p class="pgt ci">De 0 a 10, o quanto você <b>indicaria</b> a G-Compass para outro dono de agência de viagem, ou para uma empresa da Serra que precisa resolver site e atendimento?<span class="tag ob">obrigatória</span></p>
+        <div class="escala" id="nps" role="radiogroup" aria-label="Nota de 0 a 10"></div>
+        <div class="legenda"><span>0, de jeito nenhum</span><span>10, com certeza</span></div>
+        <input type="hidden" name="nota" id="nota" value="">
+      </div>
+      <div class="campo">
+        <p class="pgt">O que pesou mais nessa nota?<span class="tag ob">obrigatória</span></p>
+        <textarea name="motivo" id="motivo" placeholder="Pode escrever do seu jeito, sem formalidade." maxlength="1200"></textarea>
+      </div>
+      <div class="parte">Depois que o site entrou no ar</div>
+      <div class="campo">
+        <p class="pgt">Hoje, quando a equipe precisa <b>alimentar</b> o site, colocar um pacote novo, trocar uma foto, atualizar um preço, ela resolve sozinha?<span class="tag op">opcional</span></p>
+        <div class="opcoes" role="radiogroup">
+          <label><input type="radio" name="autonomia" value="sozinha_rapido"><span>Resolve sozinha e rápido</span></label>
+          <label><input type="radio" name="autonomia" value="demora"><span>Resolve, mas ainda demora mais do que devia</span></label>
+          <label><input type="radio" name="autonomia" value="chama_fora"><span>Ainda precisa chamar alguém de fora</span></label>
+          <label><input type="radio" name="autonomia" value="nao_sei"><span>Não sei dizer, quem alimenta é outra pessoa</span></label>
+        </div>
+      </div>
+      <div class="campo">
+        <p class="pgt">O que mais <b>mudou</b> depois que o site novo entrou no ar?<span class="tag op">opcional</span></p>
+        <div class="opcoes duas" data-max="2">
+          <label><input type="checkbox" name="mudou" value="autonomia"><span>A autonomia para atualizar sem depender de ninguém</span></label>
+          <label><input type="checkbox" name="mudou" value="custo"><span>O custo, que caiu</span></label>
+          <label><input type="checkbox" name="mudou" value="estabilidade"><span>A estabilidade, o site parou de dar problema</span></label>
+          <label><input type="checkbox" name="mudou" value="imagem"><span>A cara da empresa, ficou mais à altura da Saltur</span></label>
+          <label><input type="checkbox" name="mudou" value="google"><span>Aparecer melhor no Google</span></label>
+          <label><input type="checkbox" name="mudou" value="cedo"><span>Ainda é cedo para dizer</span></label>
+        </div>
+      </div>
+      <p class="limite" style="margin-top:-18px;margin-bottom:26px">Escolha até 2.</p>
+      <div class="bloco" id="blocoIndicacao">
+      <div class="parte ci">Um pedido</div>
+      <div class="campo">
+        <p class="pgt ci">A gente cresce por <b>indicação</b>, igual à Saltur. Qual desses você toparia?<span class="tag op">opcional</span></p>
+        <div class="opcoes">
+          <label><input type="checkbox" name="topa" value="citar_nome"><span>Falar meu nome numa conversa com alguém que eu indicar</span></label>
+          <label><input type="checkbox" name="topa" value="audio"><span>Gravar um áudio de 30 segundos contando como foi</span></label>
+          <label><input type="checkbox" name="topa" value="assinatura"><span>Deixar a assinatura "site por G-Compass" no rodapé do site</span></label>
+          <label><input type="checkbox" name="topa" value="marca"><span>Autorizar o uso do nome e do logo da Saltur nos nossos materiais</span></label>
+          <label><input type="checkbox" name="topa" value="nao"><span>Prefiro não, por enquanto</span></label>
+        </div>
+      </div>
+      <div class="campo">
+        <p class="pgt ci">Tem alguém que te vem à cabeça agora?<span class="tag op">opcional</span></p>
+        <textarea name="indicacao" placeholder="Dono de agência da Serra, uma empresa do seu corporativo, alguém da ABAV, ou qualquer pessoa que ande reclamando do site ou do sistema que usa. Nome e, se lembrar, o contato." maxlength="800"></textarea>
+        <p class="ajuda">Se me passar o nome, eu mesmo faço o contato. Você não precisa apresentar ninguém.</p>
+      </div>
+      <div class="campo">
+        <p class="pgt ci">Como você prefere que eu chegue nessa pessoa?<span class="tag op">opcional</span></p>
+        <div class="opcoes" role="radiogroup">
+          <label><input type="radio" name="abordagem" value="cita"><span>Falo direto e digo que foi você quem indicou</span></label>
+          <label><input type="radio" name="abordagem" value="nao_cita"><span>Falo direto, mas não cito seu nome</span></label>
+          <label><input type="radio" name="abordagem" value="apresenta"><span>Prefiro apresentar eu mesma, num grupo ou numa mensagem</span></label>
+          <label><input type="radio" name="abordagem" value="combina"><span>Prefiro combinar isso com você antes</span></label>
+        </div>
+      </div>
+      </div>
+      <div class="bloco" id="blocoNeutro">
+      <div class="parte">Só mais uma</div>
+      <div class="campo">
+        <p class="pgt">O que faltou para ser <b>10</b>?<span class="tag op">opcional</span></p>
+        <textarea name="faltou" placeholder="O que teria que ter acontecido." maxlength="1200"></textarea>
+      </div>
+      </div>
+      <div class="parte">Para fechar</div>
+      <div class="campo">
+        <p class="pgt">Teve algum momento nesse projeto em que você pensou <b>"ainda bem que chamei essa gente"</b>?<span class="tag op">opcional</span></p>
+        <textarea name="elogio_momento" placeholder="Pode ser uma entrega, uma conversa, um problema resolvido numa hora ruim. Do jeito que vier." maxlength="1200"></textarea>
+      </div>
+      <div class="campo">
+        <p class="pgt">Se alguém te perguntasse hoje o que a G-Compass <b>faz bem</b>, o que você responderia sem pensar muito?<span class="tag op">opcional</span></p>
+        <textarea name="elogio_forte" placeholder="Aquilo que você diria de boca cheia." maxlength="1200"></textarea>
+      </div>
+      <div class="campo">
+        <p class="pgt">E o contrário: tem alguma coisa que te <b>incomoda</b>, mesmo que pequena, que você talvez não falasse numa conversa?<span class="tag op">opcional</span></p>
+        <textarea name="melhoria" placeholder="Aqui pode ser duro. É mais útil pra mim do que elogio." maxlength="1200"></textarea>
+        <p class="ajuda">Fica só comigo. Não vai para a equipe com o seu nome.</p>
+      </div>
+      <button type="submit" class="enviar" id="btn" disabled>Enviar resposta</button>
+      <p class="erro" id="erro">Faltam a nota e o motivo.</p>
+      <p class="rodape">A resposta vai direto para quem conduziu o projeto.<br>Ninguém mais da equipe vê antes.</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var nps = document.getElementById('nps');
+  var notaInput = document.getElementById('nota');
+  var motivo = document.getElementById('motivo');
+  var btn = document.getElementById('btn');
+  var erro = document.getElementById('erro');
+  var form = document.getElementById('pesquisa');
+
+  document.getElementById('enviado_em').value = new Date().toISOString();
+
+  for (var i = 0; i <= 10; i++) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = i; b.setAttribute('role','radio');
+    b.setAttribute('aria-checked','false'); b.dataset.valor = i;
+    nps.appendChild(b);
+  }
+
+  nps.addEventListener('click', function(e){
+    var alvo = e.target.closest('button'); if (!alvo) return;
+    Array.prototype.forEach.call(nps.children, function(b){ b.setAttribute('aria-checked','false'); });
+    alvo.setAttribute('aria-checked','true');
+    notaInput.value = alvo.dataset.valor;
+    aoEscolherNota(parseInt(alvo.dataset.valor, 10));
+    validar();
+  });
+
+  // limite de marcacoes nos grupos com data-max
+  document.querySelectorAll('.opcoes[data-max]').forEach(function(grupo){
+    var max = parseInt(grupo.dataset.max, 10);
+    grupo.addEventListener('change', function(){
+      var marcados = grupo.querySelectorAll('input:checked');
+      grupo.querySelectorAll('input').forEach(function(inp){
+        inp.disabled = (marcados.length >= max && !inp.checked);
+      });
+    });
+  });
+
+  var CLIENTE = 'Saltur';
+  var ROTULOS = [
+    ['motivo', 'O que pesou na nota'],
+    ['autonomia', 'Autonomia para alimentar o site', {sozinha_rapido:'Resolve sozinha e rapido', demora:'Resolve, mas demora', chama_fora:'Precisa chamar alguem de fora', nao_sei:'Nao sabe dizer'}],
+    ['mudou', 'O que mais mudou', {autonomia:'Autonomia para atualizar', custo:'O custo, que caiu', estabilidade:'Estabilidade', imagem:'A cara da empresa', google:'Aparecer melhor no Google', cedo:'Ainda e cedo para dizer'}],
+    ['topa', 'O que topa fazer', {citar_nome:'Falar o nome numa conversa', audio:'Gravar audio de 30s', assinatura:'Assinatura no rodape do site', marca:'Autorizar nome e logo', nao:'Prefere nao, por enquanto'}],
+    ['indicacao', '>>> INDICACAO <<<'],
+    ['abordagem', 'Como abordar o indicado', {cita:'Falar direto citando ela', nao_cita:'Falar direto sem citar', apresenta:'Ela mesma apresenta', combina:'Combinar antes com ela'}],
+    ['faltou', 'O que faltou para ser 10'],
+    ['elogio_momento', 'Momento ainda bem que chamei'],
+    ['elogio_forte', 'O que a G-Compass faz bem'],
+    ['melhoria', 'O que incomoda']
+  ];
+  var blocoInd = document.getElementById('blocoIndicacao');
+  var blocoNeu = document.getElementById('blocoNeutro');
+
+  // nota 9 ou 10 abre o bloco de indicacao; 7 ou 8 abre a pergunta do que faltou;
+  // 0 a 6 nao abre nada, ninguem pede indicacao a quem acabou de dar nota baixa
+  function aoEscolherNota(nota){
+    var indicacao = nota >= 9;
+    var neutro = nota === 7 || nota === 8;
+    blocoInd.classList.toggle('on', indicacao);
+    blocoNeu.classList.toggle('on', neutro);
+    if (!indicacao) limpar(blocoInd);
+    if (!neutro) limpar(blocoNeu);
+  }
+
+  function limpar(bloco){
+    bloco.querySelectorAll('input').forEach(function(i){ i.checked = false; i.disabled = false; });
+    bloco.querySelectorAll('textarea').forEach(function(t){ t.value = ''; });
+  }
+
+  function obrigatoriasOk(){
+    return notaInput.value !== '' && motivo.value.trim().length > 1;
+  }
+
+  function validar(){
+    var ok = obrigatoriasOk();
+    btn.disabled = !ok;
+    if (ok) erro.classList.remove('on');
+    return ok;
+  }
+  form.addEventListener('input', validar);
+  form.addEventListener('change', validar);
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (!validar()) { erro.classList.add('on'); return; }
+    btn.disabled = true; btn.textContent = 'Enviando';
+
+    var dados = {};
+    new FormData(form).forEach(function(v, k){
+      if (dados[k]) { dados[k] = [].concat(dados[k], v); } else { dados[k] = v; }
+    });
+
+    fetch('https://formsubmit.co/ajax/growthcompassofc@gmail.com', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify(paraEmail(dados))
+    })
+    .then(function(r){ return r.json().catch(function(){ return null; }); })
+    .then(function(j){
+      // o formsubmit devolve 200 mesmo em falha; o que vale e o campo success
+      if (!j || String(j.success) !== 'true') {
+        console.error('FALHA NO ENVIO DO NPS', j);
+      }
+      agradecer(dados);
+    })
+    .catch(function(e){ console.error('FALHA NO ENVIO DO NPS', e); agradecer(dados); });
+  });
+
+
+  // traduz o payload cru em rotulos legiveis, na ordem das perguntas
+  function paraEmail(dados){
+    var nota = parseInt(dados.nota, 10);
+    var faixa = nota >= 9 ? 'PROMOTOR' : (nota >= 7 ? 'NEUTRO' : 'DETRATOR');
+    var corpo = {
+      _subject: '[NPS ' + faixa + ' ' + (isNaN(nota) ? '?' : nota) + '] ' + CLIENTE + (dados.respondente ? ' - ' + dados.respondente : ''),
+      _template: 'table'
+    };
+    corpo['Cliente'] = CLIENTE;
+    corpo['Ciclo'] = dados.ciclo || '';
+    corpo['Respondente'] = dados.respondente || '';
+    corpo['Nota'] = dados.nota || '';
+    corpo['Faixa'] = faixa;
+    ROTULOS.forEach(function(par){
+      var chave = par[0], rotulo = par[1], mapa = par[2];
+      var v = dados[chave];
+      if (v === undefined || v === null || v === '') return;
+      if (Array.isArray(v)) {
+        v = v.map(function(x){ return (mapa && mapa[x]) || x; }).join(', ');
+      } else if (mapa && mapa[v]) {
+        v = mapa[v];
+      }
+      corpo[rotulo] = v;
+    });
+    corpo['Enviado em'] = dados.enviado_em || '';
+    return corpo;
+  }
+
+  function agradecer(dados){
+    var nota = parseInt(dados.nota, 10);
+    var t = {}, p = {};
+    var indicou = dados.indicacao;
+    if (nota >= 9 && indicou && indicou.trim()) {
+      t.textContent = 'Obrigado de verdade, Jaque';
+      p.textContent = 'Falo com essa pessoa ainda essa semana, do jeito que você marcou. Depois te conto no que deu.';
+    } else if (nota >= 9) {
+      t.textContent = 'Obrigado, Jaque';
+      p.textContent = 'Te chamo hoje no WhatsApp para combinar o que você marcou aí. Leva cinco minutos.';
+    } else if (nota >= 7) {
+      t.textContent = 'Obrigado, Jaque';
+      p.textContent = 'Vou trabalhar em cima do que você escreveu e te aviso quando estiver resolvido.';
+    } else {
+      t.textContent = 'Obrigado por ser direta';
+      p.textContent = 'Isso não se resolve por mensagem. Vou te ligar hoje.';
+    }
+    var painel = document.getElementById('painel');
+    painel.innerHTML = '';
+    var fim = document.createElement('div');
+    fim.className = 'fim on';
+    var ico = document.createElement('div');
+    ico.className = 'ico';
+    ico.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+    var h = document.createElement('h2');
+    h.textContent = t.textContent;
+    var d = document.createElement('p');
+    d.textContent = p.textContent;
+    fim.appendChild(ico); fim.appendChild(h); fim.appendChild(d);
+    painel.appendChild(fim);
+    window.scrollTo(0,0);
+  }
+})();
+</script>
+</body>
+</html>
