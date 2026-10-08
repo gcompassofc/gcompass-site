@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="robots" content="noindex">
+<title>Central Operacional Ilha Guest</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{color-scheme:light;--bg:#f5f7fb;--surface:#fff;--line:#e2e7ef;--line-soft:#eef1f6;--text:#1d2330;--muted:#5d6676;--faint:#8b94a5;--blue:#1a6fe0;--blue-dark:#1253b0;--blue-soft:#e8f0fd;--green:#17803d;--green-soft:#e4f4ea;--amber:#8f5300;--amber-soft:#fdf1d3;--red:#bf2d1b;--red-soft:#fde7e4;--r:16px;--nav-h:64px;--top-h:64px;--font:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body.lock{overflow:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid #8ab4f8;outline-offset:2px}
+h1,h2,h3,p{margin:0}
+.skip{position:absolute;left:-999px;top:8px;background:#fff;padding:8px 12px;border-radius:8px;z-index:100}
+.skip:focus{left:8px}
+.ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* topo */
+.top{position:sticky;top:0;z-index:30;height:var(--top-h);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left));background:rgba(255,255,255,.93);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.logo{flex:none;width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--blue) 50%,#2ea05a 50%)}
+.brand b{display:block;font-size:15px;line-height:1.15}
+.brand small{display:block;font-size:11px;color:var(--muted);margin-top:1px}
+.switch{display:flex;gap:3px;padding:3px;background:#edf0f5;border-radius:12px;flex:none}
+.switch button{border:0;background:transparent;padding:8px 14px;min-height:38px;border-radius:9px;font-size:13px;font-weight:600;color:var(--muted)}
+.switch button[aria-selected=true]{background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(20,30,50,.15)}
+
+/* base */
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--blue);margin-bottom:6px}
+h1{font-size:clamp(25px,4vw,31px);letter-spacing:-.03em;line-height:1.15}
+.sub{font-size:14.5px;color:var(--muted);margin-top:8px;max-width:680px}
+.muted{color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:0 16px;border:1px solid var(--line);background:#fff;border-radius:12px;font-size:14px;font-weight:600;color:#2c3445}
+.btn:hover{background:#f7f9fc}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.primary:hover{background:var(--blue-dark)}
+.btn.success{background:var(--green);border-color:var(--green);color:#fff}
+.btn.soft{background:var(--blue-soft);border-color:transparent;color:var(--blue-dark)}
+.btn.small{min-height:36px;padding:0 12px;font-size:13px}
+.btn.block{width:100%}
+.btn:disabled{opacity:.6;cursor:default}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.ph h2{font-size:15px}
+.ph p{font-size:12px;color:var(--muted);margin-top:2px}
+.badge{display:inline-flex;align-items:center;padding:4px 9px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.b-alta{background:var(--red-soft);color:var(--red)}
+.b-urgente{background:var(--red);color:#fff}
+.b-media{background:var(--amber-soft);color:var(--amber)}
+.b-baixa{background:#eef1f6;color:var(--muted)}
+.s-aberta{background:var(--amber-soft);color:var(--amber)}
+.s-andamento{background:var(--blue-soft);color:var(--blue-dark)}
+.s-resolvida{background:var(--green-soft);color:var(--green)}
+.s-aguardando{background:#efeafc;color:#5b3fb0}
+.d-alt{margin-top:8px}
+.empty{padding:28px 18px;text-align:center;color:var(--muted);font-size:14px}
+.tag-next{display:inline-block;margin-left:6px;padding:2px 7px;border-radius:999px;background:#eef1f6;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.02em;vertical-align:middle}
+
+/* protótipo: estrutura */
+.demo-note{background:#fff8e1;border-bottom:1px solid #f3e1a6;color:#6b4d00;font-size:12.5px;padding:8px 16px;text-align:center}
+.app{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:calc(100vh - var(--top-h) - 36px)}
+.side{position:sticky;top:var(--top-h);align-self:start;height:calc(100vh - var(--top-h));overflow:auto;background:#fff;border-right:1px solid var(--line);padding:18px 12px}
+.side .sl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:700;padding:14px 12px 8px}
+.side .sl:first-child{padding-top:0}
+.nav-btn{display:flex;align-items:center;gap:11px;width:100%;min-height:44px;padding:0 12px;border:0;background:transparent;border-radius:12px;color:#454d5e;font-size:14px;text-align:left}
+.nav-btn:hover{background:#f4f6fa}
+.nav-btn[aria-current=true]{background:var(--blue-soft);color:var(--blue-dark);font-weight:700}
+.count{margin-left:auto;min-width:22px;padding:1px 7px;border-radius:999px;background:var(--blue);color:#fff;font-size:11px;font-weight:700;text-align:center}
+.content{padding:28px 32px 56px;max-width:1320px;width:100%;margin:0 auto}
+.vhead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.next-note{background:#f0f4fb;border:1px dashed #c9d6ec;color:#3f4f6b;border-radius:12px;padding:11px 14px;font-size:13px;margin-bottom:18px}
+
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.metric{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.metric .l{font-size:12.5px;color:var(--muted);font-weight:600}
+.metric .v{font-size:30px;font-weight:760;letter-spacing:-.04em;line-height:1.1;margin-top:8px}
+.metric .n{font-size:12px;color:var(--faint);margin-top:6px}
+.two{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px;align-items:start}
+.occ-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(320px,1fr);gap:16px;align-items:start}
+
+/* lista de ocorrências */
+.filters{display:flex;gap:8px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid var(--line);background:#fbfcfe;border-radius:var(--r) var(--r) 0 0}
+.filters input,.filters select,.form input,.form select,.form textarea,.chatbox input{border:1px solid #d5dbe4;background:#fff;border-radius:10px;padding:10px 12px;min-height:44px;font-size:16px;width:100%}
+.filters input{flex:1 1 220px;width:auto}
+.filters select{flex:1 1 140px;width:auto}
+.olist,.feed{list-style:none;margin:0;padding:0}
+.olist li+li{border-top:1px solid var(--line-soft)}
+.ohead,.orow{display:grid;grid-template-columns:minmax(0,2.2fr) 84px 118px 124px;gap:12px;align-items:center}
+.ohead{padding:10px 18px;background:#fbfcfe;border-bottom:1px solid var(--line);font-size:11.5px;font-weight:700;color:var(--faint)}
+.orow{width:100%;border:0;background:transparent;text-align:left;padding:13px 18px;min-height:60px}
+.orow:hover{background:#f7f9fd}
+.orow[aria-current=true]{background:var(--blue-soft)}
+.o-title{display:block;font-size:14px;font-weight:650}
+.o-home{display:block;font-size:12.5px;color:var(--muted);margin-top:1px}
+.o-who{display:flex;flex-direction:column;font-size:13px}
+.o-due{font-size:12px;color:var(--muted)}
+.feed li{padding:14px 18px}
+.feed li+li{border-top:1px solid var(--line-soft)}
+.feed b{font-size:13.5px}
+.feed p{font-size:12.5px;color:var(--muted);margin-top:2px}
+.feed time{display:block;font-size:11.5px;color:var(--faint);margin-top:3px}
+
+/* detalhe */
+.detail{position:sticky;top:calc(var(--top-h) + 16px);max-height:calc(100vh - var(--top-h) - 32px);overflow:auto}
+.d-bar{display:none}
+.d-in{padding:20px}
+.d-title{font-size:19px;letter-spacing:-.02em;line-height:1.25}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;margin:14px 0 4px}
+.kv div{padding:10px 0;border-bottom:1px dashed var(--line)}
+.kv dt{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);font-weight:700}
+.kv dd{margin:3px 0 0;font-size:14px}
+.d-sec{margin-top:18px}
+.d-sec h3{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin-bottom:8px}
+.d-sec p{font-size:14px;color:#3b4354}
+.tiles{display:flex;gap:8px;flex-wrap:wrap}
+.tile{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;background:repeating-linear-gradient(135deg,#f1f4f9 0 8px,#e9edf4 8px 16px);color:#4a5365;font-size:12.5px;font-weight:600}
+.tile.audio{background:var(--blue-soft);color:var(--blue-dark)}
+.msgs{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}
+.msg{max-width:88%;padding:9px 12px;border-radius:14px;background:#f1f3f7;font-size:13.5px;line-height:1.45}
+.msg b{display:block;font-size:11.5px;color:var(--muted);margin-bottom:1px}
+.msg.me{align-self:flex-end;background:var(--blue-soft);color:#143f80}
+.msg.me b{color:#3a63a8}
+.msg.sys{align-self:center;max-width:100%;background:transparent;color:var(--faint);font-size:12px;padding:2px}
+.chatbox{display:flex;gap:8px}
+.chatbox input{flex:1;min-width:0;width:auto}
+
+/* imóveis, histórico, etc */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.card h3{font-size:15px}
+.card .meta{font-size:12.5px;color:var(--muted);margin:3px 0 12px}
+.asset{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line-soft);font-size:13px}
+.asset .ok{color:var(--green);font-weight:600;font-size:12px}
+.card .btn{margin-top:12px}
+.list-cards{display:grid;gap:10px}
+.item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.item b{font-size:14px}
+.item p{font-size:13px;color:var(--muted);margin-top:4px}
+.item.row{display:flex;justify-content:space-between;align-items:center;gap:14px}
+.date{flex:none;font-size:12px;background:#eef1f6;border-radius:999px;padding:6px 10px;color:#4a5365;white-space:nowrap}
+.insight{border-color:#cfe0fb;background:#f6f9ff}
+.chk{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-top:1px solid var(--line-soft)}
+.chk label{display:flex;align-items:center;gap:12px;min-height:44px;flex:1;cursor:pointer}
+.chk input{width:22px;height:22px;accent-color:var(--blue);flex:none}
+.chk b{display:block;font-size:14px;font-weight:650}
+.chk span.s{display:block;font-size:12.5px;color:var(--muted)}
+.fail{border:0;background:var(--red-soft);color:var(--red);min-height:40px;padding:0 12px;border-radius:10px;font-size:12.5px;font-weight:700;flex:none}
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.person{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--blue-soft);color:var(--blue-dark);display:grid;place-items:center;font-weight:700;flex:none}
+.person b{display:block;font-size:14px}
+.person span{font-size:12.5px;color:var(--muted)}
+.sec-title{font-size:15px;margin:26px 0 12px}
+
+/* navegação inferior (celular) */
+.bottom{display:none;position:fixed;left:0;right:0;bottom:0;z-index:35;height:calc(var(--nav-h) + env(safe-area-inset-bottom));padding:0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);background:rgba(255,255,255,.96);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--line)}
+.bottom button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:0;background:transparent;color:var(--muted);font-size:11px;font-weight:600;min-width:0;position:relative}
+.bottom button[aria-current=true]{color:var(--blue)}
+.bottom .fab-wrap{flex:0 0 72px;display:flex;align-items:flex-start;justify-content:center}
+.bottom .fab{flex:none;width:54px;height:54px;margin-top:-16px;border-radius:50%;background:var(--blue);color:#fff;box-shadow:0 6px 16px rgba(26,111,224,.4);display:grid;place-items:center;border:0}
+.bottom .fab .ic{width:24px;height:24px}
+.bottom .count{position:absolute;top:6px;left:calc(50% + 6px);margin:0;min-width:18px;font-size:10px;padding:0 5px}
+.sheet-list{display:grid;gap:4px;padding:8px 12px 16px}
+.sheet-list .nav-btn{min-height:52px;font-size:15px}
+
+/* diálogos */
+dialog{border:0;padding:0;border-radius:20px;width:min(560px,calc(100% - 24px));max-height:92dvh;overflow:auto;color:var(--text);box-shadow:0 20px 60px rgba(15,20,35,.3)}
+dialog::backdrop{background:rgba(20,24,35,.5)}
+.dlg-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px 4px}
+.dlg-h h2{font-size:18px}
+.icon-btn{width:44px;height:44px;border:0;background:#f1f3f7;border-radius:12px;display:grid;place-items:center}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 20px 20px}
+.form .full{grid-column:1/-1}
+.form label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:5px}
+.form textarea{min-height:96px;resize:vertical}
+.form .err{color:var(--red);font-size:12.5px;margin-top:4px}
+.attach{display:flex;gap:8px;flex-wrap:wrap}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chip{background:#eef1f6;border-radius:999px;padding:4px 10px;font-size:12px;color:#4a5365}
+.hint{font-size:12px;color:var(--faint)}
+.dlg-actions{display:flex;gap:8px;justify-content:flex-end}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#1d2330;color:#fff;padding:12px 16px;border-radius:12px;font-size:13.5px;z-index:80;max-width:calc(100% - 32px);transition:opacity .2s,transform .2s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* proposta */
+.pro{max-width:1040px;margin:0 auto;padding:40px 24px 72px}
+.hero{padding:8px 0 4px}
+.hero h1{font-size:clamp(30px,6vw,48px);letter-spacing:-.04em;line-height:1.08;max-width:760px}
+.hero .lead{font-size:clamp(16px,2.4vw,19px);color:var(--muted);max-width:660px;margin-top:16px;line-height:1.55}
+.hero .by{font-size:12.5px;color:var(--faint);margin-top:18px}
+.hero .btn{margin-top:22px}
+.sec{margin-top:56px}
+.sec h2{font-size:clamp(22px,4vw,28px);letter-spacing:-.03em;line-height:1.2;max-width:720px}
+.sec .intro{color:var(--muted);margin-top:10px;max-width:680px;font-size:15.5px}
+.sec .body{margin-top:22px}
+.flow-box{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.flow-box+.flow-box{margin-top:12px}
+.flow-box h3{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin-bottom:12px}
+.flow-box.after{border-color:#cfe0fb;background:#f6f9ff}
+.flow-box.after h3{color:var(--blue)}
+.flow{list-style:none;display:flex;flex-wrap:wrap;gap:8px 2px;margin:0;padding:0}
+.flow li{display:flex;align-items:center}
+.flow li+li::before{content:"\203A";color:var(--faint);margin:0 6px;font-size:18px}
+.flow span{background:#eef1f6;border-radius:999px;padding:7px 12px;font-size:13.5px}
+.flow-box.after .flow span{background:#fff;border:1px solid #cfe0fb}
+.scene{margin-top:16px;color:#3b4354;max-width:680px}
+.grid-a{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.feat{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.feat .fi{width:38px;height:38px;border-radius:12px;background:var(--blue-soft);color:var(--blue-dark);display:grid;place-items:center;margin-bottom:12px}
+.feat b{display:block;font-size:15px}
+.feat p{font-size:13.5px;color:var(--muted);margin-top:5px;line-height:1.5}
+.cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.box{border:1px solid var(--line);border-radius:var(--r);padding:20px;background:#fff}
+.box.yes{background:#f6fbf8;border-color:#d8ecdf}
+.box.no{background:#fafafb}
+.box h3{font-size:15px;margin-bottom:8px}
+.box ul{margin:0;padding-left:18px;color:#4a5365;font-size:14px;line-height:1.7}
+.phase{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.phase .num{width:28px;height:28px;border-radius:50%;background:var(--text);color:#fff;display:grid;place-items:center;font-size:12.5px;font-weight:700;margin-bottom:12px}
+.phase b{display:block;font-size:15px}
+.phase p{font-size:13.5px;color:var(--muted);margin-top:5px}
+.phase.now{border:2px solid var(--blue)}
+.steps{counter-reset:s;list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.steps li{counter-increment:s;display:flex;gap:14px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.steps li::before{content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;background:var(--blue-soft);color:var(--blue-dark);display:grid;place-items:center;font-weight:700;font-size:13px}
+.steps b{display:block;font-size:15px}
+.steps p{font-size:13.5px;color:var(--muted);margin-top:2px}
+.closing{margin-top:56px;background:#1d2330;color:#fff;border-radius:20px;padding:28px}
+.closing h2{font-size:clamp(20px,3.6vw,26px);letter-spacing:-.02em;line-height:1.25;max-width:700px}
+.closing p{color:#c9cfdb;margin-top:10px;max-width:640px}
+.foot{margin-top:28px;font-size:12.5px;color:var(--faint)}
+
+/* celular e tablet */
+@media(max-width:1000px){
+  .app{display:block;min-height:0}
+  .side{display:none}
+  .bottom{display:flex}
+  .content{padding:20px 16px calc(var(--nav-h) + 32px + env(safe-area-inset-bottom))}
+  .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .two,.occ-grid{grid-template-columns:1fr}
+  .vact{display:none}
+  .toast{bottom:calc(var(--nav-h) + 20px + env(safe-area-inset-bottom))}
+  .ohead{display:none}
+  .orow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:14px 16px}
+  .o-main{flex:1 1 100%}
+  .o-who{flex-direction:row;gap:6px;margin-left:auto;font-size:12.5px;color:var(--muted)}
+  .o-due::before{content:"\00B7";margin-right:6px}
+  .detail{display:none}
+  .detail.open{display:block;position:fixed;inset:0;z-index:45;max-height:none;border-radius:0;border:0;overflow:auto;padding-bottom:env(safe-area-inset-bottom)}
+  .d-bar{display:block;position:sticky;top:0;z-index:2;background:rgba(255,255,255,.96);padding:10px 12px;border-bottom:1px solid var(--line)}
+  .filters{border-radius:var(--r) var(--r) 0 0}
+}
+@media(max-width:640px){
+  .top{padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right))}
+  .brand small{display:none}
+  .switch button{padding:8px 11px}
+  .metric{padding:14px}
+  .metric .v{font-size:26px}
+  .form{grid-template-columns:1fr;padding:12px 16px 18px}
+  .dlg-h{padding:16px 16px 2px}
+  dialog.sheet{margin:auto 0 0;width:100%;max-width:none;border-radius:20px 20px 0 0;max-height:94dvh}
+  .dlg-actions .btn{flex:1}
+  .item.row{align-items:flex-start;flex-direction:column;gap:8px}
+  .pro{padding:28px 16px 56px}
+  .sec{margin-top:44px}
+  .kv{grid-template-columns:1fr 1fr}
+  .closing{padding:22px;border-radius:18px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Pular para o conteúdo</a>
+
+<header class="top">
+  <div class="brand"><div class="logo" aria-hidden="true"></div><div><b>Ilha Guest</b><small>Central Operacional</small></div></div>
+  <div class="switch" role="tablist" aria-label="Seções">
+    <button role="tab" id="tab-proto" aria-selected="true" aria-controls="proto" data-tab="proto">Protótipo</button>
+    <button role="tab" id="tab-proposta" aria-selected="false" aria-controls="proposta" data-tab="proposta">Proposta</button>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ================= PROTÓTIPO ================= -->
+<section id="proto" role="tabpanel" aria-labelledby="tab-proto">
+  <div class="demo-note">Protótipo navegável com dados de exemplo. O que você registrar aqui não é guardado e some ao recarregar a página.</div>
+  <div class="app">
+    <nav class="side" aria-label="Menu da Central">
+      <div class="sl">Operação</div>
+      <button class="nav-btn" data-go="dash"><svg class="ic" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>Visão geral</button>
+      <button class="nav-btn" data-go="occ"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg>Ocorrências<span class="count" data-count>0</span></button>
+      <button class="nav-btn" data-go="houses"><svg class="ic" viewBox="0 0 24 24"><path d="M4 21V5l8-2v18M12 9h8v12M4 21h16M8 8h.01M8 12h.01M8 16h.01M16 13h.01M16 17h.01"/></svg>Imóveis</button>
+      <button class="nav-btn" data-go="hist"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Histórico</button>
+      <button class="nav-btn" data-go="team"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M16 4.8a3.5 3.5 0 010 6.4M18 14.5c2 .7 3.5 2.4 3.5 5.5"/></svg>Equipe</button>
+      <div class="sl">Na sequência</div>
+      <button class="nav-btn" data-go="check"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg>Checklists</button>
+      <button class="nav-btn" data-go="maint"><svg class="ic" viewBox="0 0 24 24"><path d="M17 2l3 3-3 3M4 11V9a4 4 0 014-4h12M7 22l-3-3 3-3M20 13v2a4 4 0 01-4 4H4"/></svg>Rotinas</button>
+    </nav>
+
+    <div class="content">
+
+      <!-- visão geral -->
+      <div class="view" id="v-dash">
+        <div class="vhead">
+          <div><div class="eyebrow">Hoje · operação</div><h1>Olá, Fábio.</h1><p class="sub" id="dashSub"></p></div>
+          <div class="vact"><button class="btn primary" data-new>+ Nova ocorrência</button></div>
+        </div>
+        <div class="metrics" id="metrics"></div>
+        <div class="two">
+          <section class="panel">
+            <div class="ph"><div><h2>Prioridades de hoje</h2><p>O que pede atenção primeiro</p></div><button class="btn small" data-go="occ">Ver todas</button></div>
+            <ul class="olist" id="dashList"></ul>
+          </section>
+          <section class="panel">
+            <div class="ph"><div><h2>Acontecendo agora</h2><p>Últimas atualizações</p></div></div>
+            <ul class="feed" id="feed"></ul>
+          </section>
+        </div>
+      </div>
+
+      <!-- ocorrências -->
+      <div class="view" id="v-occ" hidden>
+        <div class="vhead">
+          <div><div class="eyebrow">Ocorrências</div><h1>Fila operacional</h1><p class="sub">Cada problema com casa, prioridade, prazo e responsável. Toque em uma ocorrência para ver a conversa.</p></div>
+          <div class="vact"><button class="btn primary" data-new>+ Nova ocorrência</button></div>
+        </div>
+        <div class="occ-grid">
+          <section class="panel" aria-label="Lista de ocorrências">
+            <div class="filters">
+              <input type="search" id="fQ" placeholder="Buscar problema, casa ou responsável" aria-label="Buscar">
+              <select id="fSt" aria-label="Status"><option value="">Todos os status</option><option>Aberta</option><option>Em andamento</option><option>Aguardando</option><option>Resolvida</option></select>
+              <select id="fPri" aria-label="Prioridade"><option value="">Todas as prioridades</option><option>Urgente</option><option>Alta</option><option>Média</option><option>Baixa</option></select>
+              <select id="fHome" aria-label="Casa"></select>
+            </div>
+            <div class="ohead" aria-hidden="true"><span>Ocorrência</span><span>Prioridade</span><span>Resp. e prazo</span><span>Status</span></div>
+            <ul class="olist" id="occList"></ul>
+            <p class="empty" id="occEmpty" hidden>Nenhuma ocorrência com esses filtros.</p>
+          </section>
+          <aside class="detail panel" id="detail" aria-label="Detalhe da ocorrência">
+            <div class="d-bar"><button class="btn small" id="dClose"><svg class="ic" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Voltar à lista</button></div>
+            <div id="detailBody"></div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- imóveis -->
+      <div class="view" id="v-houses" hidden>
+        <div class="vhead"><div><div class="eyebrow">Imóveis</div><h1>Cada casa com a sua história</h1><p class="sub">Ocorrências e histórico reunidos por imóvel. O controle por equipamento entra na sequência e aparece aqui como exemplo.</p></div></div>
+        <div class="cards" id="houseCards"></div>
+      </div>
+
+      <!-- histórico -->
+      <div class="view" id="v-hist" hidden>
+        <div class="vhead"><div><div class="eyebrow">Histórico</div><h1>O que já aconteceu fica registrado</h1><p class="sub">Soluções anteriores ajudam nos próximos problemas e mostram o que se repete.</p></div></div>
+        <div class="two">
+          <div class="list-cards" id="histList"></div>
+          <div class="item insight">
+            <div class="eyebrow">Exemplo de sugestão</div>
+            <b>Ar-condicionado da Siriúba 02 pede atenção</b>
+            <p>Terceira ocorrência do mesmo equipamento no ano. A Central pode sugerir uma revisão completa antes de uma quarta.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- equipe -->
+      <div class="view" id="v-team" hidden>
+        <div class="vhead"><div><div class="eyebrow">Equipe</div><h1>Cada pessoa vê o que precisa</h1><p class="sub">Três perfis de acesso. Quem está na operação encontra só o que foi atribuído a si, sem ruído.</p></div></div>
+        <div class="people" id="people"></div>
+        <h2 class="sec-title">O que cada perfil faz</h2>
+        <div class="cards">
+          <div class="card"><h3>Gestão</h3><p class="meta">Fábio e Cristian</p><p>Vê tudo. Cria, edita, prioriza, distribui, acompanha e encerra ocorrências.</p></div>
+          <div class="card"><h3>Gerente</h3><p class="meta">Visão praticamente completa</p><p>Acompanha todas as casas e registra o que a equipe e os hóspedes avisam.</p></div>
+          <div class="card"><h3>Operacional</h3><p class="meta">Limpeza e manutenção</p><p>Vê só o que foi atribuído. Atualiza o status, envia foto, comenta e conclui.</p></div>
+        </div>
+      </div>
+
+      <!-- checklists -->
+      <div class="view" id="v-check" hidden>
+        <div class="vhead"><div><div class="eyebrow">Na sequência · Checklists</div><h1>Pós-checkout · Casa Perequê 07</h1><p class="sub">Uma falha no checklist vira ocorrência na hora, já com a casa e o item preenchidos.</p></div></div>
+        <div class="next-note">Esta tela faz parte da próxima etapa. Ela está aqui para mostrar para onde a Central pode crescer.</div>
+        <section class="panel">
+          <div class="ph"><div><h2>Inspeção da casa</h2><p>Responsável: Marina</p></div><span class="badge s-andamento" id="chkProg"></span></div>
+          <div id="chkList"></div>
+        </section>
+      </div>
+
+      <!-- rotinas -->
+      <div class="view" id="v-maint" hidden>
+        <div class="vhead"><div><div class="eyebrow">Na sequência · Rotinas</div><h1>Prevenir antes de corrigir</h1><p class="sub">Tarefas que se repetem deixam de depender da memória de alguém.</p></div></div>
+        <div class="next-note">Esta tela faz parte da próxima etapa. As rotinas abaixo são exemplos.</div>
+        <div class="list-cards">
+          <div class="item row"><div><b>Verificar piscina · Casa Armação 03</b><p>Toda terça-feira · Carlos</p></div><span class="date">Próxima: 13/10</span></div>
+          <div class="item row"><div><b>Revisão do ar-condicionado · Casa Siriúba 02</b><p>Todo mês · Rafael</p></div><span class="date">Próxima: 21/10</span></div>
+          <div class="item row"><div><b>Checklist pós-checkout · Todas as casas</b><p>A cada saída de hóspede · Gerente e limpeza</p></div><span class="date">Automático</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- menu inferior (celular) -->
+  <nav class="bottom" aria-label="Menu da Central">
+    <button class="nav-btn-b" data-go="dash"><svg class="ic" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>Início</button>
+    <button class="nav-btn-b" data-go="occ"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg>Ocorrências<span class="count" data-count>0</span></button>
+    <div class="fab-wrap"><button class="fab" data-new aria-label="Nova ocorrência"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div>
+    <button class="nav-btn-b" data-go="houses"><svg class="ic" viewBox="0 0 24 24"><path d="M4 21V5l8-2v18M12 9h8v12M4 21h16M8 8h.01M8 12h.01M8 16h.01M16 13h.01M16 17h.01"/></svg>Imóveis</button>
+    <button class="nav-btn-b" id="moreBtn" aria-haspopup="dialog"><svg class="ic" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></svg>Mais</button>
+  </nav>
+</section>
+
+<!-- ================= PROPOSTA ================= -->
+<section id="proposta" role="tabpanel" aria-labelledby="tab-proposta" hidden>
+<div class="pro">
+
+  <div class="hero">
+    <div class="eyebrow">Proposta · Fase 1</div>
+    <h1>Cada problema da casa, num lugar só.</h1>
+    <p class="lead">A Central de Ocorrências tira os avisos do WhatsApp, dos áudios e da planilha e leva tudo para um fluxo simples, que a equipe usa pelo celular. A Ilha Guest passa a administrar mais casas sem aumentar a desorganização.</p>
+    <p class="by">Preparado pela G-Compass para Cristian e Fábio · Outubro de 2026</p>
+    <button class="btn primary" data-tab="proto">Ver o protótipo</button>
+  </div>
+
+  <div class="sec">
+    <h2>Do aviso ao problema resolvido</h2>
+    <div class="body">
+      <div class="flow-box">
+        <h3>Hoje</h3>
+        <ol class="flow"><li><span>Aviso no WhatsApp</span></li><li><span>Áudio</span></li><li><span>Ligação</span></li><li><span>Gerente</span></li><li><span>Fábio</span></li><li><span>Planilha</span></li></ol>
+      </div>
+      <div class="flow-box after">
+        <h3>Com a Central</h3>
+        <ol class="flow"><li><span>Aviso da casa</span></li><li><span>Ocorrência com foto ou áudio</span></li><li><span>Responsável e prazo</span></li><li><span>Conversa no próprio problema</span></li><li><span>Resolvida</span></li><li><span>Histórico da casa</span></li></ol>
+      </div>
+      <p class="scene">Hoje, quem avisa um problema espera alguém parar, ouvir o áudio, entender e registrar. Com 15 casas já pesa. Com 30, o registro vira o gargalo.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>O que entra na primeira versão</h2>
+    <p class="intro">O núcleo da operação, pronto para usar no dia a dia e feito para o celular.</p>
+    <div class="body grid-a">
+      <div class="feat"><div class="fi"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg></div><b>Ocorrências</b><p>Prioridade, responsável, prazo e status: aberta, em andamento, aguardando, resolvida ou cancelada.</p></div>
+      <div class="feat"><div class="fi"><svg class="ic" viewBox="0 0 24 24"><path d="M4 21V5l8-2v18M12 9h8v12M4 21h16"/></svg></div><b>Imóveis</b><p>Toda ocorrência presa a uma casa. A casa é o centro da navegação.</p></div>
+      <div class="feat"><div class="fi"><svg class="ic" viewBox="0 0 24 24"><path d="M21 12a8 8 0 01-11.5 7.2L3 21l1.8-6.5A8 8 0 1121 12z"/></svg></div><b>Conversa por ocorrência</b><p>A conversa sai do WhatsApp e fica junto do problema.</p></div>
+      <div class="feat"><div class="fi"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></div><b>Foto, anexo e áudio</b><p>Quem fala o problema não precisa preencher formulário: o áudio vira texto.</p></div>
+      <div class="feat"><div class="fi"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><b>Histórico</b><p>Problema, solução, responsável, tempo e data. A próxima ocorrência já começa com o que se aprendeu.</p></div>
+      <div class="feat"><div class="fi"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M16 4.8a3.5 3.5 0 010 6.4"/></svg></div><b>Perfis de acesso</b><p>Gestão, gerente e operacional veem o que cabe a cada um.</p></div>
+      <div class="feat"><div class="fi"><svg class="ic" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg></div><b>Painel do dia</b><p>Abertas, em andamento, vencendo hoje e resolvidas, numa tela só.</p></div>
+      <div class="feat"><div class="fi"><svg class="ic" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div><b>Feita para o celular</b><p>Foto, comentário e conclusão com poucos toques, de onde a pessoa estiver.</p></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>Quem vê o quê</h2>
+    <div class="body grid-a">
+      <div class="feat"><b>Gestão</b><p>Fábio e Cristian. Veem tudo, criam, priorizam, distribuem e encerram.</p></div>
+      <div class="feat"><b>Gerente</b><p>Visão praticamente completa das casas e das ocorrências.</p></div>
+      <div class="feat"><b>Operacional</b><p>Limpeza e manutenção. Veem só o que foi atribuído, atualizam, enviam foto e concluem.</p></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>O que vem depois, e o que fica de fora de propósito</h2>
+    <p class="intro">Começar pequeno deixa a Central pronta para uso rápido. O resto entra quando a operação pedir.</p>
+    <div class="body cmp">
+      <div class="box yes">
+        <h3>Na sequência da Central</h3>
+        <ul><li>Checklists pós-checkout, com falha virando ocorrência</li><li>Rotinas recorrentes: piscina, jardim, ar-condicionado</li><li>Equipamentos com histórico próprio: ar, TV, bomba, churrasqueira</li><li>QR por casa, para abrir o imóvel certo</li><li>Aviso de ocorrência urgente no WhatsApp</li></ul>
+      </div>
+      <div class="box no">
+        <h3>Fora da primeira versão</h3>
+        <ul><li>Hospedin, PMS e Channel Manager</li><li>Booking, Expedia e Decolar</li><li>Motor de reservas e integração com o Airbnb</li><li>Estoque, compras e sensores nas casas</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>Feita para quem administra casas de temporada</h2>
+    <p class="intro">Não é um gerenciador genérico de chamados. É uma camada operacional desenhada para a rotina de quem cuida de várias casas ao mesmo tempo.</p>
+    <div class="body grid-a">
+      <div class="feat"><b>A casa no centro</b><p>Tudo começa pelo imóvel: o que está aberto, o que já aconteceu, quem cuidou.</p></div>
+      <div class="feat"><b>Checklist pós-checkout</b><p>A saída do hóspede vira inspeção, e a falha encontrada vira ocorrência.</p></div>
+      <div class="feat"><b>Falou, registrou</b><p>A equipe grava o problema em áudio e a Central organiza o texto.</p></div>
+      <div class="feat"><b>Histórico para o proprietário</b><p>Um registro do cuidado com a casa que pode ser mostrado a quem confiou o imóvel.</p></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>Um caminho em etapas</h2>
+    <p class="intro">A Central é construída para se ligar depois ao sistema maior. O que for feito agora continua valendo.</p>
+    <div class="body grid-a">
+      <div class="phase now"><div class="num">1</div><b>Central de Ocorrências</b><p>Ocorrências, conversa, fotos, áudio, histórico e perfis de acesso.</p></div>
+      <div class="phase"><div class="num">2</div><b>Rotina da operação</b><p>Checklists, rotinas recorrentes, equipamentos e QR por casa.</p></div>
+      <div class="phase"><div class="num">3</div><b>Integrações</b><p>Hospedin, PMS, reservas e canais de venda, quando fizerem sentido.</p></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>Site da Ilha Guest, opcional na fase 1</h2>
+    <p class="intro">Outro problema, outra página. O site novo fala com o proprietário que pode entregar a casa para a Ilha Guest administrar. Não é feito para o hóspede.</p>
+    <div class="body grid-a">
+      <div class="feat"><b>Quem é a Ilha Guest</b><p>O que faz e para quem, logo na primeira tela.</p></div>
+      <div class="feat"><b>Como funciona</b><p>Anúncio, atendimento, limpeza, manutenção e acompanhamento.</p></div>
+      <div class="feat"><b>Casas administradas</b><p>Portfólio com link para cada anúncio no Airbnb.</p></div>
+      <div class="feat"><b>Provas</b><p>Imóveis, ocupação e avaliações, apenas o que a Ilha Guest autorizar.</p></div>
+      <div class="feat"><b>Contato</b><p>Um convite claro: quero conversar sobre o meu imóvel.</p></div>
+      <div class="feat"><b>Base para crescer</b><p>Estrutura pronta para receber novas páginas e integrações.</p></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>Como seguimos</h2>
+    <div class="body">
+      <ol class="steps">
+        <li><div><b>Testar o protótipo com a equipe</b><p>O Fábio e a gerente usam por alguns dias, com casos reais na cabeça.</p></div></li>
+        <li><div><b>Conversar sobre o que apareceu</b><p>O que foi fácil, o que ficou complicado, o que faltou e o que ainda foi para o WhatsApp.</p></div></li>
+        <li><div><b>Fechar escopo, prazo e investimento</b><p>Com o uso real em mãos, ajustamos a primeira versão e combinamos os números.</p></div></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="closing">
+    <h2>A Central ajuda a administrar mais casas. O site ajuda a conquistar mais casas.</h2>
+    <p>Depois, conforme a operação amadurece, a Central se liga ao Hospedin, ao PMS e aos canais de reserva.</p>
+    <button class="btn" style="margin-top:18px" data-tab="proto">Voltar ao protótipo</button>
+  </div>
+  <p class="foot">G-Compass · Proposta em construção, sujeita a ajustes depois da conversa de escopo.</p>
+
+</div>
+</section>
+
+</main>
+
+<!-- ================= DIÁLOGOS ================= -->
+<dialog id="newDlg" class="sheet" aria-labelledby="newTitle">
+  <div class="dlg-h"><h2 id="newTitle">Nova ocorrência</h2><button class="icon-btn" type="button" data-close aria-label="Fechar"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <form id="newForm" class="form" novalidate>
+    <div class="full"><label for="mTitle">O que aconteceu?</label><input id="mTitle" autocomplete="off" placeholder="Ex.: TV quebrada e controle ausente"><div class="err" id="mErr" hidden>Descreva o problema em poucas palavras.</div></div>
+    <div><label for="mHome">Casa</label><select id="mHome"></select></div>
+    <div><label for="mAsset">Item ou equipamento</label><select id="mAsset"></select></div>
+    <div><label for="mPri">Prioridade</label><select id="mPri"><option>Urgente</option><option>Alta</option><option selected>Média</option><option>Baixa</option></select></div>
+    <div><label for="mOwner">Responsável</label><select id="mOwner"></select></div>
+    <div class="full"><label for="mDue">Prazo</label><select id="mDue"><option>Hoje</option><option selected>Amanhã</option><option>Em 3 dias</option><option>Esta semana</option></select></div>
+    <div class="full"><label for="mDesc">Detalhes</label><textarea id="mDesc" placeholder="Escreva ou grave um áudio. O áudio é transcrito aqui."></textarea></div>
+    <div class="full">
+      <div class="attach"><button class="btn" type="button" id="mPhoto"><svg class="ic" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Foto</button><button class="btn soft" type="button" id="mAudio"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg><span>Gravar áudio</span></button></div>
+      <div class="chips" id="mChips" aria-live="polite"></div>
+      <p class="hint" style="margin-top:8px">No protótipo, foto e áudio são simulados.</p>
+    </div>
+    <div class="full dlg-actions"><button class="btn" type="button" data-close>Cancelar</button><button class="btn primary" type="submit">Criar ocorrência</button></div>
+  </form>
+</dialog>
+
+<dialog id="moreDlg" class="sheet" aria-labelledby="moreTitle">
+  <div class="dlg-h"><h2 id="moreTitle">Mais</h2><button class="icon-btn" type="button" data-close aria-label="Fechar"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="sheet-list">
+    <button class="nav-btn" data-go="hist"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Histórico</button>
+    <button class="nav-btn" data-go="team"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M16 4.8a3.5 3.5 0 010 6.4M18 14.5c2 .7 3.5 2.4 3.5 5.5"/></svg>Equipe</button>
+    <button class="nav-btn" data-go="check"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg>Checklists<span class="tag-next">Na sequência</span></button>
+    <button class="nav-btn" data-go="maint"><svg class="ic" viewBox="0 0 24 24"><path d="M17 2l3 3-3 3M4 11V9a4 4 0 014-4h12M7 22l-3-3 3-3M20 13v2a4 4 0 01-4 4H4"/></svg>Rotinas<span class="tag-next">Na sequência</span></button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var esc=function(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+
+/* ---------- dados de exemplo ---------- */
+var ME='Fábio';
+var HOUSES=['Casa Siriúba 02','Casa Engenho 04','Casa Cocaia 01','Casa Perequê 07','Casa Armação 03'];
+var ASSETS={
+  'Casa Siriúba 02':['Ar-condicionado suíte 1','TV sala','Bomba da piscina'],
+  'Casa Engenho 04':['Churrasqueira','Aquecedor','Geladeira','Utensílios'],
+  'Casa Cocaia 01':['Enxoval','Chuveiro suíte','Máquina de lavar'],
+  'Casa Perequê 07':['TV sala','Ar-condicionado','Piscina','Churrasqueira','Chuveiros','Enxoval'],
+  'Casa Armação 03':['Piscina','Churrasqueira','Deck']
+};
+var OWNERS=['Fábio','Marina','Rafael','Carlos'];
+var PEOPLE=[['Fábio','Gestão'],['Cristian','Gestão'],['Marina','Gerente'],['Rafael','Operacional'],['Carlos','Operacional']];
+var PRI_RANK={'Urgente':0,'Alta':1,'Média':2,'Baixa':3};
+var occ=[
+  {id:128,title:'Ar-condicionado não gela',home:'Casa Siriúba 02',asset:'Ar-condicionado suíte 1',pri:'Alta',owner:'Rafael',due:'Hoje, 18h',status:'Em andamento',by:'Marina',photos:2,audio:true,
+   desc:'O hóspede avisou que o ar da suíte 1 liga, mas não gela. Foto do painel e áudio da gerente em anexo.',
+   msgs:[{who:'Marina',text:'O hóspede avisou que o ar não está gelando.'},{who:'Rafael',text:'Estou indo verificar.'}]},
+  {id:127,title:'Roupa de cama rasgada',home:'Casa Cocaia 01',asset:'Enxoval',pri:'Alta',owner:'Fábio',due:'Hoje',status:'Aberta',by:'Marina',photos:1,audio:false,
+   desc:'Lençol da cama de casal rasgado na limpeza pós-checkout. Precisa de reposição antes da próxima entrada.',
+   msgs:[{who:'Marina',text:'Encontrei na limpeza. Foto em anexo.'}]},
+  {id:126,title:'TV quebrada e controle ausente',home:'Casa Perequê 07',asset:'TV sala',pri:'Alta',owner:'Marina',due:'Amanhã, 10h',status:'Em andamento',by:'Marina',photos:1,audio:true,
+   desc:'TV da sala não liga e o controle não está na casa.',
+   msgs:[{who:'Marina',text:'Vou procurar o controle no armário lateral e testar a TV.'}]},
+  {id:125,title:'Grelha da churrasqueira sumiu',home:'Casa Engenho 04',asset:'Churrasqueira',pri:'Média',owner:'Fábio',due:'Hoje',status:'Aberta',by:'Marina',photos:0,audio:false,
+   desc:'A churrasqueira está sem a grelha. Verificar se ficou guardada no depósito.',msgs:[]},
+  {id:124,title:'Chuveiro da suíte não esquenta',home:'Casa Cocaia 01',asset:'Chuveiro suíte',pri:'Média',owner:'Rafael',due:'Amanhã',status:'Aguardando',by:'Marina',photos:0,audio:true,
+   desc:'Água morna demais na suíte. Possível resistência.',msgs:[{who:'Rafael',text:'É a resistência. Peça encomendada, chega amanhã cedo.'}]},
+  {id:123,title:'Piscina precisa de limpeza',home:'Casa Armação 03',asset:'Piscina',pri:'Baixa',owner:'Carlos',due:'Hoje',status:'Resolvida',doneToday:true,by:'Marina',photos:1,audio:false,
+   desc:'Folhas e água turva depois do fim de semana.',msgs:[{who:'Carlos',text:'Limpeza feita e nível ajustado.'}]},
+  {id:122,title:'Louça quebrada na cozinha',home:'Casa Engenho 04',asset:'Utensílios',pri:'Baixa',owner:'Marina',due:'Hoje',status:'Resolvida',doneToday:true,by:'Marina',photos:0,audio:false,
+   desc:'Dois pratos e um copo quebrados.',msgs:[{who:'Marina',text:'Reposição feita.'}]}
+];
+var nextId=129;
+var feed=[
+  {h:'Casa Armação 03',p:'Carlos concluiu a limpeza da piscina. Ocorrência resolvida.',t:'há 12 min'},
+  {h:'Casa Siriúba 02',p:'Rafael iniciou o atendimento do ar-condicionado. Foto anexada.',t:'há 40 min'},
+  {h:'Casa Engenho 04',p:'Marina repôs a louça. Ocorrência resolvida.',t:'há 1 h'}
+];
+var HIST_OLD=[
+  {t:'Ar-condicionado · Casa Siriúba 02',p:'12/08 · Placa substituída · Rafael · 2 h de serviço.'},
+  {t:'Ar-condicionado · Casa Siriúba 02',p:'04/04 · Limpeza de filtro e dreno · Rafael · 45 min.'},
+  {t:'TV sala · Casa Perequê 07',p:'18/03 · Controle encontrado no armário lateral. TV funcionando.'}
+];
+var CHK=[
+  {t:'TV funcionando?',s:'Sala principal',ok:true,fail:'TV com problema',asset:'TV sala'},
+  {t:'Roupa de cama íntegra?',s:'Todos os quartos',ok:false,fail:'Roupa de cama danificada',asset:'Enxoval'},
+  {t:'Chuveiros funcionando?',s:'Banheiros',ok:true,fail:'Chuveiro com problema',asset:'Chuveiros'},
+  {t:'Churrasqueira completa?',s:'Grelha, espetos e utensílios',ok:false,fail:'Item da churrasqueira ausente',asset:'Churrasqueira'},
+  {t:'Piscina em condição de uso?',s:'Limpeza e nível',ok:true,fail:'Piscina precisa de atenção',asset:'Piscina'}
+];
+
+/* ---------- estado ---------- */
+var st={view:'dash',sel:null,f:{q:'',st:'',pri:'',home:''}};
+var ctx=null, photos=0, audio=false;
+var desktop=window.matchMedia('(min-width:1001px)');
+
+/* ---------- utilidades ---------- */
+function byId(id){for(var i=0;i<occ.length;i++){if(occ[i].id===id)return occ[i]}return null}
+function isOpen(o){return o.status!=='Resolvida'}
+function isHigh(o){return o.pri==='Alta'||o.pri==='Urgente'}
+function isToday(o){return /^Hoje/.test(o.due)}
+function dueRank(o){return isToday(o)?0:/^Amanhã/.test(o.due)?1:2}
+function sorted(list){return list.slice().sort(function(a,b){
+  return (isOpen(b)-isOpen(a))||(PRI_RANK[a.pri]-PRI_RANK[b.pri])||(dueRank(a)-dueRank(b))||(b.id-a.id)})}
+function plural(n,a,b){return n===1?a:b}
+function priBadge(p){return '<span class="badge b-'+({'Urgente':'urgente','Alta':'alta','Média':'media','Baixa':'baixa'}[p])+'">'+esc(p)+'</span>'}
+function stBadge(s){return '<span class="badge s-'+({'Aberta':'aberta','Em andamento':'andamento','Aguardando':'aguardando','Resolvida':'resolvida'}[s])+'">'+esc(s)+'</span>'}
+function toast(t){var x=$('#toast');x.textContent=t;x.classList.add('show');clearTimeout(toast.h);toast.h=setTimeout(function(){x.classList.remove('show')},2200)}
+function addFeed(h,p){feed.unshift({h:h,p:p,t:'agora'});if(feed.length>6)feed.pop()}
+
+/* ---------- render ---------- */
+function rowHTML(o){
+  var due=isOpen(o)?o.due:'Concluída';
+  return '<li><button type="button" class="orow" data-id="'+o.id+'"'+(st.sel===o.id&&st.view==='occ'?' aria-current="true"':'')+'>'
+   +'<span class="o-main"><span class="o-title">'+esc(o.title)+'</span><span class="o-home">'+esc(o.home)+'</span></span>'
+   +'<span>'+priBadge(o.pri)+'</span>'
+   +'<span class="o-who"><span>'+esc(o.owner)+'</span><span class="o-due">'+esc(due)+'</span></span>'
+   +'<span>'+stBadge(o.status)+'</span></button></li>';
+}
+function renderDash(){
+  var open=occ.filter(isOpen);
+  var hi=open.filter(isHigh).length, td=open.filter(isToday).length;
+  var sub=open.length
+    ? 'Você tem '+hi+' '+plural(hi,'ocorrência de alta prioridade aberta','ocorrências de alta prioridade abertas')+' e '+td+' com prazo para hoje.'
+    : 'Tudo resolvido por enquanto.';
+  $('#dashSub').textContent=sub;
+  var prog=open.filter(function(o){return o.status==='Em andamento'});
+  var wait=open.filter(function(o){return o.status==='Aberta'&&isToday(o)}).length;
+  var done=occ.filter(function(o){return o.doneToday}).length;
+  var m=[['Ocorrências abertas',open.length,hi+' de alta prioridade'],
+         ['Em andamento',prog.length,prog.filter(isToday).length+' com prazo hoje'],
+         ['Vencem hoje',td,wait+' ainda sem atendimento'],
+         ['Resolvidas hoje',done,'Fechadas pela equipe']];
+  $('#metrics').innerHTML=m.map(function(x){return '<div class="metric"><div class="l">'+x[0]+'</div><div class="v">'+x[1]+'</div><div class="n">'+x[2]+'</div></div>'}).join('');
+  var top=sorted(open).slice(0,4);
+  $('#dashList').innerHTML=top.length?top.map(rowHTML).join(''):'<li class="empty">Nenhuma ocorrência aberta.</li>';
+  $('#feed').innerHTML=feed.map(function(f){return '<li><b>'+esc(f.h)+'</b><p>'+esc(f.p)+'</p><time>'+esc(f.t)+'</time></li>'}).join('');
+  $$('[data-count]').forEach(function(c){c.textContent=open.length;c.hidden=!open.length});
+}
+function filtered(){
+  var f=st.f,q=f.q.toLowerCase();
+  return sorted(occ.filter(function(o){
+    var hay=(o.title+' '+o.home+' '+o.owner+' '+o.asset).toLowerCase();
+    return (!q||hay.indexOf(q)>-1)&&(!f.st||o.status===f.st)&&(!f.pri||o.pri===f.pri)&&(!f.home||o.home===f.home)}));
+}
+function renderList(){
+  var l=filtered();
+  if(desktop.matches&&l.length&&(st.sel===null||l.every(function(o){return o.id!==st.sel})))st.sel=l[0].id;
+  $('#occList').innerHTML=l.map(rowHTML).join('');
+  $('#occEmpty').hidden=l.length>0;
+}
+function renderDetail(){
+  var o=byId(st.sel), b=$('#detailBody');
+  if(!o){b.innerHTML='<p class="empty">Selecione uma ocorrência para ver os detalhes.</p>';return}
+  var act=o.status==='Aberta'?['Iniciar atendimento','Em andamento','primary']:o.status==='Em andamento'?['Marcar como resolvida','Resolvida','success']:o.status==='Aguardando'?['Retomar atendimento','Em andamento','primary']:['Reabrir ocorrência','Aberta',''];
+  var alt=o.status==='Em andamento'?'<button class="btn block d-alt" data-act="status" data-st="Aguardando">Aguardando peça ou terceiro</button>':'';
+  var tiles='';
+  for(var i=1;i<=o.photos;i++)tiles+='<div class="tile"><svg class="ic" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Foto '+i+'</div>';
+  if(o.audio)tiles+='<div class="tile audio"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>Áudio transcrito</div>';
+  b.innerHTML='<div class="d-in">'
+   +'<div class="eyebrow">Ocorrência #'+o.id+'</div>'
+   +'<h2 class="d-title">'+esc(o.title)+'</h2>'
+   +'<p class="muted">'+esc(o.home)+'</p>'
+   +'<div class="badges">'+priBadge(o.pri)+stBadge(o.status)+'</div>'
+   +'<dl class="kv"><div><dt>Responsável</dt><dd>'+esc(o.owner)+'</dd></div><div><dt>Prazo</dt><dd>'+esc(isOpen(o)?o.due:'Concluída')+'</dd></div>'
+   +'<div><dt>Equipamento</dt><dd>'+esc(o.asset||'Não informado')+'</dd></div><div><dt>Registrada por</dt><dd>'+esc(o.by)+'</dd></div></dl>'
+   +'<div class="d-sec"><h3>Descrição</h3><p>'+esc(o.desc||'Sem descrição.')+'</p></div>'
+   +'<div class="d-sec"><h3>Anexos</h3>'+(tiles?'<div class="tiles">'+tiles+'</div>':'<p class="muted">Sem anexos.</p>')+'</div>'
+   +'<div class="d-sec"><button class="btn block '+act[2]+'" data-act="status" data-st="'+act[1]+'">'+act[0]+'</button>'+alt+'</div>'
+   +'<div class="d-sec"><h3>Conversa</h3><div class="msgs" id="msgs">'+o.msgs.map(msgHTML).join('')+'</div>'
+   +'<form class="chatbox" id="chatForm"><input id="chatIn" aria-label="Mensagem" placeholder="Escreva uma atualização" autocomplete="off"><button class="btn primary" type="submit">Enviar</button></form></div>'
+   +'</div>';
+}
+function msgHTML(m){
+  if(m.sys)return '<div class="msg sys">'+esc(m.text)+'</div>';
+  return '<div class="msg'+(m.who===ME?' me':'')+'"><b>'+esc(m.who)+'</b>'+esc(m.text)+'</div>';
+}
+function renderHouses(){
+  $('#houseCards').innerHTML=HOUSES.map(function(h){
+    var open=occ.filter(function(o){return o.home===h&&isOpen(o)});
+    var hi=open.filter(isHigh).length;
+    var meta=open.length?open.length+' '+plural(open.length,'ocorrência aberta','ocorrências abertas')+(hi?' · '+hi+' de alta prioridade':''):'Nenhuma ocorrência aberta';
+    var assets=ASSETS[h].map(function(a){
+      var n=open.filter(function(o){return o.asset===a});
+      var tag=n.length?'<span class="badge '+(n.some(isHigh)?'b-alta':'s-aberta')+'">'+n.length+' '+plural(n.length,'ocorrência','ocorrências')+'</span>':'<span class="ok">OK</span>';
+      return '<div class="asset"><span>'+esc(a)+'</span>'+tag+'</div>'}).join('');
+    return '<div class="card"><h3>'+esc(h)+'</h3><p class="meta">'+meta+'</p>'+assets
+      +'<button class="btn small block" data-house="'+esc(h)+'">Ver ocorrências da casa</button></div>'}).join('');
+}
+function renderHist(){
+  var done=occ.filter(function(o){return o.status==='Resolvida'}).sort(function(a,b){return b.id-a.id}).map(function(o){
+    return {t:o.title+' · '+o.home,p:'Hoje · Resolvida por '+o.owner+'.'}});
+  $('#histList').innerHTML=done.concat(HIST_OLD).map(function(h){return '<div class="item"><b>'+esc(h.t)+'</b><p>'+esc(h.p)+'</p></div>'}).join('');
+}
+function renderTeam(){
+  $('#people').innerHTML=PEOPLE.map(function(p){return '<div class="person"><div class="avatar" aria-hidden="true">'+esc(p[0].charAt(0))+'</div><div><b>'+esc(p[0])+'</b><span>'+esc(p[1])+'</span></div></div>'}).join('');
+}
+function renderCheck(){
+  var n=CHK.filter(function(c){return c.ok}).length;
+  $('#chkProg').textContent=n+' de '+CHK.length;
+  $('#chkList').innerHTML=CHK.map(function(c,i){
+    return '<div class="chk"><label><input type="checkbox" data-chk="'+i+'"'+(c.ok?' checked':'')+'><span><b>'+esc(c.t)+'</b><span class="s">'+esc(c.s)+'</span></span></label>'
+      +(c.rep?'<span class="badge s-aberta">Ocorrência #'+c.rep+'</span>':'<button class="fail" type="button" data-fail="'+i+'">Reportar problema</button>')+'</div>'}).join('');
+}
+function renderAll(){renderDash();renderList();renderDetail();renderHouses();renderHist();renderCheck()}
+
+/* ---------- navegação ---------- */
+var MORE=['hist','team','check','maint'];
+function go(v){
+  st.view=v;
+  $$('.view').forEach(function(x){x.hidden=x.id!=='v-'+v});
+  $$('.nav-btn[data-go],.nav-btn-b[data-go]').forEach(function(b){
+    if(b.closest('dialog'))return;
+    b.setAttribute('aria-current',b.dataset.go===v?'true':'false')});
+  $('#moreBtn').setAttribute('aria-current',MORE.indexOf(v)>-1?'true':'false');
+  if(v==='occ'){renderList();renderDetail()}
+  if(v!=='occ')closeSheet();
+  var d=$('#moreDlg');if(d.open)d.close();
+  window.scrollTo(0,0);
+}
+function tab(name){
+  
+  ['proto','proposta'].forEach(function(t){
+    $('#'+t).hidden=t!==name;
+    $('#tab-'+t).setAttribute('aria-selected',t===name?'true':'false')});
+  window.scrollTo(0,0);
+  try{history.replaceState(null,'','#'+(name==='proposta'?'proposta':'prototipo'))}catch(e){}
+}
+function openSheet(){if(!desktop.matches){$('#detail').classList.add('open');document.body.classList.add('lock');$('#dClose').focus()}}
+function closeSheet(){$('#detail').classList.remove('open');document.body.classList.remove('lock')}
+function selectOcc(id,sheet){st.sel=id;renderList();renderDetail();if(sheet)openSheet()}
+function openOcc(id){
+  if(st.view!=='occ')go('occ');
+  selectOcc(id,true);
+}
+
+/* ---------- ações ---------- */
+function setStatus(id,s){
+  var o=byId(id);if(!o)return;
+  o.status=s;o.doneToday=s==='Resolvida';
+  o.msgs.push({sys:true,text:'Status alterado para '+s+' por '+ME+'.'});
+  addFeed(o.home,s==='Resolvida'?ME+' encerrou: '+o.title+'.':s==='Em andamento'?ME+' iniciou o atendimento: '+o.title+'.':s==='Aguardando'?o.title+' aguardando peça ou terceiro.':ME+' reabriu: '+o.title+'.');
+  renderAll();
+  toast('Status: '+s);
+}
+function fillAssets(sel){
+  var h=$('#mHome').value;
+  $('#mAsset').innerHTML=ASSETS[h].concat(['Outro']).map(function(a){return '<option>'+esc(a)+'</option>'}).join('');
+  if(sel&&ASSETS[h].indexOf(sel)>-1)$('#mAsset').value=sel;
+}
+function chips(){
+  var c=[];
+  if(photos)c.push(photos+' '+plural(photos,'foto anexada','fotos anexadas'));
+  if(audio)c.push('Áudio transcrito');
+  $('#mChips').innerHTML=c.map(function(x){return '<span class="chip">'+esc(x)+'</span>'}).join('');
+}
+function openNew(pre){
+  pre=pre||{};ctx=pre.from!==undefined?{from:pre.from}:null;
+  photos=0;audio=false;
+  $('#newForm').reset();
+  $('#mErr').hidden=true;
+  $('#mHome').innerHTML=HOUSES.map(function(h){return '<option>'+esc(h)+'</option>'}).join('');
+  $('#mOwner').innerHTML=OWNERS.map(function(o){return '<option>'+esc(o)+'</option>'}).join('');
+  if(pre.home)$('#mHome').value=pre.home;
+  fillAssets(pre.asset);
+  if(pre.title)$('#mTitle').value=pre.title;
+  if(pre.pri)$('#mPri').value=pre.pri;
+  chips();
+  var m=$('#moreDlg');if(m.open)m.close();
+  $('#newDlg').showModal();
+  setTimeout(function(){$('#mTitle').focus()},30);
+}
+function createOcc(){
+  var title=$('#mTitle').value.trim();
+  if(!title){$('#mErr').hidden=false;$('#mTitle').focus();return}
+  var o={id:nextId++,title:title,home:$('#mHome').value,asset:$('#mAsset').value,pri:$('#mPri').value,owner:$('#mOwner').value,due:$('#mDue').value,
+    status:'Aberta',by:ME,photos:photos,audio:audio,desc:$('#mDesc').value.trim(),
+    msgs:[{sys:true,text:'Ocorrência registrada por '+ME+'.'}]};
+  occ.unshift(o);
+  if(ctx&&ctx.from!==undefined){CHK[ctx.from].rep=o.id;CHK[ctx.from].ok=false}
+  addFeed(o.home,'Nova ocorrência: '+o.title+'.');
+  st.f={q:'',st:'',pri:'',home:''};syncFilters();
+  $('#newDlg').close();
+  renderAll();
+  if(ctx&&ctx.from!==undefined){go('check')}
+  else{go('occ');selectOcc(o.id,true)}
+  toast('Ocorrência #'+o.id+' criada');
+}
+function syncFilters(){
+  $('#fQ').value=st.f.q;$('#fSt').value=st.f.st;$('#fPri').value=st.f.pri;$('#fHome').value=st.f.home;
+}
+
+/* ---------- eventos ---------- */
+document.addEventListener('click',function(e){
+  var t=e.target;
+  var el=t.closest('[data-tab]');if(el&&el.dataset.tab){tab(el.dataset.tab);return}
+  el=t.closest('[data-new]');if(el){openNew();return}
+  el=t.closest('[data-close]');if(el){var d=el.closest('dialog');if(d)d.close();return}
+  el=t.closest('[data-go]');if(el){go(el.dataset.go);return}
+  el=t.closest('[data-house]');if(el){st.f={q:'',st:'',pri:'',home:el.dataset.house};syncFilters();st.sel=null;go('occ');return}
+  el=t.closest('[data-fail]');if(el){var c=CHK[+el.dataset.fail];openNew({title:c.fail,home:'Casa Perequê 07',asset:c.asset,pri:'Alta',from:+el.dataset.fail});return}
+  el=t.closest('[data-act="status"]');if(el){setStatus(st.sel,el.dataset.st);return}
+  el=t.closest('.orow');if(el){openOcc(+el.dataset.id);return}
+  if(t.closest('#moreBtn')){$('#moreDlg').showModal();return}
+  if(t.closest('#dClose')){closeSheet();return}
+  if(t.closest('#mPhoto')){photos++;chips();return}
+  var au=t.closest('#mAudio');
+  if(au){
+    if(au.disabled||audio)return;
+    var lab=$('span',au);au.disabled=true;lab.textContent='Gravando...';
+    setTimeout(function(){
+      audio=true;au.disabled=false;lab.textContent='Gravar áudio';
+      var d=$('#mDesc');d.value=(d.value?d.value+' ':'')+'Hóspede avisou que o problema começou depois da última limpeza e pediu retorno ainda hoje.';
+      chips();
+    },1600);
+  }
+});
+document.addEventListener('change',function(e){
+  var t=e.target;
+  if(t.matches('[data-chk]')){CHK[+t.dataset.chk].ok=t.checked;renderCheck()}
+  if(t.id==='mHome')fillAssets();
+  if(t.id==='fSt'){st.f.st=t.value;renderList()}
+  if(t.id==='fPri'){st.f.pri=t.value;renderList()}
+  if(t.id==='fHome'){st.f.home=t.value;renderList()}
+});
+document.addEventListener('input',function(e){
+  if(e.target.id==='fQ'){st.f.q=e.target.value;renderList()}
+  if(e.target.id==='mTitle')$('#mErr').hidden=true;
+});
+document.addEventListener('submit',function(e){
+  e.preventDefault();
+  if(e.target.id==='newForm')createOcc();
+  if(e.target.id==='chatForm'){
+    var i=$('#chatIn'),v=i.value.trim(),o=byId(st.sel);
+    if(!v||!o)return;
+    var m={who:ME,text:v};o.msgs.push(m);
+    $('#msgs').insertAdjacentHTML('beforeend',msgHTML(m));
+    i.value='';i.focus();
+  }
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&$('#detail').classList.contains('open')&&!$('#newDlg').open)closeSheet();
+});
+$('#newDlg').addEventListener('click',function(e){if(e.target===this)this.close()});
+$('#moreDlg').addEventListener('click',function(e){if(e.target===this)this.close()});
+desktop.addEventListener?desktop.addEventListener('change',function(){closeSheet();renderList();renderDetail()}):desktop.addListener(function(){closeSheet();renderList();renderDetail()});
+
+/* ---------- início ---------- */
+$('#fHome').innerHTML='<option value="">Todas as casas</option>'+HOUSES.map(function(h){return '<option>'+esc(h)+'</option>'}).join('');
+renderTeam();renderAll();go('dash');
+tab(/proposta/.test(location.hash)?'proposta':'proto');
+window.scrollTo(0,0);
+})();
+</script>
+</body>
+</html>
